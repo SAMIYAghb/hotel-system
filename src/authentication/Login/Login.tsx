@@ -13,21 +13,19 @@ import { Container } from "@mui/material";
 import axios from "axios";
 import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
 import { loginUrl } from "../../services/api.tsx";
 
 const Login: React.FC = () => {
   let { saveUserData } = useContext(AuthContext);
   // let {getToastValue} = useContext(ToastContext);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   type FormValues = {
     email: string;
     password: string;
   };
-//   (property) sx: {
-//     color: string;
-// }
+
   const {
     register,
     handleSubmit,
@@ -41,8 +39,9 @@ const Login: React.FC = () => {
       .then((response) => {
         console.log("succ response", response);
         localStorage.setItem("userToken", response.data.token);
+        navigate('/home');
         saveUserData();
-        // navigate('/dashboard');
+       
         // getToastValue("success", "Login successfully!")
       })
       .catch((error) => {
