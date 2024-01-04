@@ -27,7 +27,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (props) =
         const encodedToken = localStorage.getItem("userToken");
         const decodedToken = jwtDecode(encodedToken!);
         setUserData(decodedToken);
-        setUserRole(decodedToken.role)
+        setUserRole(decodedToken.userRole)
     };
 
     // Compute request headers
