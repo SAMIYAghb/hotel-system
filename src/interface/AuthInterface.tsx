@@ -13,3 +13,17 @@ export interface IAuth {
 export interface AuthContextProviderProps {
     children: ReactNode;
   }
+
+  export interface ILogin {
+    email: string;
+    password: string;
+}
+export interface IRegister {
+    userName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    phoneNumber: number;
+    country: string;
+    profileImage:File;
+}
