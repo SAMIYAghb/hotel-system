@@ -23,7 +23,7 @@ export interface IRegister {
     email: string;
     password: string;
     confirmPassword: string;
-    phoneNumber: number;
+    phoneNumber: string;
     country: string;
-    profileImage:File;
+    profileImage:FileList;
 }

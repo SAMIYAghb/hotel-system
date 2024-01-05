@@ -17,6 +17,7 @@ import { IRegister } from "../../interface/AuthInterface";
 import { regisrterUrl } from "../../services/api.tsx";
 import { AuthContext } from "./../../context/AuthContext.tsx";
 import CustomButton from "./../../features/UI/CustomButton/CustomButton";
+// import {useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
   const { saveUserData } = useContext(AuthContext);
@@ -40,8 +41,11 @@ const Register: React.FC = () => {
     formData.append("role", "user");
     // formData.append("profileImage", data["profileImage"]);
     // Append profile image only if it exists
-    if (data["profileImage"]) {
-      formData.append("profileImage", data["profileImage"]);
+    // if (data["profileImage"]) {
+    //   formData.append("profileImage", data["profileImage"]);
+    // }
+    if (data.profileImage) {
+      formData.append("profileImage", data.profileImage[0]); // Prenez le premier fichier du FileList
     }
     return formData;
   };
@@ -55,7 +59,7 @@ const Register: React.FC = () => {
         console.log("succ response", response);
         localStorage.setItem("userToken", response.data.token);
         saveUserData();
-        // navigate('/dashboard');
+        // navigate('/home');
         // getToastValue("success", "Login successfully!")
       })
       .catch((error) => {
