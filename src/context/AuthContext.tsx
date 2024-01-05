@@ -7,7 +7,7 @@ import { AuthContextProviderProps } from "../interface/AuthInterface";
 export const AuthContext = createContext<IAuth>({
     userData: '',
     saveUserData: () => { },
-    requestHeaders: { Authorization: '' }, 
+    requestHeaders: { Authorization: '' },
     //   baseUrl: '',
     userRole: '',
 });
@@ -47,14 +47,14 @@ console.log(encodedToken );
             setUserRole(decodedToken.role);
 
         } catch (error) {
-            console.error("Error decoding token:", error); // Log the error message
+
             console.log("Token content:", encodedToken);
             // Handle the error appropriately, e.g., show a message to the user or log it
         }
     };
     // Compute request headers
     const requestHeaders = {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        Authorization: `${localStorage.getItem("userToken")}`,
     };
 
     // check for userToken and save data
