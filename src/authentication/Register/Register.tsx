@@ -17,12 +17,12 @@ import { IRegister } from "../../interface/AuthInterface";
 import { regisrterUrl } from "../../services/api.tsx";
 import { AuthContext } from "./../../context/AuthContext.tsx";
 import CustomButton from "./../../features/UI/CustomButton/CustomButton";
-// import {useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
   const { saveUserData } = useContext(AuthContext);
   // let {getToastValue} = useContext(ToastContext);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -57,9 +57,10 @@ const Register: React.FC = () => {
       .post(`${regisrterUrl}`, addFormData)
       .then((response) => {
         console.log("succ response", response);
-        localStorage.setItem("userToken", response.data.token);
-        saveUserData();
-        // navigate('/home');
+        // localStorage.setItem("userToken", response.data.data.token);
+        // console.log(response.data.data.token , 'token from registration');
+        // saveUserData();
+        navigate('/home');
         // getToastValue("success", "Login successfully!")
       })
       .catch((error) => {

@@ -21,6 +21,7 @@ interface DecodedToken {
     username: string;
     email: string;
     password:string;
+    role: string;
   }
 
 
@@ -38,7 +39,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (props) =
     //   };
     const saveUserData = () => {
         const encodedToken = localStorage.getItem("userToken");
-
+console.log(encodedToken );
         try {
             const decodedToken = jwtDecode(encodedToken!) as DecodedToken;
 
@@ -46,7 +47,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (props) =
             setUserRole(decodedToken.role);
 
         } catch (error) {
-            console.error("Error decoding token:", error.message); // Log the error message
+            console.error("Error decoding token:", error); // Log the error message
             console.log("Token content:", encodedToken);
             // Handle the error appropriately, e.g., show a message to the user or log it
         }
