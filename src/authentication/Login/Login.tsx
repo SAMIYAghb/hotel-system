@@ -1,7 +1,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -13,7 +13,7 @@ import { Container } from "@mui/material";
 import axios from "axios";
 import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
 import { loginUrl } from "../../services/api.tsx";
 
@@ -39,7 +39,8 @@ const Login: React.FC = () => {
       .post(`${loginUrl}`, data)
       .then((response) => {
         console.log("succ response", response);
-        localStorage.setItem("userToken", response.data.token);
+        localStorage.setItem("userToken", response.data.data.token);
+        console.log(response.data.data.token);
         navigate('/home');
         saveUserData();
 
@@ -83,7 +84,7 @@ const Login: React.FC = () => {
               If you don’t have an account register
               <br />
               You can
-              <Link className={`${Styles.register}`}> Register here !</Link>
+              <Link to="/register" > Register here !</Link>
             </Typography>
             {/* **********form inputs*********** */}
             <Box
@@ -138,7 +139,7 @@ const Login: React.FC = () => {
 
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link to="/forget-password">
                     Forgot password?
                   </Link>
                 </Grid>
