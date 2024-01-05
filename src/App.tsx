@@ -6,7 +6,7 @@ import NotFound from './shared/NotFound/NotFound';
 import Register from './authentication/Register/Register';
 import ResetPass from './authentication/ResetPass/ResetPass';
 import ChangePass from './authentication/ChangePass/ChangePass';
-import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter} from 'react-router-dom';
 import AuthLayout from './shared/AuthLayout/AuthLayout';
 import MasterLayout from './shared/MasterLayout/MasterLayout';
 import ProtectedRoute from './shared/ProtectedRoute/ProtectedRoute';
@@ -22,7 +22,7 @@ import { IAuth } from './interface/AuthInterface';
 function App() {
   const{ userData, saveUserData } :IAuth= useContext(AuthContext);
 
-  const routes = createHashRouter([
+  const routes = createBrowserRouter([
     {
       path: "/",
       element: <AuthLayout />,
