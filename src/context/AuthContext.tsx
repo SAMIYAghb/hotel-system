@@ -39,7 +39,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (props) =
     //   };
     const saveUserData = () => {
         const encodedToken = localStorage.getItem("userToken");
-console.log(encodedToken );
+// console.log(encodedToken );
         try {
             const decodedToken = jwtDecode(encodedToken!) as DecodedToken;
 
