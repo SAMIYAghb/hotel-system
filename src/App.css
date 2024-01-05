@@ -4,16 +4,23 @@ body,
 .modal-content {
   font-family: "Montserrat", sans-serif;
   margin: 0;
+ 
 }
 .errorMsg{
 color: rgb(197, 36, 36);
 }
 /* side bar */
+.MuiContainer-root{
+  padding-left: 0 !important;
+}
 .sidebar-container .ps-sidebar-container,
 ._sidebar_gufjs_21 {
   background-color: rgba(32, 63, 199, 1);
   color: #fff;
   position: relative;
+  height: 100vh;
+
+ 
 }
 .sidebar-container .ps-sidebar-container .ps-menu-button:hover {
   background-color: rgba(26, 27, 30, 0.17)
@@ -21,4 +28,24 @@ color: rgb(197, 36, 36);
 ._container1_9ea38_1 ._sidebar_9ea38_21{
   background-color: rgba(32, 63, 199, 1);
 
+}
+ .toggle-sidebar-btn {
+  position: absolute;
+  top: 0;
+  right: 20px; 
+  padding: 7px;
+  color: #ae87a6;
+  cursor: pointer;
+}
+
+.toggle-sidebar-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.sidebar-container.collapsed .toggle-sidebar-btn svg {
+  transform: rotate(180deg);
+} 
+.menu-space{
+  margin-top: 3rem;
+  margin-left: .3rem;
 }
