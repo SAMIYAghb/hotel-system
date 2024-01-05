@@ -1,6 +1,9 @@
 import { useContext } from 'react';
 import './App.css'
 import Login from './authentication/Login/Login'
+
+import Register from './authentication/Register/Register'
+
 import { AuthContext } from './context/AuthContext';
 import NotFound from './shared/NotFound/NotFound';
 import Register from './authentication/Register/Register';
@@ -16,6 +19,7 @@ import Users from './features/Admin/Users/Users';
 import Ads from './features/Admin/Ads/Ads';
 import Bookings from './features/Admin/Bookings/Bookings';
 import ForgetPass from './authentication/ForgetPass/ForgetPass';
+
 
 function App() {
   const{ userData, saveUserData } :IAuth= useContext(AuthContext);
@@ -61,6 +65,7 @@ function App() {
 
   return (
     <>
+
         <RouterProvider router={routes} />
 
     </>
