@@ -31,7 +31,7 @@ const ForgetPass = () => {
       .then((response) => {
         console.log("succ response", response);
         console.log(data);
-        navigate("/login");
+        navigate("/reset-password");
         // getToastValue(
         //   "success",
         //   response?.data?.message || "password reset successfully"
