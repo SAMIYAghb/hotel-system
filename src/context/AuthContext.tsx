@@ -7,9 +7,9 @@ import { AuthContextProviderProps } from "../interface/AuthInterface";
 export const AuthContext = createContext<IAuth>({
     userData: '',
     saveUserData: () => { },
-    requestHeaders: '',
+    requestHeaders: { Authorization: '' }, 
     //   baseUrl: '',
-    userRole: ''
+    userRole: '',
 });
 
 // // Define the props for AuthContextProvider component
