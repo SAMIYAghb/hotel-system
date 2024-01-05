@@ -17,19 +17,40 @@ export const AuthContext = createContext<IAuth>({
 //   children: ReactNode;
 // }
 
+interface DecodedToken {
+    username: string;
+    email: string;
+    password:string;
+  }
+
+
 // AuthContextProvider component that provides the AuthContext to its children
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = (props) => {
-    const [userData, setUserData] = useState<string>('');
-    const [userRole, setUserRole] = useState<string >('');
+    const [userData, setUserData] = useState<DecodedToken | null>(null);
+    const [userRole, setUserRole] = useState<string | null>(null);
 
     // Save user data function
+    // const saveUserData = () => {
+    //     const encodedToken = localStorage.getItem("userToken");
+    //     const decodedToken = jwtDecode(encodedToken!) as DecodedToken;
+    //     setUserData(decodedToken);
+    //     setUserRole(decodedToken.role);
+    //   };
     const saveUserData = () => {
         const encodedToken = localStorage.getItem("userToken");
-        const decodedToken = jwtDecode(encodedToken!);
-        setUserData(decodedToken);
-        setUserRole(decodedToken.userRole)
-    };
 
+        try {
+            const decodedToken = jwtDecode(encodedToken!) as DecodedToken;
+
+            setUserData(decodedToken);
+            setUserRole(decodedToken.role);
+
+        } catch (error) {
+            console.error("Error decoding token:", error.message); // Log the error message
+            console.log("Token content:", encodedToken);
+            // Handle the error appropriately, e.g., show a message to the user or log it
+        }
+    };
     // Compute request headers
     const requestHeaders = {
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
