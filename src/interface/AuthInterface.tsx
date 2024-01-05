@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 // Define the authentication data//
 export interface IAuth {
-    userData: string | null;
+    userData: string ;
     saveUserData: () => void;
     requestHeaders: string;
     // baseUrl: string;

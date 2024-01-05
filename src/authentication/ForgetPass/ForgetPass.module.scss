@@ -1,0 +1,23 @@
+$color_1: rgba(21, 44, 91, 1);
+$background-color_1: rgba(50, 82, 223, 1);
+
+.wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+.forgetImg {
+	width: 98%;
+	padding: .3rem;
+	padding-bottom: .1rem;
+}
+.forgetpass {
+	font-weight: bold !important;
+	color: $color_1 !important;
+	text-decoration: none !important;
+}
+.forgetBtn {
+	text-transform: capitalize !important;
+	background-color: $background-color_1;
+}
