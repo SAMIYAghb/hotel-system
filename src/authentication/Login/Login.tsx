@@ -41,8 +41,9 @@ const Login: React.FC = () => {
         console.log("succ response", response);
         localStorage.setItem("userToken", response.data.data.token);
         console.log(response.data.data.token);
-        navigate('/home');
         saveUserData();
+        navigate('/home');
+     
 
         // getToastValue("success", "Login successfully!")
       })
