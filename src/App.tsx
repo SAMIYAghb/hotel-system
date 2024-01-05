@@ -15,6 +15,7 @@ import Home from './features/Admin/Home/Home';
 import Users from './features/Admin/Users/Users';
 import Ads from './features/Admin/Ads/Ads';
 import Bookings from './features/Admin/Bookings/Bookings';
+import ForgetPass from './authentication/ForgetPass/ForgetPass';
 
 function App() {
   const{ userData, saveUserData } :IAuth= useContext(AuthContext);
@@ -28,11 +29,11 @@ function App() {
         { index: true, element: <Login
            saveUserData={saveUserData}
            /> },
-        { path: "login", element: <Login 
+        { path: "login", element: <Login
         saveUserData={saveUserData}
         /> },
         { path: "register", element: <Register /> },
-        // { path: "request-reset", element: <RequestReset /> },
+        { path: "forget-password", element: <ForgetPass /> },
         { path: "reset-password", element: <ResetPass /> },
         // { path: "verify-user", element: <VerifyUser /> },
         { path: "notfound", element: <NotFound /> },
@@ -61,7 +62,7 @@ function App() {
   return (
     <>
         <RouterProvider router={routes} />
-      
+
     </>
   );
 }

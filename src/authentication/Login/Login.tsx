@@ -24,6 +24,7 @@ const Login: React.FC = () => {
   type FormValues = {
     email: string;
     password: string;
+
   };
 
   const {
@@ -41,7 +42,7 @@ const Login: React.FC = () => {
         localStorage.setItem("userToken", response.data.token);
         navigate('/home');
         saveUserData();
-       
+
         // getToastValue("success", "Login successfully!")
       })
       .catch((error) => {
@@ -159,7 +160,7 @@ const Login: React.FC = () => {
 
         <Grid
           item
-       
+
           sm={12}
           md={5}
           component={Paper}
@@ -168,7 +169,7 @@ const Login: React.FC = () => {
           mt={4}
         >
           <img className={`${Styles.loginImg}`} src={img} />
-        
+
         </Grid>
       </Grid>
     </Container>
