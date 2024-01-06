@@ -1,29 +1,45 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
-import { roomsUrl, roomsDetailsUrl, updateRoomsUrl, deleteRoomsUrl } from '../../../services/api';
-import { AuthContext } from '../../../context/AuthContext';
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../context/AuthContext";
+import {
+  deleteRoomsUrl,
+  roomsDetailsUrl,
+  roomsUrl,
+  updateRoomsUrl,
+} from "../../../services/api";
 // import { get } from 'react-hook-form';
-import CustomButton from '../../UI/CustomButton/CustomButton';
+import CustomButton from "../../UI/CustomButton/CustomButton";
 // import CustomTable from '../../UI/CustomTable/CustomTable';
-import { AppBar, Button, CircularProgress, Dialog, DialogContent, DialogTitle, IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, makeStyles } from '@mui/material';
+import {
+  AppBar,
+  Button,
+  CircularProgress,
+  Modal,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 // import { styled } from '@mui/system';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { red } from '@mui/material/colors';
-import EditIcon from '@mui/icons-material/Edit';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import styleroom from "./Rooms.module.scss"
-import { Link } from 'react-router-dom';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { red } from "@mui/material/colors";
+import { Link } from "react-router-dom";
+import styleroom from "./Rooms.module.scss";
 // import Box from '@mui/material/Box';
 // import Modal from '@mui/material/Modal';
 // import { CloseIcon } from '@mui/icons-material/Close';
 
-
-
 const Rooms = () => {
   const { requestHeaders, saveUserData } = useContext(AuthContext);
-  const [roomsList, setRoomsList] = useState([])
+  const [roomsList, setRoomsList] = useState([]);
   const [roomId, setRoomId] = useState(0);
-  const [roomDetails, setRoomDetails] = useState({});
+  const [roomDetails, setRoomDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [modalState, setModalState] = React.useState("close");
 
@@ -49,46 +65,38 @@ const Rooms = () => {
   };
   // Get All Rooms
   const getAllRooms = () => {
-
-
-    axios.get(`${roomsUrl}`, {
-
-      headers: requestHeaders,
-
-    })
+    axios
+      .get(`${roomsUrl}`, {
+        headers: requestHeaders,
+      })
       .then((response) => {
-        console.log(response?.data);
+        console.log(response?.data.data.rooms);
         setRoomsList(response.data.data.rooms);
       })
       .catch((error) => {
-        console.log('Error fetching rooms:', error);
-
-
-      })
-  }
+        console.log("Error fetching rooms:", error);
+      });
+  };
   const updateRoom = (data) => {
-
+    console.log(data);
     axios
-      .put(`${updateRoomsUrl}/${roomId}`, data, {
+      .put(`${updateRoomsUrl}${roomId}`, data, {
         headers: requestHeaders,
       })
       .then((response) => {
         console.log(response);
-
-        getAllRooms();
         handleClose();
+        getAllRooms();
+        
       })
       .catch((error) => {
         console.log(error);
-
-      })
-
+      });
   };
   // ************to deleted from Rooms*********
   const deleteRoom = () => {
-
     axios
-      .delete(`${deleteRoomsUrl}/${roomId}`, {
+      .delete(`${deleteRoomsUrl}${roomId}`, {
         headers: requestHeaders,
       })
       .then((response) => {
@@ -99,9 +107,7 @@ const Rooms = () => {
       })
       .catch((error) => {
         console.log(error);
-
-      })
-
+      });
   };
   // ************get Room details to view****************
   const getRoomDetails = (roomId) => {
@@ -110,47 +116,40 @@ const Rooms = () => {
         headers: requestHeaders,
       })
       .then((response) => {
-        setRoomDetails(response?.data);
-        console.log(response?.data);
-
+        setRoomDetails(response?.data?.data?.room);
+        console.log(response?.data.data.room);
       })
       .catch((error) => {
         console.log(error);
-
-
       });
   };
-
-
 
   useEffect(() => {
     getAllRooms();
   }, []);
 
-
   return (
     <>
       <AppBar position="static">
         <div className={styleroom.header}>
-          <Typography variant="h6">Rooms Table Details
-          <p variant="h6">You can check all details</p>
+          <Typography variant="h6">
+            Rooms Table Details
+            <p variant="h6">You can check all details</p>
           </Typography>
 
-            <Link to="/home/rooms/add-room" >
-              <CustomButton
-                className="your-custom-class"
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Add new Room
-              </CustomButton>
-            </Link>
-
+          <Link to="/home/rooms/add-room">
+            <CustomButton
+              className="your-custom-class"
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Add new Room
+            </CustomButton>
+          </Link>
         </div>
       </AppBar>
-
 
       <div>
         <TableContainer component={Paper}>
@@ -174,7 +173,7 @@ const Rooms = () => {
                       <img
                         src={room?.images[0]}
                         alt={`Room ${room?.roomNumber}`}
-                        style={{ width: '50px', height: '50px' }}
+                        style={{ width: "50px", height: "50px" }}
                       />
                     </TableCell>
                     <TableCell>{room?.price}</TableCell>
@@ -186,7 +185,6 @@ const Rooms = () => {
                         variant="outlined"
                         color="primary"
                         className={`${styleroom.customBtn}`}
-
                         onClick={() => showViewModal(room?._id)}
                       >
                         <RemoveRedEyeIcon />
@@ -196,7 +194,7 @@ const Rooms = () => {
                         color="warning"
                         className={`${styleroom.customBtn}`}
 
-                      // onClick={() => showUpdateModal(project)}
+                        onClick={() => showUpdateModal(room)}
                       >
                         <EditIcon />
                       </Button>
@@ -205,12 +203,10 @@ const Rooms = () => {
                         // color="danger"
                         onClick={() => showDeleteModal(room._id)}
                         className={`${styleroom.customBtn}`}
-
                       >
                         <DeleteIcon sx={{ color: red[500] }} />
                       </Button>
                     </TableCell>
-
                   </TableRow>
                 ))}
             </TableBody>
@@ -219,7 +215,11 @@ const Rooms = () => {
       </div>
       {/* -------------------------------------------------- */}
       {/* View Modal */}
-      <Modal open={modalState === "view-modal"} onClose={handleClose} className={styleroom.modal}>
+      <Modal
+        open={modalState === "view-modal"}
+        onClose={handleClose}
+        className={styleroom.modal}
+      >
         <div className={styleroom.paper}>
           <Typography variant="h5">Rooms Details</Typography>
           <div>
@@ -231,7 +231,6 @@ const Rooms = () => {
               <span className="text-warning">Price :&nbsp;</span>
               {roomDetails?.price}
             </p>
-
           </div>
         </div>
       </Modal>
@@ -248,7 +247,11 @@ const Rooms = () => {
 
       {/* Delete Modal */}
 
-      <Modal open={modalState === "view-modal"} onClose={handleClose} className={styleroom.modal}>
+      <Modal
+        open={modalState === "view-modal"}
+        onClose={handleClose}
+        className={styleroom.modal}
+      >
         <div className={styleroom.paper}>
           <Typography variant="h5">Rooms Details</Typography>
           <div>
@@ -260,20 +263,23 @@ const Rooms = () => {
               <span className="text-warning">Price :&nbsp;</span>
               {roomDetails?.price}
             </p>
-
           </div>
         </div>
       </Modal>
-      <Modal open={modalState === "delete-modal"} onClose={handleClose} className={styleroom.modal}>
+      <Modal
+        open={modalState === "delete-modal"}
+        onClose={handleClose}
+        className={styleroom.modal}
+      >
         <div className={styleroom.paper}>
           <Typography variant="h5">Delete this Room?</Typography>
-          <div className="text-center">
-
-          </div>
+          <div className="text-center"></div>
           <div className="text-end">
             <Button
               onClick={deleteRoom}
-              className={"btn btn-outline-danger my-3" + (isLoading ? " disabled" : "")}
+              className={
+                "btn btn-outline-danger my-3" + (isLoading ? " disabled" : "")
+              }
             >
               {isLoading ? <CircularProgress size={20} /> : "Delete this item"}
             </Button>
@@ -281,10 +287,7 @@ const Rooms = () => {
         </div>
       </Modal>
     </>
+  );
+};
 
-
-
-  )
-}
-
-export default Rooms
+export default Rooms;
