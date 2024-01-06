@@ -39,7 +39,7 @@ const Login: React.FC = () => {
       .post(`${loginUrl}`, data)
       .then((response) => {
         console.log("succ response", response);
-        localStorage.setItem('userToken', response.data.token )
+        localStorage.setItem('userToken', response.data.data.token )
 
         console.log(response.data.token);
 
