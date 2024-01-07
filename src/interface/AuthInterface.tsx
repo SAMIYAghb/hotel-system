@@ -2,9 +2,9 @@ import { ReactNode } from "react";
 
 // Define the authentication data//
 export interface IAuth {
-    userData: string ;
+    userData: string;
     saveUserData: () => void;
-    requestHeaders: string;
+    requestHeaders: { Authorization:string},
     // baseUrl: string;
     userRole: string | null;
     updateUserData: () => void;
@@ -27,4 +27,10 @@ export interface IRegister {
     phoneNumber: string;
     country: string;
     profileImage:FileList;
+}
+
+export interface IChangePass {
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
 }
