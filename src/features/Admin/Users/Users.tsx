@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import NoData from "./../../Shared/NoData/NoData";
-import noData from "./../../assets/images/no-data.png";
-
+import noData from "../../../assets/images/no-data.png";
 import { AuthContext } from "../../../context/AuthContext";
 import { usersUrl } from "../../../services/api.tsx";
 import {
+  Box,
   Container,
   Grid,
   Paper,
@@ -17,34 +16,28 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import CustomTable from "../../UI/CustomTable/CustomTable";
-// import CustomizedTables from "../../UI/CustomTable/CustomTable";
 
 const Users: React.FC = () => {
   const { requestHeaders }: any = useContext(AuthContext);
 
   const [users, setUsers] = useState([]);
 
-  // let [itemId, setItemId]: any = useState(0);
-
-  // **********get all projects*****************
+  // **********get all users*****************
   const getUsersList = () => {
     axios
       .get(`${usersUrl}?page=1&size=10`, {
         headers: requestHeaders,
       })
       .then((response) => {
-        console.log("succ list", response);
+        // console.log("succ list", response?.data?.data.users);
 
-        setUsers(response?.data);
+        setUsers(response?.data?.data.users);
       })
       .catch((error) => {
         console.log("error", error);
       });
   };
-
   // ************************
-
   useEffect(() => {
     getUsersList();
   }, []);
@@ -58,25 +51,46 @@ const Users: React.FC = () => {
           </Typography>
           <TableContainer component={Paper}>
             <Table>
-              <TableHead>
+              <TableHead sx={{ backgroundColor: '#f8f9fb' }}>
                 <TableRow>
-                  <TableCell>user name</TableCell>
-                  <TableCell>email</TableCell>
-                  <TableCell>email</TableCell>
+                  <TableCell>User name</TableCell>
+                  <TableCell>Role</TableCell>
+                  <TableCell>Phone number</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Country</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users?.length > 0
-                  ? users.map((user) => (
-                      <>
-                        <TableRow key={user?._id}>
-                          <TableCell>{user?.userName}</TableCell>
-                          <TableCell>{user?.email}</TableCell>
-                          <TableCell>{user?.email}</TableCell>
-                        </TableRow>
-                      </>
-                    ))
-                  : ""}
+                {users?.length > 0 ? (
+                  users.map((user) => (
+                    <>
+                      <TableRow key={user?._id}>
+                        <TableCell>{user?.userName}</TableCell>
+                        <TableCell>{user?.role}</TableCell>
+                        <TableCell>{user?.phoneNumber}</TableCell>
+                        <TableCell>{user?.email}</TableCell>
+                        <TableCell>{user?.country}</TableCell>
+                      </TableRow>
+                    </>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} style={{ height: "100%" }}>
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        height="100%"
+                      >
+                        <img
+                          src={noData}
+                          alt="No Data"
+                          style={{ maxWidth: "100%", maxHeight: "100%" }}
+                        />
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>
