@@ -1,0 +1,20 @@
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+}
+.loginImg{
+    width: 98%;
+    padding:.3rem;
+    padding-bottom: .1rem;
+}
+.register{
+    font-weight: bold !important;
+    color: rgba(21, 44, 91, 1) !important;
+    text-decoration: none !important;
+}
+.loginBtn{
+    text-transform: capitalize !important;
+background-color: rgba(50, 82, 223, 1);
+}

@@ -9,5 +9,10 @@ export const regisrterUrl = `${baseUrl}/admin/users`;
 export const resetPassUrl = `${baseUrl}/admin/users/reset-password`;
 // ******** Reset-Password ********
 export const forgetPassUrl = `${baseUrl}/admin/users/forget-password`;
+
 // ******** users-url ********
 export const usersUrl = `${baseUrl}/admin/users`;
+
+// ******** Change-Password ********
+export const changePassUrl = `${baseUrl}/admin/users/change-password`;
+
