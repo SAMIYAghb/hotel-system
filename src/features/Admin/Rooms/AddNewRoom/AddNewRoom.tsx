@@ -4,14 +4,14 @@ import { useContext, useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Styles from "./AddNewRoom.module.scss";
-import { InputLabel, MenuItem, Select } from "@mui/material";
+import { InputLabel, MenuItem } from "@mui/material";
 // import CustomButton from './../../../UI/CustomButton/CustomButton';
 import axios from "axios";
 import { AuthContext } from "../../../../context/AuthContext";
 import { addroomsUrl } from "../../../../services/api";
 import { IAddRoom } from "../../../../interface/RoomInterface";
 import { faciRoomsUrl } from "./../../../../services/api";
-
+import Select from "react-select";
 const AddNewRoom: React.FC = () => {
   const { requestHeaders } = useContext(AuthContext);
   // console.log(addroomsUrl);
@@ -21,12 +21,14 @@ const AddNewRoom: React.FC = () => {
   //   console.log(file);
   // };
   const [isLoading, setIsLoading] = useState(false);
-  const [facilities, setFacilities] = useState([]);
+  const [facilitiesList, setFacilitiesList] = useState([]);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
+
   } = useForm<IAddRoom>();
 
   const appendToFormData = (data: IAddRoom) => {
@@ -35,7 +37,16 @@ const AddNewRoom: React.FC = () => {
     formData.append("price", data["price"]);
     formData.append("capacity", data["capacity"]);
     formData.append("discount", data["discount"]);
-    formData.append("facilities", data["facilities"][0]);
+    // formData.append("facilities", data["facilities"]?.[0]);
+
+    if (Array.isArray(data.facilities)) {
+      data.facilities.forEach((facility) => {
+        formData.append("facilities[]", facility);
+      });
+    } else if (data.facilities) {
+      formData.append("facilities[]", data.facilities);
+    }
+
     // formData.append("imgs", data["imgs"][0]);
     return formData;
   };
@@ -68,8 +79,8 @@ const AddNewRoom: React.FC = () => {
         headers: requestHeaders,
       })
       .then((response) => {
-        setFacilities(response?.data?.data);
-        console.log(response.data.data);
+        setFacilitiesList(response?.data?.data?.facilities);
+        console.log(response.data.data?.facilities);
       })
       .catch((error) => {
         console.log(error);
@@ -203,24 +214,59 @@ const AddNewRoom: React.FC = () => {
                     <InputLabel id="simple-dropdown-label">
                       facilities
                     </InputLabel>
-                    <Select
+                    {/* <Select
                     {...register("facilities", { required: true })}
+
                       labelId="simple-dropdown-label"
                       id="simple-dropdown"
-                      // value={selectedOption}
-                      // onChange={handleChange}
+                      value={selectedOption}
+                      onChange={handleChange}
                     >
                       <MenuItem value="">facilities</MenuItem>
-                     {/* {facilities?.map((facility)=>(
-                      
+                     {facilities?.map((facility)=>(
+
                       <MenuItem {facility._id} value={facility._id}>{facility.name}</MenuItem>
-                      
-                     ))}                     */}
-                    </Select>
-                    
-                      {errors.facilities && errors.facilities.type === "required" && (
-    <span className="errorMsg">Facilities are required</span>
-  )}
+
+                     ))}
+                    </Select> */}
+                    {/* <Select
+                      {...register("facilities", { required: true })}
+                      options={facilitiesList?.map((facility, index) => ({
+                        key: index,
+                        value: facility._id,
+                        label: facility.name,
+                      }))}
+                      isClearable
+                      isSearchable
+                      placeholder="Select Facilities"
+                      onChange={(selectedOption) => {
+                        // Update the form value for the "facilities" field
+                        setValue("facilities", selectedOption, );
+
+                        // Handle the selected option here
+                        console.log("Selected Option:", selectedOption);
+                      }}
+                    /> */}
+                    <Select
+                      {...register("facilities", { required: true })}
+                      options={facilitiesList?.map((facility, index) => ({
+                        value: facility._id,
+                        label: facility.name,
+                      }))}
+                      isClearable
+                      isSearchable
+                      placeholder="Select Facilities"
+                      onChange={(selectedOption) => {
+                        // Update the form value for the "facilities" field
+                        setValue("facilities", selectedOption ? [selectedOption.value] : null);
+
+                        // Handle the selected option here
+                        console.log("Selected Option:", selectedOption);
+                      }}
+                    />
+                    {errors.facilities && errors.facilities.type === "required" && (
+                      <span className="errorMsg">Facilities are required</span>
+                    )}
                   </Grid>
                 </Grid>
                 {/* <div style={{ padding: 50 }}>

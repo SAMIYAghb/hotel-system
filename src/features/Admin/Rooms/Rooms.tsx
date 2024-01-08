@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import {
   deleteRoomsUrl,
+  faciRoomsUrl,
   roomsDetailsUrl,
   roomsUrl,
   updateRoomsUrl,
@@ -14,6 +15,8 @@ import {
   AppBar,
   Button,
   CircularProgress,
+  Grid,
+  InputLabel,
   Modal,
   Paper,
   Table,
@@ -22,6 +25,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 // import { styled } from '@mui/system';
@@ -31,6 +35,14 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import styleroom from "./Rooms.module.scss";
+import { IAddRoom } from "../../../interface/RoomInterface";
+import { useForm } from "react-hook-form";
+import { Box } from "@mui/system";
+// import { MenuItem } from "react-pro-sidebar";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "react-select";
+import noData from '../../../assets/images/noData.png'
+
 // import Box from '@mui/material/Box';
 // import Modal from '@mui/material/Modal';
 // import { CloseIcon } from '@mui/icons-material/Close';
@@ -41,9 +53,16 @@ const Rooms = () => {
   const [roomId, setRoomId] = useState(0);
   const [roomDetails, setRoomDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [facilitiesList, setFacilitiesList] = useState([]);
   const [modalState, setModalState] = React.useState("close");
 
   const handleClose = () => setModalState("close");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue
+  } = useForm<IAddRoom>();
 
   const showViewModal = (id) => {
     setRoomId(id);
@@ -51,11 +70,35 @@ const Rooms = () => {
     getRoomDetails(id);
   };
 
+  const appendToFormData = (data: IAddRoom) => {
+    const formData = new FormData();
+    formData.append("roomNumber", data["roomNumber"]);
+    formData.append("price", data["price"]);
+    formData.append("capacity", data["capacity"]);
+    formData.append("discount", data["discount"]);
+    if (Array.isArray(data.facilities)) {
+      data.facilities.forEach((facility) => {
+        formData.append("facilities[]", facility);
+      });
+    } else if (data.facilities) {
+      formData.append("facilities[]", data.facilities);
+    }
+
+    // formData.append("facilities", data["facilities"][0]);
+    // formData.append("imgs", data["imgs"][0]);
+    return formData;
+  };
+
+
   const showUpdateModal = (room) => {
     setRoomId(room._id);
-    // setValue("title", task.title);
-    // setValue("description", task.description);
-    // setValue("employeeId", task.employee.userName);
+    setValue("roomNumber", room.roomNumber);
+    setValue("price", room.price);
+    setValue("capacity", room.capacity);
+    setValue("discount", room.discount);
+    setValue("facilities", room?.facilities?.name);
+
+
     setModalState("update-modal");
   };
 
@@ -78,16 +121,17 @@ const Rooms = () => {
       });
   };
   const updateRoom = (data) => {
+    const upfdateFormData = appendToFormData(data);
     console.log(data);
     axios
-      .put(`${updateRoomsUrl}${roomId}`, data, {
+      .put(`${updateRoomsUrl}${roomId}`, upfdateFormData, {
         headers: requestHeaders,
       })
       .then((response) => {
         console.log(response);
         handleClose();
         getAllRooms();
-        
+
       })
       .catch((error) => {
         console.log(error);
@@ -123,9 +167,25 @@ const Rooms = () => {
         console.log(error);
       });
   };
+  /**********get facility*******/
+  const getAllFacility = () => {
+    axios
+      .get(`${faciRoomsUrl}`, {
+        headers: requestHeaders,
+      })
+      .then((response) => {
+        setFacilitiesList(response?.data?.data?.facilities);
+        console.log(response?.data?.data?.facilities);
 
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
     getAllRooms();
+    getAllFacility();
   }, []);
 
   return (
@@ -236,14 +296,124 @@ const Rooms = () => {
       </Modal>
 
       {/* Update Modal */}
-      {/* <Modal open={modalState === "update-modal"} onClose={handleClose}>
-        <div>
-          <Typography variant="h5">Update Task</Typography>
+      {/* <Modal open={modalState === "update-modal"} onClose={handleClose}  className={styleroom.modal}>
+        <div className={styleroom.paper}>
+          <Typography variant="h5">Update Room</Typography>
           <form onSubmit={handleSubmit(updateTask)} className="form-wrapper m-auto pt-5 pb-3 px-5">
 
           </form>
         </div>
       </Modal> */}
+      <Modal open={modalState === "update-modal"} onClose={handleClose} className={styleroom.modal}>
+        <div className={styleroom.paper}>
+          <Typography variant="h5">Update Room</Typography>
+
+          <Grid container justifyContent="center">
+            <Grid item xs={12} sm={12} md={12} component={Paper} elevation={6} mb={8} mt={4} sx={{ padding: "2rem" }}>
+              <Box sx={{ my: 4, mx: "auto", display: "flex", flexDirection: "column", width: "100%", maxWidth: "100%" }}>
+                <Box component="form" noValidate onSubmit={handleSubmit(updateRoom)} sx={{ width: "100%", maxWidth: "none", mx: 0, paddingLeft: 0, paddingRight: 0 }}>
+                  <TextField
+                    {...register("roomNumber", { required: true })}
+                    required
+                    id="filled-required"
+                    label="Room Number"
+                    fullWidth
+                    sx={{ width: "100%", marginBottom: "1rem" }}
+                  />
+
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <TextField
+                        {...register("price", { required: true, valueAsNumber: true })}
+                        required
+                        id="filled-required"
+                        label="Price"
+                        variant="filled"
+                        fullWidth
+                        sx={{ width: "100%", marginBottom: "1rem" }}
+                      />
+                      {errors.price && errors.price.type === "required" && (
+                        <span className="errorMsg">This field is required</span>
+                      )}
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <TextField
+                        {...register("capacity", { required: true })}
+                        required
+                        id="filled-required"
+                        label="Capacity"
+                        variant="filled"
+                        fullWidth
+                        sx={{ width: "100%", marginBottom: "1rem" }}
+                      />
+                      {errors.capacity && errors.capacity.type === "required" && (
+                        <span className="errorMsg">This field is required</span>
+                      )}
+                    </Grid>
+                  </Grid>
+
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <TextField
+                        {...register("discount", { required: true, valueAsNumber: true })}
+                        required
+                        id="discount"
+                        label="Discount"
+                        variant="filled"
+                        fullWidth
+                        sx={{ width: "100%", marginBottom: "1rem" }}
+                      />
+                      {errors.discount && errors.discount.type === "required" && (
+                        <span className="errorMsg">This field is required</span>
+                      )}
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <InputLabel id="simple-dropdown-label">Facilities</InputLabel>
+                      <Select
+                        {...register("facilities", { required: true })}
+                        options={facilitiesList?.map((facility, index) => ({
+                          value: facility._id,
+                          label: facility.name,
+                        }))}
+                        isClearable
+                        isSearchable
+                        placeholder="Select Facilities"
+                        onChange={(selectedOption) => {
+                          // Update the form value for the "facilities" field
+                          setValue("facilities", selectedOption ? [selectedOption.value] : null);
+
+                          // Handle the selected option here
+                          console.log("Selected Option:", selectedOption);
+                        }}
+                      />
+                      {errors.facilities && errors.facilities.type === "required" && (
+                        <span className="errorMsg">Facilities are required</span>
+                      )}
+                    </Grid>
+                  </Grid>
+
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      {/* <Button onClick={goBack} variant="outlined">
+                          Cancel
+                        </Button> */}
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Button variant="contained" type="submit">
+                        Add
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+
+        </div>
+      </Modal>
 
       {/* Delete Modal */}
 
@@ -273,7 +443,9 @@ const Rooms = () => {
       >
         <div className={styleroom.paper}>
           <Typography variant="h5">Delete this Room?</Typography>
-          <div className="text-center"></div>
+          <div className="text-center">
+            <img src={noData} alt="" />
+          </div>
           <div className="text-end">
             <Button
               onClick={deleteRoom}
