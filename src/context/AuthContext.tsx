@@ -54,7 +54,7 @@ console.log(encodedToken );
     };
     // Compute request headers
     const requestHeaders = {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        Authorization: ` ${localStorage.getItem("userToken")}`,
     };
 
     // check for userToken and save data

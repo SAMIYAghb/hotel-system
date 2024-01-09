@@ -11,3 +11,22 @@ export const resetPassUrl = `${baseUrl}/admin/users/reset-password`;
 export const forgetPassUrl = `${baseUrl}/admin/users/forget-password`;
 // ******** Change-Password ********
 export const changePassUrl = `${baseUrl}/admin/users/change-password`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ******** room-facilities ********
+export const facilitiesUrl = `${baseUrl}/admin/room-facilities`;
+
+

@@ -17,6 +17,7 @@ import Ads from './features/Admin/Ads/Ads';
 import Bookings from './features/Admin/Bookings/Bookings';
 import ForgetPass from './authentication/ForgetPass/ForgetPass';
 import { IAuth } from './interface/AuthInterface';
+import Facilities from './features/Admin/Facilities/Facilities';
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
         { path: "users", element: <Users /> },
         { path: "rooms", element: <Rooms /> },
         { path: "ads", element: <Ads /> },
+        { path: "facilities", element: <Facilities /> },
         { path: "bookings", element: <Bookings /> },
       ],
     },
