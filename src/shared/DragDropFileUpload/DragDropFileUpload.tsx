@@ -4,6 +4,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 function DragDropFileUpload({ onFileUpload }) {
   const [dragOver, setDragOver] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleDragOver = useCallback((event) => {
     event.preventDefault();
@@ -29,11 +30,18 @@ function DragDropFileUpload({ onFileUpload }) {
   const handleChange = useCallback(
     (event) => {
       if (event.target.files && event.target.files[0]) {
-        onFileUpload(event.target.files[0]);
+        handleFileUpload(event.target.files[0]);
       }
     },
-    [onFileUpload]
+    []
   );
+
+  const handleFileUpload = useCallback(
+    (file) => {
+      onFileUpload(file);
+      setSelectedFile(file);
+    },
+    [onFileUpload]);
 
   return (
     <Paper

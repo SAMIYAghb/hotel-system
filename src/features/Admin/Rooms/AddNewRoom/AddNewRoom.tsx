@@ -1,36 +1,36 @@
-import { Button, Grid, Paper, TextField } from "@mui/material";
+import { Button, Checkbox, Divider, FormControl, Grid, ListItemText, Paper, Select, TextField } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import { useContext, useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Styles from "./AddNewRoom.module.scss";
 import { InputLabel, MenuItem } from "@mui/material";
-// import CustomButton from './../../../UI/CustomButton/CustomButton';
 import axios from "axios";
 import { AuthContext } from "../../../../context/AuthContext";
 import { addroomsUrl } from "../../../../services/api";
 import { IAddRoom } from "../../../../interface/RoomInterface";
 import { faciRoomsUrl } from "./../../../../services/api";
-import Select from "react-select";
+import DragDropFileUpload from "../../../../shared/DragDropFileUpload/DragDropFileUpload";
 const AddNewRoom: React.FC = () => {
   const { requestHeaders } = useContext(AuthContext);
-  // console.log(addroomsUrl);
+
   const navigate = useNavigate();
 
-  // const handleFileUpload = (file) => {
-  //   console.log(file);
-  // };
+
   const [isLoading, setIsLoading] = useState(false);
   const [facilitiesList, setFacilitiesList] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
 
   } = useForm<IAddRoom>();
 
+  // Format Data
   const appendToFormData = (data: IAddRoom) => {
     const formData = new FormData();
     formData.append("roomNumber", data["roomNumber"]);
@@ -50,11 +50,11 @@ const AddNewRoom: React.FC = () => {
     // formData.append("imgs", data["imgs"][0]);
     return formData;
   };
-
+// **** Cancel Button*******
   const goBack = () => {
     navigate(-1);
   };
-
+  // *******Create New Room**********
   const onSubmit: SubmitHandler<IAddRoom> = async (data: IAddRoom) => {
     // setIsLoading(true)
     const addFormData = appendToFormData(data);
@@ -62,17 +62,17 @@ const AddNewRoom: React.FC = () => {
       .post(`${addroomsUrl}`, addFormData, { headers: requestHeaders })
       .then((response) => {
         // setIsLoading(false)
-        console.log("success");
+
         navigate("/home/rooms");
       })
       .catch((error) => {
         // setIsLoading(false)
-        console.log("error");
+
       })
       .finally(() => setIsLoading(false));
   };
 
-  /**********get facility*******/
+  //**********Get Facility*******
   const getAllFacility = () => {
     axios
       .get(`${faciRoomsUrl}`, {
@@ -80,11 +80,15 @@ const AddNewRoom: React.FC = () => {
       })
       .then((response) => {
         setFacilitiesList(response?.data?.data?.facilities);
-        console.log(response.data.data?.facilities);
+
       })
       .catch((error) => {
-        console.log(error);
+
       });
+  };
+// ***** Handle File Upload
+  const handleFileUpload = (file) => {
+    setSelectedImage(URL.createObjectURL(file));
   };
   useEffect(() => {
     getAllFacility();
@@ -131,7 +135,7 @@ const AddNewRoom: React.FC = () => {
                   paddingRight: 0,
                 }}
               >
-                {/* First TextField */}
+
                 <TextField
                   {...register("roomNumber", { required: true })}
                   required
@@ -157,7 +161,7 @@ const AddNewRoom: React.FC = () => {
                       required
                       id="filled-required"
                       label="Price"
-                      variant="filled"
+                      // variant="filled"
                       fullWidth
                       sx={{
                         width: "100%",
@@ -175,7 +179,7 @@ const AddNewRoom: React.FC = () => {
                       required
                       id="filled-required"
                       label="Capacity"
-                      variant="filled"
+                      // variant="filled"
                       fullWidth
                       sx={{
                         width: "100%",
@@ -187,8 +191,8 @@ const AddNewRoom: React.FC = () => {
                     )}
                   </Grid>
                 </Grid>
-                {/* Second and Third Text Fields in the Same Row */}
-                <Grid container spacing={2}>
+
+                {/* <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <TextField
                       {...register("discount", {
@@ -214,84 +218,181 @@ const AddNewRoom: React.FC = () => {
                     <InputLabel id="simple-dropdown-label">
                       facilities
                     </InputLabel>
-                    {/* <Select
-                    {...register("facilities", { required: true })}
 
-                      labelId="simple-dropdown-label"
-                      id="simple-dropdown"
-                      value={selectedOption}
-                      onChange={handleChange}
-                    >
-                      <MenuItem value="">facilities</MenuItem>
-                     {facilities?.map((facility)=>(
 
-                      <MenuItem {facility._id} value={facility._id}>{facility.name}</MenuItem>
-
-                     ))}
-                    </Select> */}
-                    {/* <Select
-                      {...register("facilities", { required: true })}
-                      options={facilitiesList?.map((facility, index) => ({
-                        key: index,
-                        value: facility._id,
-                        label: facility.name,
-                      }))}
-                      isClearable
-                      isSearchable
-                      placeholder="Select Facilities"
-                      onChange={(selectedOption) => {
-                        // Update the form value for the "facilities" field
-                        setValue("facilities", selectedOption, );
-
-                        // Handle the selected option here
-                        console.log("Selected Option:", selectedOption);
-                      }}
-                    /> */}
                     <Select
-                      {...register("facilities", { required: true })}
-                      options={facilitiesList?.map((facility, index) => ({
-                        value: facility._id,
-                        label: facility.name,
-                      }))}
-                      isClearable
-                      isSearchable
-                      placeholder="Select Facilities"
-                      onChange={(selectedOption) => {
-                        // Update the form value for the "facilities" field
-                        setValue("facilities", selectedOption ? [selectedOption.value] : null);
-
-                        // Handle the selected option here
-                        console.log("Selected Option:", selectedOption);
+                      labelId="facilities-label"
+                      id="facilities"
+                      multiple
+                      value={watch('facilities') || []}
+                      onChange={(e) => setValue('facilities', e.target.value, { shouldValidate: true })}
+                      sx={{ width: '100%' }}
+                      renderValue={(selected) => (
+                        <div>
+                          {selected.map((value) => (
+                            <span key={value} style={{ marginRight: '8px' }}>
+                              {facilitiesList.find((facility) => facility._id === value)?.name || ''}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      MenuComponent={({ children, ...props }) => (
+                        <div {...props}>
+                          {children}
+                          <Divider />
+                          <MenuItem>
+                            <Checkbox checked={watch('facilities')?.length === facilitiesList.length} />
+                            <ListItemText primary="Select All" />
+                          </MenuItem>
+                        </div>
+                      )}
+                    >
+                      {facilitiesList.map((facility) => (
+                        <MenuItem key={facility._id} value={facility._id}>
+                          <Checkbox checked={watch('facilities')?.includes(facility._id)} />
+                          <ListItemText primary={facility.name} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {errors.facilities && errors.facilities.type === "required" && (
+                      <span className="errorMsg">Facilities are required</span>
+                    )}
+                  </Grid>
+                </Grid> */}
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      {...register("discount", {
+                        required: true,
+                        valueAsNumber: true,
+                      })}
+                      required
+                      id="discount"
+                      label="Discount"
+                      // variant="filled"
+                      fullWidth
+                      sx={{
+                        width: "100%",
+                        marginBottom: "1rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%", // Add this line
+                        paddingTop: '5px'
                       }}
                     />
+                    {errors.discount && errors.discount.type === "required" && (
+                      <span className="errorMsg">This field is required</span>
+                    )}
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormControl sx={{ padding: "5px", minWidth: 120, width: '98%' }}>
+                      <InputLabel id="facilities-label">Facilities</InputLabel>
+
+                      {/* <Select
+                        labelId="facilities-label"
+                        id="facilities"
+                        multiple
+                        value={watch("facilities") || []} // Using watch from react-hook-form to get the current value
+                        onChange={(e) => setValue("facilities", e.target.value, { shouldValidate: true })}
+                        fullWidth
+                        sx={{
+                          width: "100%",
+                          marginBottom: "1rem",
+                        }}
+                      >
+                        {facilitiesList.map((facility) => (
+                          <MenuItem key={facility._id} value={facility._id}>
+                            {facility.name}
+                          </MenuItem>
+                        ))}
+                      </Select> */}
+                      <Select
+                        labelId="facilities-label"
+                        id="facilities"
+                        label="facilities"
+                        multiple
+                        value={watch('facilities') || []}
+                        onChange={(e) => setValue('facilities', e.target.value, { shouldValidate: true })}
+                        sx={{ width: '100%' }}
+                        renderValue={(selected) => (
+                          <div>
+                            {selected.map((value) => (
+                              <span key={value} style={{ marginRight: '8px' }}>
+                                {facilitiesList.find((facility) => facility._id === value)?.name || ''}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      // MenuComponent={({ children, ...props }) => (
+                      //   <div {...props}>
+                      //     {children}
+                      //     <Divider />
+                      //     <MenuItem>
+                      //       <Checkbox checked={watch('facilities')?.length === facilitiesList.length} />
+                      //       <ListItemText primary="Select All" />
+                      //     </MenuItem>
+                      //   </div>
+                      // )}
+                      >
+                        {facilitiesList.map((facility) => (
+                          <MenuItem key={facility._id} value={facility._id}>
+                            <Checkbox checked={watch('facilities')?.includes(facility._id)} />
+                            <ListItemText primary={facility.name} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+
+                    </FormControl>
                     {errors.facilities && errors.facilities.type === "required" && (
                       <span className="errorMsg">Facilities are required</span>
                     )}
                   </Grid>
                 </Grid>
-                {/* <div style={{ padding: 50 }}>
+
+                <div style={{ padding: 50 }}>
                   <DragDropFileUpload onFileUpload={handleFileUpload} />
-                </div> */}
+                  {selectedImage && (
+                    <div style={{ marginTop: '20px' }}>
+                      <img src={selectedImage} alt="Selected"
+                        style={{ maxWidth: '80%', maxHeight: '100px' }} />
+                    </div>
+                  )}
+                </div>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <Button onClick={goBack} variant="outlined">
-                      Cancel
-                    </Button>
-                  </Grid>
 
+                {/*
                   <Grid item xs={6}>
                     <Button variant="contained" type="submit">
                       Add
                     </Button>
-                    {/* <Button
+                    <Button
                       // variant="contained"
                       color="orange"
                       className={`my-3 px-4 ${isLoading ? "disabled" : ""}`}
                       disabled={isLoading}
                     >
                       {isLoading ? <CircularProgress size={20} thickness={5} /> : "Save"}
-                    </Button> */}
+                    </Button>
+                  </Grid> */}
+                <Grid
+                  container
+                  spacing={2}
+                  sx={{
+                    justifyContent: "flex-end",
+                    marginTop: "1rem", // Adjust the top margin as needed
+                  }}
+                >
+                  <Grid item>
+                    <Button onClick={goBack} variant="outlined">
+                      Cancel
+                    </Button>
+                  </Grid>
+
+                  <Grid item>
+                    <Button variant="contained" type="submit">
+                      Add
+                    </Button>
                   </Grid>
                 </Grid>
               </Box>
