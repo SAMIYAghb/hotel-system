@@ -9,8 +9,8 @@ import axios from "axios";
 import { AuthContext } from "../../../../context/AuthContext";
 import { addroomsUrl } from "../../../../services/api";
 import { IAddRoom } from "../../../../interface/RoomInterface";
-import { faciRoomsUrl } from "./../../../../services/api";
 import DragDropFileUpload from "../../../../shared/DragDropFileUpload/DragDropFileUpload";
+import useFacilities from "../../../Hook/useFacilities";
 const AddNewRoom: React.FC = () => {
   const { requestHeaders } = useContext(AuthContext);
 
@@ -18,9 +18,8 @@ const AddNewRoom: React.FC = () => {
 
 
   const [isLoading, setIsLoading] = useState(false);
-  const [facilitiesList, setFacilitiesList] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-
+  const { facilitiesList } = useFacilities();
   const {
     register,
     handleSubmit,
@@ -33,19 +32,19 @@ const AddNewRoom: React.FC = () => {
   // Format Data
   const appendToFormData = (data: IAddRoom) => {
     const formData = new FormData();
-    formData.append("roomNumber", data["roomNumber"]);
-    formData.append("price", data["price"]);
-    formData.append("capacity", data["capacity"]);
-    formData.append("discount", data["discount"]);
-    // formData.append("facilities", data["facilities"]?.[0]);
+    formData.append("roomNumber", data?.roomNumber);
+    formData.append("price", data?.price);
+    formData.append("capacity", data?.capacity);
+    formData.append("discount", data?.discount);
 
     if (Array.isArray(data.facilities)) {
       data.facilities.forEach((facility) => {
         formData.append("facilities[]", facility);
       });
-    } else if (data.facilities) {
-      formData.append("facilities[]", data.facilities);
     }
+    // else if (data.facilities) {
+    //   formData.append("facilities[]", data.facilities);
+    // }
 
     // formData.append("imgs", data["imgs"][0]);
     return formData;
@@ -72,27 +71,11 @@ const AddNewRoom: React.FC = () => {
       .finally(() => setIsLoading(false));
   };
 
-  //**********Get Facility*******
-  const getAllFacility = () => {
-    axios
-      .get(`${faciRoomsUrl}`, {
-        headers: requestHeaders,
-      })
-      .then((response) => {
-        setFacilitiesList(response?.data?.data?.facilities);
-
-      })
-      .catch((error) => {
-
-      });
-  };
 // ***** Handle File Upload
   const handleFileUpload = (file) => {
     setSelectedImage(URL.createObjectURL(file));
   };
-  useEffect(() => {
-    getAllFacility();
-  }, []);
+
 
   return (
     <>
@@ -148,7 +131,7 @@ const AddNewRoom: React.FC = () => {
                   }}
                 />
                 {errors.price && errors.price.type === "required" && (
-                  <span className="errorMsg">Le prix est requis</span>
+                  <span className="errorMsg">This field is required</span>
                 )}
 
                 <Grid container spacing={2}>

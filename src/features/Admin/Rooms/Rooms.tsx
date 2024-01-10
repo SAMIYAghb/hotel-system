@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import {
   deleteRoomsUrl,
-  faciRoomsUrl,
   roomsDetailsUrl,
   roomsUrl,
   updateRoomsUrl,
@@ -13,17 +12,11 @@ import {
   AppBar,
   Button,
   Checkbox,
-  // CircularProgress,
-  // Dialog,
-  // DialogContent,
-  // DialogTitle,
-  Divider,
   FormControl,
   Grid,
   InputAdornment,
   InputLabel,
   ListItemText,
-  Modal,
   Paper,
   Select,
   Table,
@@ -45,14 +38,12 @@ import { Link } from "react-router-dom";
 import styleroom from "./Rooms.module.scss";
 import { IAddRoom } from "../../../interface/RoomInterface";
 import { useForm } from "react-hook-form";
-// import { Box } from "@mui/system";
 import MenuItem from "@mui/material/MenuItem";
 import noData from '../../../assets/images/noData.png'
 import SearchIcon from "@mui/icons-material/Search";
 import noImage from '../../../assets/images/noImage.jpg'
-// import Box from '@mui/material/Box';
-// import Modal from '@mui/material/Modal';
-// import { CloseIcon } from '@mui/icons-material/Close';
+import useFacilities from "../../Hook/useFacilities";
+import CustomModal from "../../UI/CustomModal/CustomModal";
 
 const Rooms = () => {
   const { requestHeaders } = useContext(AuthContext);
@@ -60,7 +51,6 @@ const Rooms = () => {
   const [roomId, setRoomId] = useState(0);
   const [roomDetails, setRoomDetails] = useState([]);
   // const [isLoading, setIsLoading] = useState(false);
-  const [facilitiesList, setFacilitiesList] = useState([]);
   const [modalState, setModalState] = React.useState("close");
   const [currentPage, setCurrentPage] = useState(1);
   const [pagesArray, setPagesArray] = useState([]);
@@ -68,7 +58,7 @@ const Rooms = () => {
   const handleClose = () => setModalState("close");
   // const [searchRoom, setSearchRoom] = useState('');
   // const [timerId, setTimerId] = useState(null);
-
+  const { facilitiesList } = useFacilities();
   const {
     register,
     handleSubmit,
@@ -115,9 +105,10 @@ const Rooms = () => {
       data.facilities.forEach((facility) => {
         formData.append("facilities[]", facility);
       });
-    } else if (data.facilities) {
-      formData.append("facilities[]", data.facilities);
     }
+    // else if (data.facilities) {
+    //   formData.append("facilities[]", data.facilities);
+    // }
 
     // formData.append("facilities", data["facilities"][0]);
     // formData.append("imgs", data["imgs"][0]);
@@ -157,14 +148,14 @@ const Rooms = () => {
         headers: requestHeaders,
       })
       .then((response) => {
-        console.log(response);
+
         handleClose();
 
         // Fetch updated data after the update
         getAllRooms(currentPage);
       })
       .catch((error) => {
-        console.log(error);
+
       });
   };
   //********** Deleted Rooms****************
@@ -174,13 +165,13 @@ const Rooms = () => {
         headers: requestHeaders,
       })
       .then((response) => {
-        setRoomsList(response.data.data);
+        setRoomsList(response.data.data.totalCount);
         setRoomId(roomId);
         handleClose();
-        getAllRooms();
+        getAllRooms(currentPage);
       })
       .catch((error) => {
-        console.log(error);
+
       });
   };
   // ************Room Details****************
@@ -191,29 +182,12 @@ const Rooms = () => {
       })
       .then((response) => {
         setRoomDetails(response?.data?.data?.room);
-        console.log(response?.data.data.room);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  /**********Get All Facility*******/
-  const getAllFacility = () => {
-    axios
-      .get(`${faciRoomsUrl}`, {
-        headers: requestHeaders,
-      })
-      .then((response) => {
-        setFacilitiesList(response?.data?.data?.facilities);
-        console.log(response?.data?.data?.facilities);
-
 
       })
       .catch((error) => {
-        console.log(error);
+
       });
   };
-
   //******** pagination*************
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage + 1); // Update currentPage
@@ -227,7 +201,7 @@ const Rooms = () => {
 
   // Search
   // const getRoomNumberValue = (e) => {
-  //   console.log(e);
+
 
   //   setSearchRoom(e?.target?.value);
 
@@ -236,18 +210,17 @@ const Rooms = () => {
 
   useEffect(() => {
     getAllRooms(currentPage);
-    getAllFacility();
   }, [currentPage]);
 
 
   // useEffect(() => {
-  //   // console.log("Search Room:", searchRoom);
+  //
   //   if (timerId) {
   //     clearTimeout(timerId);
   //   }
 
   //   const newTimeOut = setTimeout(() => {
-  //     // console.log("Fetching rooms with search term:", searchRoom);
+  //
   //     getAllRooms(1, searchRoom);
 
   //   }, 500);
@@ -360,6 +333,7 @@ const Rooms = () => {
                         className={`${styleroom.customBtn}`}
                         style={{ marginRight: '2px !important' }}
                       >
+
                         <DeleteIcon style={{ border: 'none' }} sx={{ color: red[500] }} />
                       </Button>
                     </TableCell>
@@ -385,22 +359,14 @@ const Rooms = () => {
       </div>
       {/* -------------------------------------------------- */}
       {/* View Modal */}
-      <Modal
+      <CustomModal
         open={modalState === "view-modal"}
         onClose={handleClose}
-        className={styleroom.modal}
+        title="Rooms Details"
+
       >
-        <div className={styleroom.paper} style={{
-          width: '40%', // 40% of the modal width
-          height: '80%', // 80% of the modal height
-          overflowY: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-        }}>
-          <Typography variant="h5">Rooms Details</Typography>
+        {/* View modal content goes here */}
+        <div >
           <div style={{ textAlign: 'center' }}>
             <p>
               <span className="text-warning">Room Number :&nbsp;</span>
@@ -411,137 +377,25 @@ const Rooms = () => {
               {roomDetails?.price}
             </p>
           </div>
-          {/* Cancel button in the bottom right */}
 
           <Grid item xs={6}>
             <Button variant="contained" type="submit"
               onClick={handleClose}
               style={{ position: 'absolute', bottom: '30px', right: '20px' }} >
-              Cancel
+              Ok
             </Button>
           </Grid>
         </div>
-      </Modal>
-
+      </CustomModal>
       {/* Update Modal */}
-      {/* <Modal open={modalState === "update-modal"} onClose={handleClose} className={styleroom.modal}>
-        <div className={styleroom.paper}  custom-modal-content>
-          <Typography variant="h5">Update Room</Typography>
 
-          <Grid container justifyContent="center">
-            <Grid item xs={12} sm={12} md={12} component={Paper} elevation={6} mb={8} mt={4} sx={{ padding: "2rem" }}>
-              <Box sx={{ my: 4, mx: "auto", display: "flex", flexDirection: "column", width: "100%", maxWidth: "100%" }}>
-                <Box component="form" noValidate onSubmit={handleSubmit(updateRoom)} sx={{ width: "100%", maxWidth: "none", mx: 0, paddingLeft: 0, paddingRight: 0 }}>
-                  <TextField
-                    {...register("roomNumber", { required: true })}
-                    required
-                    id="filled-required"
-                    label="Room Number"
-                    fullWidth
-                    sx={{ width: "100%", marginBottom: "1rem" }}
-                  />
+      <CustomModal
+        open={modalState === "update-modal"}
+        onClose={handleClose}
+        title="Update Room"
 
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <TextField
-                        {...register("price", { required: true, valueAsNumber: true })}
-                        required
-                        id="filled-required"
-                        label="Price"
-                        variant="filled"
-                        fullWidth
-                        sx={{ width: "100%", marginBottom: "1rem" }}
-                      />
-                      {errors.price && errors.price.type === "required" && (
-                        <span className="errorMsg">This field is required</span>
-                      )}
-                    </Grid>
-
-                    <Grid item xs={6}>
-                      <TextField
-                        {...register("capacity", { required: true })}
-                        required
-                        id="filled-required"
-                        label="Capacity"
-                        variant="filled"
-                        fullWidth
-                        sx={{ width: "100%", marginBottom: "1rem" }}
-                      />
-                      {errors.capacity && errors.capacity.type === "required" && (
-                        <span className="errorMsg">This field is required</span>
-                      )}
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <TextField
-                        {...register("discount", { required: true, valueAsNumber: true })}
-                        required
-                        id="discount"
-                        label="Discount"
-                        variant="filled"
-                        fullWidth
-                        sx={{ width: "100%", marginBottom: "1rem" }}
-                      />
-                      {errors.discount && errors.discount.type === "required" && (
-                        <span className="errorMsg">This field is required</span>
-                      )}
-                    </Grid>
-
-                    <Grid item xs={6}>
-                      <InputLabel id="simple-dropdown-label">Facilities</InputLabel>
-                      <Select
-                        {...register("facilities", { required: true })}
-                        options={facilitiesList?.map((facility, index) => ({
-                          value: facility._id,
-                          label: facility.name,
-                        }))}
-                        isClearable
-                        isSearchable
-                        placeholder="Select Facilities"
-                        onChange={(selectedOption) => {
-                          setValue("facilities", selectedOption ? [selectedOption.value] : null);
-
-
-                          console.log("Selected Option:", selectedOption);
-                        }}
-                      />
-                      {errors.facilities && errors.facilities.type === "required" && (
-                        <span className="errorMsg">Facilities are required</span>
-                      )}
-                    </Grid>
-                  </Grid>
-
-                  <Grid container spacing={2}>
-
-                    <Grid item xs={6}>
-                      <Button variant="contained" type="submit">
-                        Add
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-
-        </div>
-      </Modal> */}
-
-      <Modal open={modalState === "update-modal"} onClose={handleClose} className={styleroom.modal}>
-        <div className={styleroom.paper} style={{
-          width: '40%', // 80% of the modal width
-          height: '80%', // 80% of the modal height
-          overflowY: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-        }}>
-          <Typography variant="h5">Update Room</Typography>
-
+      >
+        <div>
           <form onSubmit={handleSubmit(updateRoom)}>
             <TextField
               {...register("roomNumber", { required: true })}
@@ -650,16 +504,16 @@ const Rooms = () => {
                         ))}
                       </div>
                     )}
-                    // MenuComponent={({ children, ...props }) => (
-                    //   <div {...props}>
-                    //     {children}
-                    //     <Divider />
-                    //     <MenuItem>
-                    //       <Checkbox checked={watch('facilities')?.length === facilitiesList.length} />
-                    //       <ListItemText primary="Select All" />
-                    //     </MenuItem>
-                    //   </div>
-                    // )}
+                  // MenuComponent={({ children, ...props }) => (
+                  //   <div {...props}>
+                  //     {children}
+                  //     <Divider />
+                  //     <MenuItem>
+                  //       <Checkbox checked={watch('facilities')?.length === facilitiesList.length} />
+                  //       <ListItemText primary="Select All" />
+                  //     </MenuItem>
+                  //   </div>
+                  // )}
                   >
                     {facilitiesList.map((facility) => (
                       <MenuItem key={facility._id} value={facility._id}>
@@ -690,37 +544,27 @@ const Rooms = () => {
             </Grid>
           </form>
         </div>
-      </Modal>
 
+      </CustomModal>
       {/* Delete Modal */}
-
-      <Modal
+      <CustomModal
         open={modalState === "delete-modal"}
         onClose={handleClose}
-
-        className={styleroom.modal}
+        title="Delete this Room?"
 
       >
-        <div className={styleroom.paper}
-          style={{
-            width: '40%', // 80% of the modal width
-            height: '80%', // 80% of the modal height
-            overflowY: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-          }}>
-          <Typography variant="h5">Delete this Room?</Typography>
-
-          <div className="text-center">
-            <img src={noData} alt="Delete" />
-
-          </div>
-          <p>Are you sure you want to delete this room ? </p>
-          <div className="text-end">
-            {/* <Button
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+        }}>
+          <img src={noData} alt="Delete" style={{ maxWidth: '100%', maxHeight: '100%', margin: 'auto' }} />
+        </div>
+        <p>Are you sure you want to delete this room ? </p>
+        <div >
+          {/* <Button
               onClick={deleteRoom}
               className={
                 "btn btn-outline-danger my-3" + (isLoading ? " disabled" : "")
@@ -728,16 +572,17 @@ const Rooms = () => {
             >
               {isLoading ? <CircularProgress size={20} /> : "Delete this item"}
             </Button> */}
-            <Grid item xs={6}>
-              <Button variant="contained" type="submit"
-                onClick={deleteRoom}
-                style={{ position: 'absolute', bottom: '30px', right: '20px' }} >
-                Delete
-              </Button>
-            </Grid>
-          </div>
+          <Grid item xs={6}>
+            <Button variant="contained" type="submit"
+              onClick={deleteRoom}
+              style={{ position: 'absolute', bottom: '30px', right: '20px' }} >
+              Delete
+            </Button>
+          </Grid>
         </div>
-      </Modal>
+
+      </CustomModal>
+
     </>
   );
 };
