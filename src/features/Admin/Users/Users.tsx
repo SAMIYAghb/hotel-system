@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import noData from "../../../assets/images/no-data.png";
 import { AuthContext } from "../../../context/AuthContext";
 import { usersUrl } from "../../../services/api.tsx";
@@ -63,15 +63,15 @@ const Users: React.FC = () => {
               <TableBody>
                 {users?.length > 0 ? (
                   users.map(({ _id,userName, role, phoneNumber, email, country}) => (
-                    <Fragment  key={_id}>
-                      <TableRow>
+                   
+                      <TableRow  key={_id}>
                         <TableCell>{userName}</TableCell>
                         <TableCell>{role}</TableCell>
                         <TableCell>{phoneNumber}</TableCell>
                         <TableCell>{email}</TableCell>
                         <TableCell>{country}</TableCell>
                       </TableRow>
-                    </Fragment>
+        
                   ))
                 ) : (
                   <TableRow>
