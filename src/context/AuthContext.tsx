@@ -54,7 +54,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
       setUserRole(decodedToken.role);
     } catch (error) {
       console.error("Error decoding token:", error); // Log the error message
-      console.log("Token content:", encodedToken);
+      // console.log("Token content:", encodedToken);
       // Handle the error appropriately, e.g., show a message to the user or log it
     }
   };
