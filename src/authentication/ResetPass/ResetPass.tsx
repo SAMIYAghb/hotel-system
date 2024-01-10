@@ -195,10 +195,7 @@ const ResetPass: React.FC = () => {
               <TextField
                 {...register("seed", {
                   required: true,
-                  pattern:
-                    /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  // validate: (value) =>
-                  //   getValues("password") === value || "Password don't match",
+                  
                 })}
                 margin="normal"
                 required
@@ -210,11 +207,9 @@ const ResetPass: React.FC = () => {
               // autoComplete="seed"
               />
               {errors.seed && errors.seed.type === "required" && (
-                <span className="errorMsg">Password is required</span>
+                <span className="errorMsg">seed is required</span>
               )}
-              {errors.seed && errors.seed.type === "pattern" && (
-                <span className="errorMsg">password is invalid</span>
-              )}
+
 
 
               <Button

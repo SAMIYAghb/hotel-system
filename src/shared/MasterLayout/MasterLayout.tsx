@@ -3,6 +3,7 @@ import React from 'react'
 import SideBar from './../../features/Admin/SideBar/SideBar';
 import { Outlet } from 'react-router-dom';
 import styles from './MasterLayout.module.scss'
+import AdminNavbar from '../../features/Admin/AdminNavbar/AdminNavbar';
 export default function MasterLayout() {
   return (
     <>
@@ -15,13 +16,16 @@ export default function MasterLayout() {
 
         {/* Outlet (Main Content) */}
         <Grid item md={8} className={styles.body}>
+          <div>
+            <AdminNavbar/>
+          </div>
           <Outlet />
         </Grid>
 
-       
+
       </Grid>
     </Container>
   </>
- 
+
   )
 }

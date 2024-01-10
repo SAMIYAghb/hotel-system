@@ -4,7 +4,7 @@ body,
 .modal-content {
   font-family: "Montserrat", sans-serif;
   margin: 0;
- 
+
 }
 .errorMsg{
 color: rgb(197, 36, 36);
@@ -20,7 +20,7 @@ color: rgb(197, 36, 36);
   position: relative;
   height: 100vh;
 
- 
+
 }
 .sidebar-container .ps-sidebar-container .ps-menu-button:hover {
   background-color: rgba(26, 27, 30, 0.17)
@@ -32,7 +32,7 @@ color: rgb(197, 36, 36);
  .toggle-sidebar-btn {
   position: absolute;
   top: 0;
-  right: 20px; 
+  right: 20px;
   padding: 7px;
   color: rgba(255, 73, 139, 1);
   cursor: pointer;
@@ -44,8 +44,14 @@ color: rgb(197, 36, 36);
 
 .sidebar-container.collapsed .toggle-sidebar-btn svg {
   transform: rotate(180deg);
-} 
+}
 .menu-space{
   margin-top: 3rem;
   margin-left: .3rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
 }

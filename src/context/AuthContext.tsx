@@ -6,12 +6,14 @@ import { AuthContextProviderProps } from "../interface/AuthInterface";
 
 // Create the AuthContext and set the initial value
 export const AuthContext = createContext<IAuth>({
+
   userData: "",
   saveUserData: () => {},
   requestHeaders: "",
   //   baseUrl: '',
   userRole: "",
   updateUserData: () => {},
+
 });
 
 // // Define the props for AuthContextProvider component
@@ -50,6 +52,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
     try {
       const decodedToken = jwtDecode(encodedToken!) as DecodedToken;
 
+
       setUserData(decodedToken);
       setUserRole(decodedToken.role);
     } catch (error) {
@@ -80,9 +83,11 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
     updateUserData,
   };
 
+
   return (
     <AuthContext.Provider value={contextValue}>
       {props.children}
     </AuthContext.Provider>
   );
 };
+
