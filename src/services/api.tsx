@@ -7,11 +7,13 @@ export const loginUrl = `${baseUrl}/admin/users/login`;
 export const regisrterUrl = `${baseUrl}/admin/users`;
 // ******** Reset-Password ********
 export const resetPassUrl = `${baseUrl}/admin/users/reset-password`;
-// ******** Reset-Password ********
+// ******** forget-Password ********
 export const forgetPassUrl = `${baseUrl}/admin/users/forgot-password`;
 // ******** Change-Password ********
 export const changePassUrl = `${baseUrl}/admin/users/change-password`;
 // export const forgetPassUrl = `${baseUrl}/admin/users/forgot-password`;
+// ******** users-url ********
+export const usersUrl = `${baseUrl}/admin/users`;
 // ******* Get All Rooms *********
 export const roomsUrl = `${baseUrl}/admin/rooms`
 // ******* Create Rooms *********
@@ -24,3 +26,4 @@ export const updateRoomsUrl = `${baseUrl}/admin/rooms/` //with id
 export const deleteRoomsUrl = `${baseUrl}/admin/rooms/` //with id
 // ******* Get All Rooms Facility*********
 export const facilitiesRoomsUrl = `${baseUrl}/admin/room-facilities`;
+
