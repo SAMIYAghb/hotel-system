@@ -18,7 +18,7 @@ import { AuthContext } from "./../../context/AuthContext.tsx";
 import { loginUrl } from "../../services/api.tsx";
 
 const Login: React.FC = () => {
-  let { saveUserData } = useContext(AuthContext);
+  const { saveUserData } = useContext(AuthContext);
   // let {getToastValue} = useContext(ToastContext);
   const navigate = useNavigate();
   type FormValues = {
@@ -39,11 +39,13 @@ const Login: React.FC = () => {
       .post(`${loginUrl}`, data)
       .then((response) => {
         console.log("succ response", response);
-        localStorage.setItem("userToken", response.data.data.token);
-        console.log(response.data.data.token);
+        localStorage.setItem('userToken', response.data.data.token )
+
+        console.log(response.data.token);
+
         saveUserData();
         navigate('/home');
-     
+
 
         // getToastValue("success", "Login successfully!")
       })
@@ -145,7 +147,7 @@ const Login: React.FC = () => {
                   </Link>
                 </Grid>
               </Grid>
-           
+
               <Button
                 className={`${Styles.loginBtn}`}
                 type="submit"
