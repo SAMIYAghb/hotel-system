@@ -9,6 +9,8 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import ApiIcon from '@mui/icons-material/Api';
+import KeyIcon from '@mui/icons-material/Key';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 const SideBar: React.FC = () => {
@@ -63,13 +65,13 @@ const SideBar: React.FC = () => {
             Ads
           </MenuItem>
           <MenuItem
-            icon={<CalendarMonthIcon />}
+            icon={<ApiIcon />}
             component={<Link to="/home/bookings" />}
           >
             Bookings
           </MenuItem>
           <MenuItem
-            icon={<CalendarMonthIcon />}
+            icon={<KeyIcon />}
             component={<Link to="/change-password" />}
           >
             Change Password

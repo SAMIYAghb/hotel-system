@@ -1,27 +1,26 @@
-import { useContext } from 'react';
-import './App.css'
-import Login from './authentication/Login/Login'
-import { AuthContext } from './context/AuthContext';
-import NotFound from './shared/NotFound/NotFound';
-import Register from './authentication/Register/Register';
-import ResetPass from './authentication/ResetPass/ResetPass';
-import ChangePass from './authentication/ChangePass/ChangePass';
-import { RouterProvider, createBrowserRouter} from 'react-router-dom';
-import AuthLayout from './shared/AuthLayout/AuthLayout';
-import MasterLayout from './shared/MasterLayout/MasterLayout';
-import ProtectedRoute from './shared/ProtectedRoute/ProtectedRoute';
-import Rooms from './features/Admin/Rooms/Rooms';
-import Home from './features/Admin/Home/Home';
-import Users from './features/Admin/Users/Users';
-import Ads from './features/Admin/Ads/Ads';
-import Bookings from './features/Admin/Bookings/Bookings';
-import ForgetPass from './authentication/ForgetPass/ForgetPass';
-import { IAuth } from './interface/AuthInterface';
-import AddNewRoom from './features/Admin/Rooms/AddNewRoom/AddNewRoom';
-
+import { useContext } from "react";
+import "./App.css";
+import Login from "./authentication/Login/Login";
+import { AuthContext } from "./context/AuthContext";
+import NotFound from "./shared/NotFound/NotFound";
+import Register from "./authentication/Register/Register";
+import ResetPass from "./authentication/ResetPass/ResetPass";
+import ChangePass from "./authentication/ChangePass/ChangePass";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import AuthLayout from "./shared/AuthLayout/AuthLayout";
+import MasterLayout from "./shared/MasterLayout/MasterLayout";
+import ProtectedRoute from "./shared/ProtectedRoute/ProtectedRoute";
+import Rooms from "./features/Admin/Rooms/Rooms";
+import Home from "./features/Admin/Home/Home";
+import Users from "./features/Admin/Users/Users";
+import Ads from "./features/Admin/Ads/Ads";
+import Bookings from "./features/Admin/Bookings/Bookings";
+import ForgetPass from "./authentication/ForgetPass/ForgetPass";
+import { IAuth } from "./interface/AuthInterface";
+import AddNewRoom from "./features/Admin/Rooms/AddNewRoom/AddNewRoom";
 
 function App() {
-  const{ userData, saveUserData } :IAuth= useContext(AuthContext);
+  const { userData, saveUserData }: IAuth = useContext(AuthContext);
 
   const routes = createBrowserRouter([
     {
@@ -29,12 +28,8 @@ function App() {
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Login
-           saveUserData={saveUserData}
-           /> },
-        { path: "login", element: <Login
-        saveUserData={saveUserData}
-        /> },
+        { index: true, element: <Login saveUserData={saveUserData} /> },
+        { path: "login", element: <Login saveUserData={saveUserData} /> },
         { path: "register", element: <Register /> },
         { path: "forget-password", element: <ForgetPass /> },
         { path: "reset-password", element: <ResetPass /> },
@@ -65,9 +60,8 @@ function App() {
 
   return (
     <>
-
-        <RouterProvider router={routes} />
-
+      
+      <RouterProvider router={routes} />
     </>
   );
 }

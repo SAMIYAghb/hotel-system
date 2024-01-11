@@ -26,4 +26,9 @@ export const updateRoomsUrl = `${baseUrl}/admin/rooms/` //with id
 export const deleteRoomsUrl = `${baseUrl}/admin/rooms/` //with id
 // ******* Get All Rooms Facility*********
 export const facilitiesRoomsUrl = `${baseUrl}/admin/room-facilities`;
-
+// ******** all bookings ********
+export const bookingUrl = `${baseUrl}/admin/booking`;
+// ******** booking details********
+export const bookingDetailsUrl = `${baseUrl}/admin/booking`;
+// ******** delete booking ********
+export const deleteBookingUrl = `${baseUrl}/admin/booking`;
