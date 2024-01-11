@@ -97,13 +97,13 @@ const CustomTable: React.FC<CustomTableProps<DataType>> = ({
                   <Button
                     variant="outlined"
                     color="warning"
-                    onClick={() => onUpdate(item)}
+                    // onClick={() => onUpdate(item)}
                   >
                     <EditIcon />
                   </Button>
                   <Button
                     variant="outlined"
-                    onClick={() => onDelete(item?._id)}
+                    // onClick={() => onDelete(item?._id)}
                   >
                     <DeleteIcon sx={{ color: red[500] }} />
                   </Button>
