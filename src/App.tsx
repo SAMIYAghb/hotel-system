@@ -1,23 +1,25 @@
-import { useContext } from "react";
-import "./App.css";
-import Login from "./authentication/Login/Login";
-import { AuthContext } from "./context/AuthContext";
-import NotFound from "./shared/NotFound/NotFound";
-import Register from "./authentication/Register/Register";
-import ResetPass from "./authentication/ResetPass/ResetPass";
-import ChangePass from "./authentication/ChangePass/ChangePass";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import AuthLayout from "./shared/AuthLayout/AuthLayout";
-import MasterLayout from "./shared/MasterLayout/MasterLayout";
-import ProtectedRoute from "./shared/ProtectedRoute/ProtectedRoute";
-import Rooms from "./features/Admin/Rooms/Rooms";
-import Home from "./features/Admin/Home/Home";
-import Users from "./features/Admin/Users/Users";
-import Ads from "./features/Admin/Ads/Ads";
-import Bookings from "./features/Admin/Bookings/Bookings";
-import ForgetPass from "./authentication/ForgetPass/ForgetPass";
-import { IAuth } from "./interface/AuthInterface";
+import { useContext } from 'react';
+import './App.css'
+import Login from './authentication/Login/Login'
+import { AuthContext } from './context/AuthContext';
+import NotFound from './shared/NotFound/NotFound';
+import Register from './authentication/Register/Register';
+import ResetPass from './authentication/ResetPass/ResetPass';
+import ChangePass from './authentication/ChangePass/ChangePass';
+import { RouterProvider, createBrowserRouter} from 'react-router-dom';
+import AuthLayout from './shared/AuthLayout/AuthLayout';
+import MasterLayout from './shared/MasterLayout/MasterLayout';
+import ProtectedRoute from './shared/ProtectedRoute/ProtectedRoute';
+import Rooms from './features/Admin/Rooms/Rooms';
+import Home from './features/Admin/Home/Home';
+import Users from './features/Admin/Users/Users';
+import Ads from './features/Admin/Ads/Ads';
+import Bookings from './features/Admin/Bookings/Bookings';
+import ForgetPass from './authentication/ForgetPass/ForgetPass';
+import { IAuth } from './interface/AuthInterface';
+import Facilities from './features/Admin/Facilities/Facilities';
 import AddNewRoom from "./features/Admin/Rooms/AddNewRoom/AddNewRoom";
+
 
 function App() {
   const { userData, saveUserData }: IAuth = useContext(AuthContext);
@@ -53,6 +55,7 @@ function App() {
         { path: "rooms", element: <Rooms /> },
         { path: "rooms/add-room", element: <AddNewRoom /> },
         { path: "ads", element: <Ads /> },
+        { path: "facilities", element: <Facilities /> },
         { path: "bookings", element: <Bookings /> },
       ],
     },
