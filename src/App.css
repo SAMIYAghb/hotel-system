@@ -19,8 +19,6 @@ color: rgb(197, 36, 36);
   color: #fff;
   position: relative;
   height: 100vh;
-
-
 }
 .sidebar-container .ps-sidebar-container .ps-menu-button:hover {
   background-color: rgba(26, 27, 30, 0.17)
@@ -54,4 +52,25 @@ color: rgb(197, 36, 36);
   display: flex;
   justify-content: space-between;
   padding: 16px;
+}
+
+
+.master-layout{
+  display: flex;
+  
+}
+.sidbar{
+
+}
+.AdminNavbar {
+  margin-left: 250px;
+width: calc(100%-250px);
+
+}
+/* .css-1wvake5  */
+/* .css-hip9hq-MuiPaper-root-MuiAppBar-root{
+ background: #fff;
+} */
+.nav-bg{
+  background: #fff !important;
 }

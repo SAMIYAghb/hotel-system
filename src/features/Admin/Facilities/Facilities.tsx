@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { facilitiesRoomsUrl } from "../../../services/api";
 import CustomTable from "../../UI/CustomTable/CustomTable";
+import styleFacilities from "./Facilities.module.scss";
 
 import {
   AppBar,
@@ -168,15 +169,15 @@ const Facilities = () => {
       <div>
         {/* Add new facility */}
         <AppBar position="static">
-          <div>
+          <div className={styleFacilities.header}>
             <Typography variant="h6">
               facility Table Details
-              <p>You can check all details</p>
+              <p variant="h6">You can check all details</p>
             </Typography>
               <CustomButton
                 className="your-custom-class"
                 type="submit"
-                fullWidth
+                style={{ width: '200px' }}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 onClick={showAddModal}
