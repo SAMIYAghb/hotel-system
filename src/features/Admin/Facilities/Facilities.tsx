@@ -188,23 +188,7 @@ const Facilities = () => {
           </div>
         </AppBar>
         <div style={{ marginTop: "40px" }}></div>
-        {/* search */}
-        <div style={{ marginBottom: "10px", width: "50%" }}>
-          <TextField
-            fullWidth
-            placeholder="Search by Room Number...."
-            // onChange={getRoomNumberValue}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon color="success" />
-                </InputAdornment>
-              ),
-              style: { paddingLeft: "2rem" },
-            }}
-            className="my-2"
-          />
-        </div>
+        
         {/* Add Modal */}
         <CustomModal
           open={modalState === "add-modal"}
@@ -364,40 +348,6 @@ const Facilities = () => {
         {/*end delete Modal */}
 
 
-        {/* <div>
-          <Button variant="contained" onClick={() =>handleOpenDialog("add")}>
-            Add new facility
-          </Button>
-          <CustomDialog
-            open={dialogOpen}
-            handleClose={handleCloseDialog}
-            title={"Add Facility"}
-            buttonText={"Save"}
-            onSubmit={handleSubmit(onSubmit)}
-            content={
-              <>
-                <TextField
-                  {...register("name", {
-                    required: true,
-                  })}
-                  margin="normal"
-                  fullWidth
-                  id="name"
-                  label="name"
-                  name="name"
-                  autoComplete="name"
-                  autoFocus
-                />
-                {errors.name && errors.name.type === "required" && (
-                  <span className="errorMsg">Name is required</span>
-                )}
-              </>
-            }
-          />
-        </div> */}
-        {/* Add new facility */}
-
-        
         {/* CustomTable */}
         <CustomTable
           data={facilitiesList}
