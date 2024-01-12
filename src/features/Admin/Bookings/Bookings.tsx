@@ -9,13 +9,15 @@ import {
   bookingUrl,
   deleteBookingUrl,
 } from "../../../services/api.tsx";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Box,
   Button,
   Container,
   Grid,
+  IconButton,
+  Menu,
+  MenuItem,
   Paper,
   Table,
   TableBody,
@@ -23,9 +25,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import CustomModal from "../../UI/CustomModal/CustomModal.tsx";
+import MoreVertIcon  from '@mui/icons-material/MoreVert';
+import  VisibilityIcon  from '@mui/icons-material/Visibility';
 
 const Bookings: React.FC = () => {
   const { requestHeaders }: any = useContext(AuthContext);
@@ -35,8 +40,10 @@ const Bookings: React.FC = () => {
   const [bookingDetails, setBookingDetails] = useState({});
   // **********modal*************
   const [modalState, setModalState] = React.useState("close");
-  const handleClose = () => setModalState("close");
-
+  // const handleClose = () => setModalState("close");
+  // *********actions icon  menu********
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedBooking, setSelectedBooking] = useState(null);
   // **********get all bookingss*****************
   const getBookingsList = () => {
     axios
@@ -92,6 +99,17 @@ const Bookings: React.FC = () => {
     setBookingId(bookingId);
     setModalState("delete-modal");
   };
+// **********action icons menu*****************
+const handleMenuClick = (event, booking) => {
+  setAnchorEl(event.currentTarget);
+  setSelectedBooking(booking);
+};
+
+const handleClose = () => {
+  setAnchorEl(null);
+  setSelectedBooking(null);
+  setModalState("close")
+};
 
   useEffect(() => {
     getBookingsList();
@@ -121,30 +139,48 @@ const Bookings: React.FC = () => {
               <TableBody>
                 {bookings?.length > 0 ? (
                   bookings.map(
-                    ({ _id, status, totalPrice, startDate, endDate }) => (
-                      <TableRow key={_id}>
-                        <TableCell>{status}</TableCell>
-                        <TableCell>{totalPrice}</TableCell>
+                    (booking) => (
+                      <TableRow key={booking?._id}>
+                        <TableCell>{booking?.status}</TableCell>
+                        <TableCell>{booking?.totalPrice}</TableCell>
                         <TableCell>
-                          {new Date(startDate).toLocaleDateString()}
+                          {new Date(booking?.startDate).toLocaleDateString()}
                         </TableCell>
                         <TableCell>
-                          {new Date(endDate).toLocaleDateString()}
+                          {new Date(booking?.endDate).toLocaleDateString()}
                         </TableCell>
                         <TableCell>
-                          <Button
-                            color="primary"
-                            onClick={() => showViewModal(_id)}
-                          >
-                            <RemoveRedEyeIcon />
-                          </Button>
-                          <Button
-                            color="error"
-                            onClick={() => showDeleteModal(_id)}
-                          >
-                            <DeleteIcon />
-                          </Button>
-                        </TableCell>
+                      <IconButton onClick={(e) => handleMenuClick(e, booking)}>
+                        <MoreVertIcon />
+                      </IconButton>
+                      <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl && selectedBooking?._id === booking?._id)}
+                        onClose={handleClose}
+                      >
+                        <MenuItem
+                          onClick={() => showViewModal(booking?._id)}
+                        >
+                          <Tooltip title="View" arrow>
+                            <IconButton color="primary" >
+                              <VisibilityIcon  fontSize='small'/>
+                              <p style={{ fontSize: '14px' }}>View</p> 
+                              
+                            </IconButton>
+                          </Tooltip>
+                        </MenuItem>
+                     
+                        <MenuItem onClick={() => showDeleteModal(booking?._id)}>
+                          <Tooltip title="Delete" arrow>
+                            <IconButton color="error" >
+                              <DeleteIcon fontSize='small'/>
+                              <p style={{ fontSize: '14px' }}>Delete</p>
+                            </IconButton>
+                          </Tooltip>
+                        </MenuItem>
+                      </Menu>
+                    </TableCell>
+                     
                       </TableRow>
                     )
                   )
