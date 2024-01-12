@@ -18,6 +18,7 @@ import Bookings from './features/Admin/Bookings/Bookings';
 import ForgetPass from './authentication/ForgetPass/ForgetPass';
 import { IAuth } from './interface/AuthInterface';
 import AddNewRoom from './features/Admin/Rooms/AddNewRoom/AddNewRoom';
+import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
         { path: "rooms", element: <Rooms /> },
         { path: "rooms/add-room", element: <AddNewRoom /> },
         { path: "ads", element: <Ads /> },
+        { path: "ads/add-ad", element: <AddNewAd /> },
         { path: "bookings", element: <Bookings /> },
       ],
     },
