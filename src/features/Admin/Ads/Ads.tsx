@@ -80,12 +80,12 @@ const Ads: React.FC = () => {
   };
 
 
-// view-Modal
-const showViewModal = (id) => {
-  setAdId(id); // Set adId in state
-  setModalState("view-modal");
-  getAdsDetails(id); // Pass id directly to getAdsDetails
-};
+  // view-Modal
+  const showViewModal = (id) => {
+    setAdId(id); 
+    setModalState("view-modal");
+    getAdsDetails(id);
+  };
 
   // Delete_Modal
   const showDeleteModal = (adId) => {
@@ -251,7 +251,8 @@ const showViewModal = (id) => {
                       </IconButton>
                       <Menu
                         anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
+                        // open={Boolean(anchorEl)}
+                        open={Boolean(anchorEl && selectedAd?._id === ad?._id)}
                         onClose={handleClose}
                       >
                         <MenuItem
@@ -259,8 +260,8 @@ const showViewModal = (id) => {
                         >
                           <Tooltip title="View" arrow>
                             <IconButton color="primary" >
-                              <VisibilityIcon />
-                              View
+                              <VisibilityIcon fontSize='small' />
+                              <p style={{ fontSize: '20px' }}>View</p>
                             </IconButton>
                           </Tooltip>
                         </MenuItem>
@@ -268,16 +269,19 @@ const showViewModal = (id) => {
                           onClick={() => showUpdateModal(ad)}>
                           <Tooltip title="Update" arrow>
                             <IconButton color="warning">
-                              <EditIcon />
-                              Edit
+                              <EditIcon fontSize='small' />
+                              <p style={{ fontSize: '20px' }}>Edit</p>
                             </IconButton>
                           </Tooltip>
                         </MenuItem>
                         <MenuItem onClick={() => showDeleteModal(ad._id)}>
                           <Tooltip title="Delete" arrow>
-                            <IconButton sx={{ color: red[500] }} >
-                              <DeleteIcon />
-                              Delete
+                            <IconButton
+                              // sx={{ color: red[500] }}
+                              color="error"
+                            >
+                              <DeleteIcon fontSize='small' />
+                              <p style={{ fontSize: '20px' }}>Delete</p>
                             </IconButton>
                           </Tooltip>
                         </MenuItem>
@@ -311,10 +315,10 @@ const showViewModal = (id) => {
         open={modalState === "view-modal"}
         onClose={handleClose}
         title="Ads Details"
-
+        identifier="view-modal"
       >
         <div >
-        {console.log('adDetails:', adDetails)}
+          {console.log('adDetails:', adDetails)}
           <div style={{ textAlign: 'center' }}>
             <p>
               <span className="text-warning">Room Number :&nbsp;</span>
@@ -347,6 +351,7 @@ const showViewModal = (id) => {
         open={modalState === "update-modal"}
         onClose={handleClose}
         title="Update Room"
+        identifier="update-modal"
 
       >
         <div>
@@ -408,6 +413,7 @@ const showViewModal = (id) => {
         open={modalState === "delete-modal"}
         onClose={handleClose}
         title="Delete this Ad?"
+        identifier="delete-modal"
 
       >
         <div style={{
