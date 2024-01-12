@@ -4,12 +4,10 @@ import { AuthContext } from "../../../context/AuthContext";
 import { facilitiesRoomsUrl } from "../../../services/api";
 import CustomTable from "../../UI/CustomTable/CustomTable";
 
-import SearchIcon from "@mui/icons-material/Search";
 import {
   AppBar,
   Button,
   Grid,
-  InputAdornment,
   TextField,
   Typography
 } from "@mui/material";
