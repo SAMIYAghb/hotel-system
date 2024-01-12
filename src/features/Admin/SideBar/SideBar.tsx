@@ -71,7 +71,15 @@ const SideBar: React.FC = () => {
             Bookings
           </MenuItem>
           <MenuItem
+
+            icon={<CalendarMonthIcon />}
+            component={<Link to="/home/facilities" />}
+          >
+            Facilities
+          </MenuItem>
+          <MenuItem
             icon={<KeyIcon />}
+
             component={<Link to="/change-password" />}
           >
             Change Password
