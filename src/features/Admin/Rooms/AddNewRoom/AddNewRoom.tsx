@@ -11,6 +11,7 @@ import { addroomsUrl } from "../../../../services/api";
 import { IAddRoom } from "../../../../interface/RoomInterface";
 import DragDropFileUpload from "../../../../shared/DragDropFileUpload/DragDropFileUpload";
 import useFacilities from "../../../Hook/useFacilities";
+import { toast } from 'react-toastify';
 const AddNewRoom: React.FC = () => {
   const { requestHeaders } = useContext(AuthContext);
 
@@ -63,9 +64,11 @@ const AddNewRoom: React.FC = () => {
         // setIsLoading(false)
 
         navigate("/home/rooms");
+        toast.success("Room Add Successfully");
       })
       .catch((error) => {
         // setIsLoading(false)
+        toast.error("Error Occurred")
 
       })
       .finally(() => setIsLoading(false));

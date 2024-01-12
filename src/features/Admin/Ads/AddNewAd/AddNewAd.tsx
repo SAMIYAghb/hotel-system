@@ -3,13 +3,13 @@ import { AuthContext } from '../../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { IAds } from '../../../../interface/AdsInterface';
 import axios from 'axios';
-import { addAdsUrl, roomsUrl } from '../../../../services/api';
+import { addAdsUrl, adsUrl, roomsUrl } from '../../../../services/api';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, FormControl, Grid, InputLabel, MenuItem, Paper, TextField } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import style from './AddNewAd.module.scss';
 import { Select } from '@mui/material';
-
+import { toast } from 'react-toastify';
 const AddNewAd: React.FC = () => {
     const { requestHeaders } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -67,11 +67,13 @@ const AddNewAd: React.FC = () => {
         axios
             .post(`${addAdsUrl}`, data, { headers: requestHeaders })
             .then((response) => {
-                navigate('/home/ads');
                 getAllAds();
-
+                navigate('/home/ads');
+                toast.success("Ads Add Successfully");
             })
-            .catch((error) => { })
+            .catch((error) => {
+                toast.error("Error Occurred")
+            })
             .finally(() => setIsLoading(false));
     };
 
@@ -107,7 +109,7 @@ const AddNewAd: React.FC = () => {
                             }}
                         >
                             <form noValidate onSubmit={handleSubmit(onSubmit)}>
-                                <FormControl fullWidth>
+                                <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
                                     <InputLabel id="demo-simple-select-label">Room Number</InputLabel>
                                     <Select
                                         {...register('room', { required: true })}
@@ -126,7 +128,7 @@ const AddNewAd: React.FC = () => {
                                 </FormControl>
                                 {errors.room && <span className="errorMsg">Room is required</span>}
 
-                                <FormControl fullWidth>
+                                <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
                                     <InputLabel id="demo-simple-select-label">Active</InputLabel>
                                     <Select
                                         {...register('isActive', { required: true })}
@@ -151,6 +153,7 @@ const AddNewAd: React.FC = () => {
                                     sx={{
                                         width: '100%',
                                         marginBottom: '1rem',
+
                                         display: 'flex',
                                         flexDirection: 'column',
                                         height: '100%',

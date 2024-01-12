@@ -14,9 +14,11 @@ import {
   Checkbox,
   FormControl,
   Grid,
+  IconButton,
   InputAdornment,
   InputLabel,
   ListItemText,
+  Menu,
   Paper,
   Select,
   Table,
@@ -28,12 +30,11 @@ import {
   TablePagination,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import styleroom from "./Rooms.module.scss";
 import { IAddRoom } from "../../../interface/RoomInterface";
@@ -44,7 +45,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import noImage from '../../../assets/images/noImage.jpg'
 import useFacilities from "../../Hook/useFacilities";
 import CustomModal from "../../UI/CustomModal/CustomModal";
-
+import { toast } from 'react-toastify';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 const Rooms = () => {
   const { requestHeaders } = useContext(AuthContext);
   const [roomsList, setRoomsList] = useState([]);
@@ -54,8 +57,10 @@ const Rooms = () => {
   const [modalState, setModalState] = React.useState("close");
   const [currentPage, setCurrentPage] = useState(1);
   const [pagesArray, setPagesArray] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const handleClose = () => setModalState("close");
+  // const handleClose = () => setModalState("close");
   // const [searchRoom, setSearchRoom] = useState('');
   // const [timerId, setTimerId] = useState(null);
   const { facilitiesList } = useFacilities();
@@ -67,6 +72,16 @@ const Rooms = () => {
     setValue
   } = useForm<IAddRoom>();
 
+  const handleMenuClick = (event, room) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedRoom(room);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setSelectedRoom(null);
+    setModalState("close")
+  };
 
   // view-Modal
   const showViewModal = (id) => {
@@ -150,12 +165,12 @@ const Rooms = () => {
       .then((response) => {
 
         handleClose();
-
         // Fetch updated data after the update
         getAllRooms(currentPage);
+        toast.success("Room Update Successfully")
       })
       .catch((error) => {
-
+        toast.error("Error Occurred")
       });
   };
   //********** Deleted Rooms****************
@@ -165,13 +180,15 @@ const Rooms = () => {
         headers: requestHeaders,
       })
       .then((response) => {
+        toast.success("Room Delete Successfully")
         setRoomsList(response.data.data.totalCount);
         setRoomId(roomId);
         handleClose();
         getAllRooms(currentPage);
+
       })
       .catch((error) => {
-
+        toast.error("Error Occurred")
       });
   };
   // ************Room Details****************
@@ -308,7 +325,7 @@ const Rooms = () => {
                     <TableCell align="center" valign="middle">{room?.discount}</TableCell>
                     <TableCell align="center" valign="middle">{room?.capacity}</TableCell>
 
-                    <TableCell>
+                    {/* <TableCell>
                       <Button
                         color="primary"
                         className={`${styleroom.customBtn}`}
@@ -328,14 +345,59 @@ const Rooms = () => {
                         <EditIcon style={{ border: 'none' }} />
                       </Button>
                       <Button
-                        // color="danger"
+
                         onClick={() => showDeleteModal(room._id)}
                         className={`${styleroom.customBtn}`}
                         style={{ marginRight: '2px !important' }}
-                      >
+                      >import { MoreVertIcon } from '@mui/icons-material/MoreVert';
+import { VisibilityIcon } from '@mui/icons-material/Visibility';
+
 
                         <DeleteIcon style={{ border: 'none' }} sx={{ color: red[500] }} />
                       </Button>
+                    </TableCell> */}
+
+                    <TableCell>
+                      <IconButton onClick={(e) => handleMenuClick(e, room)}>
+                        <MoreVertIcon />
+                      </IconButton>
+                      <Menu
+                        anchorEl={anchorEl}
+                        // open={Boolean(anchorEl)}
+                        open={Boolean(anchorEl && selectedRoom?._id === room?._id)}
+                        onClose={handleClose}
+                      >
+                        <MenuItem
+                          onClick={() => showViewModal(room?._id)}
+                        >
+                          <Tooltip title="View" arrow>
+                            <IconButton color="primary" >
+                              <VisibilityIcon fontSize='small' />
+                              <p style={{ fontSize: '14px' }}>View</p>
+                            </IconButton>
+                          </Tooltip>
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => showUpdateModal(room)}>
+                          <Tooltip title="Update" arrow>
+                            <IconButton color="warning">
+                              <EditIcon fontSize='small' />
+                              <p style={{ fontSize: '14px' }}>Edit</p>
+                            </IconButton>
+                          </Tooltip>
+                        </MenuItem>
+                        <MenuItem onClick={() => showDeleteModal(room._id)}>
+                          <Tooltip title="Delete" arrow>
+                            <IconButton
+                              // sx={{ color: red[500] }}
+                              color="error"
+                            >
+                              <DeleteIcon fontSize='small' />
+                              <p style={{ fontSize: '14px' }}>Delete</p>
+                            </IconButton>
+                          </Tooltip>
+                        </MenuItem>
+                      </Menu>
                     </TableCell>
                   </TableRow>
                 ))}

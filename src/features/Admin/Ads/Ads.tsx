@@ -12,9 +12,10 @@ import CustomButton from '../../UI/CustomButton/CustomButton';
 import noData from '../../../assets/images/noData.png'
 import style from './Ads.module.scss'
 import CustomModal from '../../UI/CustomModal/CustomModal';
-import { red } from "@mui/material/colors";
 import { useForm } from 'react-hook-form';
 import { IAds } from '../../../interface/AdsInterface';
+import { toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 
 const Ads: React.FC = () => {
@@ -23,12 +24,13 @@ const Ads: React.FC = () => {
   const [adsList, setAdsList] = useState([] ?? []);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedAd, setSelectedAd] = useState(null);
-  const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [adId, setAdId] = useState(0);
   const [adDetails, setAdDetails] = useState([]);
   const [modalState, setModalState] = React.useState("close");
   const [active, setActive] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagesArray, setPagesArray] = useState([]);
 
   // const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
 
@@ -45,15 +47,15 @@ const Ads: React.FC = () => {
     watch,
   } = useForm<IAds>();
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-    getAllAds(newPage);
-  };
+  // const handleChangePage = (event, newPage) => {
+  //   setPage(newPage);
+  //   getAllAds(newPage);
+  // };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
 
 
   const handleMenuClick = (event, ad) => {
@@ -94,11 +96,19 @@ const Ads: React.FC = () => {
   };
 
   // ******** Get All Ads ********
-  const getAllAds = () => {
+  const getAllAds = (page: number) => {
     axios.get(`${adsUrl}`, {
-      headers: requestHeaders
+      headers: requestHeaders,
+      params: {
+        size: rowsPerPage,
+        page: page,
+
+      }
     })
       .then((response) => {
+        setPagesArray(Array.from(
+          { length: response?.data?.data?.totalCount },
+          (_, i) => i + 1));
         setAdsList(response.data.data.ads)
         console.log(response.data.data.ads);
 
@@ -136,14 +146,18 @@ const Ads: React.FC = () => {
         headers: requestHeaders,
       })
       .then((response) => {
+        toast.success("Ad Update Successfully")
         handleClose();
 
         // Fetch updated data after the update
-        getAllAds(page);
+        getAllAds(currentPage);
       })
       .catch((error) => {
-        // Handle error
+        toast.error("Error Occurred")
+
+
       });
+
   };
 
   //********** Deleted Ads ****************
@@ -153,12 +167,13 @@ const Ads: React.FC = () => {
         headers: requestHeaders,
       })
       .then((response) => {
+        toast.success("Ad Delete Successfully")
         setAdsList(response.data.data.ads);
         handleClose();
-        getAllAds(page);
+        getAllAds(currentPage);
       })
       .catch((error) => {
-        // Handle error
+        toast.error("Error Occurred")
       });
   };
   // const deleteAds = () => {
@@ -193,10 +208,20 @@ const Ads: React.FC = () => {
         // Handle error
       });
   };
+  //******** pagination*************
+  const handleChangePage = (event, newPage) => {
+    setCurrentPage(newPage + 1); // Update currentPage
+    getAllAds(newPage + 1); // Pass the newPage to getAllRooms
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setCurrentPage(1); // Set currentPage to 1 when rowsPerPage changes
+    getAllAds(1); // Pass 1 as the initial page when rowsPerPage changes
+  };
 
   useEffect(() => {
-    getAllAds()
-  }, [])
+    getAllAds(currentPage)
+  }, [currentPage])
   return (
     <>
       <AppBar position="static">
@@ -261,7 +286,7 @@ const Ads: React.FC = () => {
                           <Tooltip title="View" arrow>
                             <IconButton color="primary" >
                               <VisibilityIcon fontSize='small' />
-                              <p style={{ fontSize: '20px' }}>View</p>
+                              <p style={{ fontSize: '14px' }}>View</p>
                             </IconButton>
                           </Tooltip>
                         </MenuItem>
@@ -270,7 +295,7 @@ const Ads: React.FC = () => {
                           <Tooltip title="Update" arrow>
                             <IconButton color="warning">
                               <EditIcon fontSize='small' />
-                              <p style={{ fontSize: '20px' }}>Edit</p>
+                              <p style={{ fontSize: '14px' }}>Edit</p>
                             </IconButton>
                           </Tooltip>
                         </MenuItem>
@@ -281,7 +306,7 @@ const Ads: React.FC = () => {
                               color="error"
                             >
                               <DeleteIcon fontSize='small' />
-                              <p style={{ fontSize: '20px' }}>Delete</p>
+                              <p style={{ fontSize: '14px' }}>Delete</p>
                             </IconButton>
                           </Tooltip>
                         </MenuItem>
@@ -292,17 +317,15 @@ const Ads: React.FC = () => {
             </TableBody>
             <TableFooter>
               <TableRow>
-                {adsList?.length > 0 && (
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                    colSpan={3}
-                    count={adsList.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                )}
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                  colSpan={6}
+                  count={pagesArray.length}  // Update this line
+                  rowsPerPage={rowsPerPage}
+                  page={currentPage - 1}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
 
               </TableRow>
             </TableFooter>
@@ -315,7 +338,7 @@ const Ads: React.FC = () => {
         open={modalState === "view-modal"}
         onClose={handleClose}
         title="Ads Details"
-        // identifier="view-modal"
+      // identifier="view-modal"
       >
         <div >
           {console.log('adDetails:', adDetails)}
@@ -351,7 +374,7 @@ const Ads: React.FC = () => {
         open={modalState === "update-modal"}
         onClose={handleClose}
         title="Update Room"
-        // identifier="update-modal"
+      // identifier="update-modal"
 
       >
         <div>
@@ -413,7 +436,7 @@ const Ads: React.FC = () => {
         open={modalState === "delete-modal"}
         onClose={handleClose}
         title="Delete this Ad?"
-        // identifier="delete-modal"
+      // identifier="delete-modal"
 
       >
         <div style={{
