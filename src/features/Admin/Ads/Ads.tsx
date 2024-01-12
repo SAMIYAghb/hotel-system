@@ -82,7 +82,7 @@ const Ads: React.FC = () => {
 
   // view-Modal
   const showViewModal = (id) => {
-    setAdId(id); 
+    setAdId(id);
     setModalState("view-modal");
     getAdsDetails(id);
   };
@@ -315,7 +315,7 @@ const Ads: React.FC = () => {
         open={modalState === "view-modal"}
         onClose={handleClose}
         title="Ads Details"
-        identifier="view-modal"
+        // identifier="view-modal"
       >
         <div >
           {console.log('adDetails:', adDetails)}
@@ -351,7 +351,7 @@ const Ads: React.FC = () => {
         open={modalState === "update-modal"}
         onClose={handleClose}
         title="Update Room"
-        identifier="update-modal"
+        // identifier="update-modal"
 
       >
         <div>
@@ -413,7 +413,7 @@ const Ads: React.FC = () => {
         open={modalState === "delete-modal"}
         onClose={handleClose}
         title="Delete this Ad?"
-        identifier="delete-modal"
+        // identifier="delete-modal"
 
       >
         <div style={{
