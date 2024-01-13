@@ -43,18 +43,6 @@ const AddNewAd: React.FC = () => {
     const goBack = () => {
         navigate(-1);
     };
-    const getAllAds = () => {
-        axios.get(`${adsUrl}`, {
-            headers: requestHeaders
-        })
-            .then((response) => {
-                // setAdsList(response.data.data.ads)
-            })
-            .catch((error) => {
-              
-            })
-    }
-
 
     // Create New Room
     const onSubmit: SubmitHandler<IAds> = async (data: IAds) => {
@@ -64,12 +52,11 @@ const AddNewAd: React.FC = () => {
         axios
             .post(`${addAdsUrl}`, data, { headers: requestHeaders })
             .then((response) => {
-                getAllAds();
                 navigate('/home/ads');
                 toast.success("Ads Add Successfully");
             })
             .catch((error) => {
-                toast.error("Error Occurred")
+                toast.error(error.response.data.message)
             })
             .finally(() => setIsLoading(false));
     };
@@ -107,11 +94,11 @@ const AddNewAd: React.FC = () => {
                         >
                             <form noValidate onSubmit={handleSubmit(onSubmit)}>
                                 <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
-                                    <InputLabel id="demo-simple-select-label">Room Number</InputLabel>
+                                    <InputLabel id="roomNumber">Room Number</InputLabel>
                                     <Select
                                         {...register('room', { required: true })}
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
+                                        labelId="roomNumber"
+                                        id="roomNumber"
                                         value={getValues('room') || ''}
                                         label="Room Number"
                                         onChange={(e) => setValue('room', e.target.value || '', { shouldValidate: true })}
@@ -126,11 +113,11 @@ const AddNewAd: React.FC = () => {
                                 {errors.room && <span className="errorMsg">Room is required</span>}
 
                                 <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
-                                    <InputLabel id="demo-simple-select-label">Active</InputLabel>
+                                    <InputLabel id="active">Active</InputLabel>
                                     <Select
                                         {...register('isActive', { required: true })}
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
+                                        labelId="active"
+                                        id="active"
                                         value={active}
                                         label="Active"
                                         onChange={handleChange}

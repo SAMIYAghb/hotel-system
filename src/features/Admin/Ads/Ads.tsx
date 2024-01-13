@@ -15,7 +15,7 @@ import CustomModal from '../../UI/CustomModal/CustomModal';
 import { useForm } from 'react-hook-form';
 import { IAds } from '../../../interface/AdsInterface';
 import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+
 
 
 const Ads: React.FC = () => {
@@ -32,10 +32,6 @@ const Ads: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pagesArray, setPagesArray] = useState([]);
 
-  // const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-
-  //   setActive(event.target.value);
-  // };
   const handleChange = (event) => {
     setActive(event.target.value);
   };
@@ -46,17 +42,6 @@ const Ads: React.FC = () => {
     setValue,
     watch,
   } = useForm<IAds>();
-
-  // const handleChangePage = (event, newPage) => {
-  //   setPage(newPage);
-  //   getAllAds(newPage);
-  // };
-
-  // const handleChangeRowsPerPage = (event) => {
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  //   setPage(0);
-  // };
-
 
   const handleMenuClick = (event, ad) => {
     setAnchorEl(event.currentTarget);
@@ -153,7 +138,7 @@ const Ads: React.FC = () => {
         getAllAds(currentPage);
       })
       .catch((error) => {
-        toast.error("Error Occurred")
+        toast.error(error.response.data.message)
 
 
       });
@@ -173,26 +158,9 @@ const Ads: React.FC = () => {
         getAllAds(currentPage);
       })
       .catch((error) => {
-        toast.error("Error Occurred")
+        toast.error(error.response.data.message)
       });
   };
-  // const deleteAds = () => {
-  //   axios
-  //     .delete(`${deleteAdsUrl}${adId}`, {
-  //       headers: requestHeaders,
-  //     })
-  //     .then((response) => {
-  //       // Filter out the deleted ad from the adsList
-  //       const updatedAdsList = adsList.filter((ad) => ad._id !== adId);
-
-  //       setAdsList(updatedAdsList);
-  //       setAdId(adId);
-  //       handleClose();
-  //     })
-  //     .catch((error) => {
-  //       // Handle error
-  //     });
-  // };
 
   // ************ Ads Details****************
   const getAdsDetails = (adId) => {
@@ -205,7 +173,7 @@ const Ads: React.FC = () => {
         setAdDetails(response?.data?.data?.ads);
       })
       .catch((error) => {
-        // Handle error
+
       });
   };
   //******** pagination*************
@@ -276,7 +244,6 @@ const Ads: React.FC = () => {
                       </IconButton>
                       <Menu
                         anchorEl={anchorEl}
-                        // open={Boolean(anchorEl)}
                         open={Boolean(anchorEl && selectedAd?._id === ad?._id)}
                         onClose={handleClose}
                       >
@@ -286,7 +253,7 @@ const Ads: React.FC = () => {
                           <Tooltip title="View" arrow>
                             <IconButton color="primary" >
                               <VisibilityIcon fontSize='small' />
-                              <p style={{ fontSize: '14px' }}>View</p>
+                             
                             </IconButton>
                           </Tooltip>
                         </MenuItem>
@@ -295,18 +262,17 @@ const Ads: React.FC = () => {
                           <Tooltip title="Update" arrow>
                             <IconButton color="warning">
                               <EditIcon fontSize='small' />
-                              <p style={{ fontSize: '14px' }}>Edit</p>
+
                             </IconButton>
                           </Tooltip>
                         </MenuItem>
                         <MenuItem onClick={() => showDeleteModal(ad._id)}>
                           <Tooltip title="Delete" arrow>
                             <IconButton
-                              // sx={{ color: red[500] }}
                               color="error"
                             >
                               <DeleteIcon fontSize='small' />
-                              <p style={{ fontSize: '14px' }}>Delete</p>
+
                             </IconButton>
                           </Tooltip>
                         </MenuItem>
@@ -338,10 +304,10 @@ const Ads: React.FC = () => {
         open={modalState === "view-modal"}
         onClose={handleClose}
         title="Ads Details"
-      // identifier="view-modal"
+
       >
         <div >
-         
+
           <div style={{ textAlign: 'center' }}>
             <p>
               <span className="text-warning">Room Number :&nbsp;</span>
@@ -374,17 +340,17 @@ const Ads: React.FC = () => {
         open={modalState === "update-modal"}
         onClose={handleClose}
         title="Update Room"
-      // identifier="update-modal"
+
 
       >
         <div>
           <form onSubmit={handleSubmit(updateAds)}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Active</InputLabel>
+              <InputLabel id="active">Active</InputLabel>
               <Select
                 {...register('isActive', { required: true })}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="active"
+                id="active"
                 value={active}
                 label="Active"
                 onChange={handleChange}
@@ -436,7 +402,7 @@ const Ads: React.FC = () => {
         open={modalState === "delete-modal"}
         onClose={handleClose}
         title="Delete this Ad?"
-      // identifier="delete-modal"
+
 
       >
         <div style={{
@@ -450,14 +416,7 @@ const Ads: React.FC = () => {
         </div>
         <p>Are you sure you want to delete this room ? </p>
         <div >
-          {/* <Button
-              onClick={deleteRoom}
-              className={
-                "btn btn-outline-danger my-3" + (isLoading ? " disabled" : "")
-              }
-            >
-              {isLoading ? <CircularProgress size={20} /> : "Delete this item"}
-            </Button> */}
+
           <Grid item xs={6}>
             <Button variant="contained" type="submit"
               onClick={deleteAds}
