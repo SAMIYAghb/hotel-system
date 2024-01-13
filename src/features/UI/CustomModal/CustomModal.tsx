@@ -9,14 +9,14 @@ const CustomModal = ({ open, onClose, title, children }) => {
         // top: '50%',
         // left: '50%',
         // transform: 'translate(-50%, -50%)',
-        width: '40%', // Adjust the width as needed
-        height: '80%', // Adjust the height as needed
+        width: '35%', // Adjust the width as needed
+        height: '60%', // Adjust the height as needed
         overflowY: 'auto',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '20px',
+        padding: '10px',
         backgroundColor: '#fff',
         borderRadius: '8px',
         boxShadow: '0 3px 5px rgba(0, 0, 0, 0.2)',
