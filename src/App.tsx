@@ -22,11 +22,12 @@ import AddNewRoom from './features/Admin/Rooms/AddNewRoom/AddNewRoom';
 import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
 
 import Facilities from './features/Admin/Facilities/Facilities';
+import AddNewRoom from "./features/Admin/Rooms/AddNewRoom/AddNewRoom";
 
 
 
 function App() {
-  const{ userData, saveUserData } :IAuth= useContext(AuthContext);
+  const { userData, saveUserData }: IAuth = useContext(AuthContext);
 
   const routes = createBrowserRouter([
     {
@@ -34,12 +35,8 @@ function App() {
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Login
-           saveUserData={saveUserData}
-           /> },
-        { path: "login", element: <Login
-        saveUserData={saveUserData}
-        /> },
+        { index: true, element: <Login saveUserData={saveUserData} /> },
+        { path: "login", element: <Login saveUserData={saveUserData} /> },
         { path: "register", element: <Register /> },
         { path: "forget-password", element: <ForgetPass /> },
         { path: "reset-password", element: <ResetPass /> },
@@ -75,9 +72,8 @@ function App() {
 
   return (
     <>
-
-        <RouterProvider router={routes} />
-
+      
+      <RouterProvider router={routes} />
     </>
   );
 }
