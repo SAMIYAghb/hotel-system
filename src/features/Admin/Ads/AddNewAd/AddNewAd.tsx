@@ -49,12 +49,9 @@ const AddNewAd: React.FC = () => {
         })
             .then((response) => {
                 // setAdsList(response.data.data.ads)
-                console.log(response.data.data.ads);
-
             })
             .catch((error) => {
-                console.log(error);
-
+              
             })
     }
 

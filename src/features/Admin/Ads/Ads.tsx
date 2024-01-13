@@ -110,11 +110,11 @@ const Ads: React.FC = () => {
           { length: response?.data?.data?.totalCount },
           (_, i) => i + 1));
         setAdsList(response.data.data.ads)
-        console.log(response.data.data.ads);
+
 
       })
       .catch((error) => {
-        console.log(error);
+
 
       })
   }
@@ -341,7 +341,7 @@ const Ads: React.FC = () => {
       // identifier="view-modal"
       >
         <div >
-          {console.log('adDetails:', adDetails)}
+         
           <div style={{ textAlign: 'center' }}>
             <p>
               <span className="text-warning">Room Number :&nbsp;</span>
