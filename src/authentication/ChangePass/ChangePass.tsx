@@ -12,14 +12,14 @@ import { Container } from "@mui/material";
 import axios from "axios";
 import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import {Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
 import { changePassUrl } from "../../services/api.tsx";
 import CustomButton from './../../features/UI/CustomButton/CustomButton';
 import { IChangePass } from './../../interface/AuthInterface';
 
 const ChangePass: React.FC = () => {
-  const { saveUserData , requestHeaders} = useContext(AuthContext);
+  const { saveUserData, requestHeaders } = useContext(AuthContext);
   // let {getToastValue} = useContext(ToastContext);
   const navigate = useNavigate();
 
@@ -32,13 +32,13 @@ const ChangePass: React.FC = () => {
   const onSubmit: SubmitHandler<IChangePass> = async (data) => {
     // console.log(data);
     await axios
-      .post(`${changePassUrl}`, data,{
+      .post(`${changePassUrl}`, data, {
         headers: requestHeaders,
       })
       .then((response) => {
         console.log("succ response", response);
         navigate('/home');
-     
+
 
         // getToastValue("success", "Login successfully!")
       })
@@ -77,7 +77,7 @@ const ChangePass: React.FC = () => {
               Change password
             </Typography>
             <Typography sx={{ my: 2 }} component="body" variant="body1">
-            Change password
+              Change password
             </Typography>
             {/* **********form inputs*********** */}
             <Box
@@ -152,14 +152,23 @@ const ChangePass: React.FC = () => {
                 <span className="errorMsg">confirmPassword is invalid</span>
               )}
 
-              <Grid container>
-                <Grid item xs>
+              <Grid
+                container
+                sx={{
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Grid item>
                   <Link to="/forget-password">
                     Forgot password?
                   </Link>
                 </Grid>
+                <Grid item >
+                  <Link to="/home">
+                    Back to Home
+                  </Link>
+                </Grid>
               </Grid>
-
               <CustomButton
                 className="your-custom-class"
                 type="submit"
@@ -189,7 +198,7 @@ const ChangePass: React.FC = () => {
         </Grid>
       </Grid>
     </Container>
-    
+
   );
 };
 export default ChangePass;

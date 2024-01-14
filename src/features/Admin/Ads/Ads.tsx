@@ -217,7 +217,7 @@ const Ads: React.FC = () => {
         {/* Table */}
         <TableContainer component={Paper}>
           <Table>
-            <TableHead>
+            <TableHead className="tableHeadCustom">
               <TableRow>
 
                 <TableCell>Room Number</TableCell>
@@ -225,14 +225,19 @@ const Ads: React.FC = () => {
                 <TableCell>Discount</TableCell>
                 <TableCell>Capacity</TableCell>
                 <TableCell>Active</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>Actions</TableCell>
                 {/* <TableCell align="center" valign="middle">Actios</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
               {adsList?.length > 0 &&
-                adsList.map((ad) => (
-                  <TableRow key={ad?._id}>
+                adsList.map((ad,index) => (
+                  <TableRow key={ad?._id}
+                    style={
+                      index % 2
+                        ? { background: "#f6f6f6" }
+                        : { background: "white" }
+                    }>
                     <TableCell align="center" valign="middle">{ad?.room?.roomNumber}</TableCell>
                     <TableCell align="center" valign="middle">{ad?.room?.price}</TableCell>
                     <TableCell align="center" valign="middle">{ad?.room?.discount}</TableCell>
@@ -253,7 +258,7 @@ const Ads: React.FC = () => {
                           <Tooltip title="View" arrow>
                             <IconButton color="primary" >
                               <VisibilityIcon fontSize='small' />
-                             
+
                             </IconButton>
                           </Tooltip>
                         </MenuItem>
