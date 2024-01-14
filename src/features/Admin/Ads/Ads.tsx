@@ -15,6 +15,7 @@ import CustomModal from '../../UI/CustomModal/CustomModal';
 import { useForm } from 'react-hook-form';
 import { IAds } from '../../../interface/AdsInterface';
 import { toast } from 'react-toastify';
+import { Container } from '@mui/system';
 
 
 
@@ -195,7 +196,7 @@ const Ads: React.FC = () => {
       <AppBar position="static">
         <div className={style.header}>
           <Typography variant="h6">
-            Rooms Table Details
+            Ads Table Details
             <p variant="h6">You can check all details</p>
           </Typography>
 
@@ -213,7 +214,7 @@ const Ads: React.FC = () => {
         </div>
       </AppBar>
       <div style={{ marginTop: '40px' }}></div>
-      <div>
+      <Container>
         {/* Table */}
         <TableContainer component={Paper}>
           <Table>
@@ -302,7 +303,7 @@ const Ads: React.FC = () => {
             </TableFooter>
           </Table>
         </TableContainer >
-      </div >
+      </Container >
 
       {/* View Modal */}
       <CustomModal

@@ -4,6 +4,7 @@ import noData from "../../../assets/images/no-data.png";
 import { AuthContext } from "../../../context/AuthContext";
 import { usersUrl } from "../../../services/api.tsx";
 import {
+  AppBar,
   Box,
   Container,
   Grid,
@@ -18,7 +19,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-
+import style from './Users.module.scss'
 const Users: React.FC = () => {
   const { requestHeaders }: any = useContext(AuthContext);
 
@@ -66,6 +67,15 @@ const Users: React.FC = () => {
 
   return (
     <>
+       <AppBar position="static">
+        <div className={style.header}>
+          <Typography variant="h6">
+            Users Table Details
+            <p variant="h6">You can check all details</p>
+          </Typography>
+        </div>
+      </AppBar>
+      <div style={{ marginTop: '40px' }}></div>
       <Container>
         <Grid item>
           <Typography component="h2" variant="h5">
@@ -85,7 +95,7 @@ const Users: React.FC = () => {
               <TableBody>
                 {users?.length > 0 ? (
                   users.map((user,index) => (
-                   
+
                       <TableRow  key={user?._id}   style={
                         index % 2
                           ? { background: "#f6f6f6" }
@@ -97,7 +107,7 @@ const Users: React.FC = () => {
                         <TableCell>{user?.email}</TableCell>
                         <TableCell>{user?.country}</TableCell>
                       </TableRow>
-        
+
                   ))
                 ) : (
                   <TableRow>
