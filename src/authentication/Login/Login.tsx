@@ -1,19 +1,17 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-// import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import logo from "../../assets/images/Staycation.png";
-import img from "../../assets/images/login.png";
+import img from "../../assets/images/Rectangle 7.png";
 import Styles from "./Login.module.scss";
 import Typography from "@mui/material/Typography";
-import { Container } from "@mui/material";
 import axios from "axios";
 import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import {Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
 import { loginUrl } from "../../services/api.tsx";
 
@@ -24,7 +22,6 @@ const Login: React.FC = () => {
   type FormValues = {
     email: string;
     password: string;
-
   };
 
   const {
@@ -39,13 +36,12 @@ const Login: React.FC = () => {
       .post(`${loginUrl}`, data)
       .then((response) => {
         console.log("succ response", response);
-        localStorage.setItem('userToken', response.data.data.token )
+        localStorage.setItem("userToken", response.data.data.token);
 
         console.log(response.data.token);
 
         saveUserData();
-        navigate('/home');
-
+        navigate("/home");
 
         // getToastValue("success", "Login successfully!")
       })
@@ -56,45 +52,37 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container className={`${Styles.wrapper}`} component="main">
-      <Grid container>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={5}
-          component={Paper}
-          elevation={6}
-          mb={8}
-          mt={4}
-        >
-          <Paper elevation={0} sx={{ mx: 4, mt: 4 }}>
+    <Grid container component="main" className={Styles.root}>
+      <Grid item xs={12} sm={12} md={6} className={Styles.formContainer}>
+        <Paper elevation={0} className={Styles.paper}>
+          <Paper elevation={0} sx={{ mx: 4, pt: 1, mb: 2 }}>
             <img src={logo} />
           </Paper>
           {/* *******container of left side******* */}
           <Box
             sx={{
-              my: 4,
+              // my: 2,
               mx: 4,
               display: "flex",
               flexDirection: "column",
+                // mt: 3, maxWidth: '400px', margin: 'auto'
             }}
           >
-            <Typography component="h1" variant="h4">
+            <Typography component="h2" variant="h5">
               Sign in
             </Typography>
             <Typography sx={{ my: 2 }} component="body" variant="body1">
               If you don’t have an account register
               <br />
               You can
-              <Link to="/register" > Register here !</Link>
+              <Link to="/register"> Register here !</Link>
             </Typography>
             {/* **********form inputs*********** */}
             <Box
               component="form"
               noValidate
               onSubmit={handleSubmit(onSubmit)}
-              sx={{ mt: 1 }}
+              sx={{ mt: 3 }}
             >
               <TextField
                 {...register("email", {
@@ -141,10 +129,8 @@ const Login: React.FC = () => {
               )}
 
               <Grid container>
-                <Grid item xs>
-                  <Link to="/forget-password">
-                    Forgot password?
-                  </Link>
+                <Grid item xs sx={{ mb: 5, pb: 5, pt: 2 }}>
+                  <Link to="/forget-password">Forgot password?</Link>
                 </Grid>
               </Grid>
 
@@ -153,30 +139,39 @@ const Login: React.FC = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                color="primary"
+                sx={{ mt: 5, mb: 2, py: 1 }}
               >
                 Login
               </Button>
             </Box>
-            {/* //end form inputs */}
           </Box>
-        </Grid>
-
-        <Grid
-          item
-
-          sm={12}
-          md={5}
-          component={Paper}
-          elevation={6}
-          mb={8}
-          mt={4}
-        >
-          <img className={`${Styles.loginImg}`} src={img} />
-
-        </Grid>
+        </Paper>
       </Grid>
-    </Container>
+      <Grid item xs={false} sm={false} md={6} className={Styles.imageContainer}>
+        <img
+          src={img}
+          alt="Login Image"
+          className={Styles.image}
+          style={{ maxWidth: "100%", height: "auto" ,paddingTop:'20px'}}
+        />
+        <Typography
+          variant="h4"
+          sx={{
+            position: "absolute",
+            bottom: 80,
+            right: "14%",
+            transform: "translateX(-50%)",
+            color: "white",
+            zIndex: 1,
+          }}
+
+        >
+          Sign in to Roamhome
+          <h6>Homes as unique as you.</h6>
+        </Typography>
+      </Grid>
+    </Grid>
   );
 };
 export default Login;
