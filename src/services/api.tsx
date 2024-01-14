@@ -27,6 +27,10 @@ export const deleteRoomsUrl = `${baseUrl}/admin/rooms/` //with id
 // ******* Get All Rooms Facility*********
 export const facilitiesRoomsUrl = `${baseUrl}/admin/room-facilities`;
 
+// ******* Get facility Details*********
+// export const facilitiesDetailsUrl = `${baseUrl}/admin/room-facilities`;
+
+
 //********* Get Ads ********/
 export const adsUrl = `${baseUrl}/admin/ads`
 //********* Create Ads ********/
@@ -45,4 +49,5 @@ export const bookingUrl = `${baseUrl}/admin/booking`;
 export const bookingDetailsUrl = `${baseUrl}/admin/booking`;
 // ******** delete booking ********
 export const deleteBookingUrl = `${baseUrl}/admin/booking`;
+
 

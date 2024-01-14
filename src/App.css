@@ -51,6 +51,29 @@ body,
   justify-content: space-between;
   padding: 16px;
 }
+
+
+
+.master-layout{
+  display: flex;
+  
+}
+.sidbar{
+
+}
+.AdminNavbar {
+  margin-left: 250px;
+width: calc(100%-250px);
+
+}
+/* .css-1wvake5  */
+/* .css-hip9hq-MuiPaper-root-MuiAppBar-root{
+ background: #fff;
+} */
+.nav-bg{
+  background: #fff !important;
+}
+
 /********** table************* */
 .tableHeadCustom {
   background-color: #425ece;
@@ -101,4 +124,5 @@ body,
   max-height: 100%;
   margin: auto;
 }
+
 
