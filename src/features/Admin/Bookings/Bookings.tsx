@@ -23,14 +23,16 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Tooltip,
   Typography,
 } from "@mui/material";
 import CustomModal from "../../UI/CustomModal/CustomModal.tsx";
-import MoreVertIcon  from '@mui/icons-material/MoreVert';
-import  VisibilityIcon  from '@mui/icons-material/Visibility';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const Bookings: React.FC = () => {
   const { requestHeaders }: any = useContext(AuthContext);
@@ -40,19 +42,34 @@ const Bookings: React.FC = () => {
   const [bookingDetails, setBookingDetails] = useState({});
   // **********modal*************
   const [modalState, setModalState] = React.useState("close");
-  // const handleClose = () => setModalState("close");
+
   // *********actions icon  menu********
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  // **********paginate*********
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagesArray, setPagesArray] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   // **********get all bookingss*****************
-  const getBookingsList = () => {
+  const getBookingsList = (page: number) => {
     axios
-      .get(`${bookingUrl}?page=1&size=10`, {
+      .get(`${bookingUrl}`, {
         headers: requestHeaders,
+        params: {
+          size: rowsPerPage,
+          page: page,
+        },
       })
       .then((response) => {
         // console.log("succ book list", response?.data?.data?.booking);
+        setPagesArray(
+          Array.from(
+            { length: response?.data?.data.totalCount },
+            (_, i) => i + 1
+          )
+        );
         setBookings(response?.data?.data?.booking);
+        setCurrentPage(page);
       })
       .catch((error) => {
         // console.log("error", error);
@@ -81,11 +98,9 @@ const Bookings: React.FC = () => {
       .then((response) => {
         handleClose();
         getBookingsList();
-   
       })
       .catch((error) => {
         // console.log("book delet err", error);
-       
       });
   };
   // ***********view-Modal*************
@@ -99,21 +114,31 @@ const Bookings: React.FC = () => {
     setBookingId(bookingId);
     setModalState("delete-modal");
   };
-// **********action icons menu*****************
-const handleMenuClick = (event, booking) => {
-  setAnchorEl(event.currentTarget);
-  setSelectedBooking(booking);
-};
+  // **********action icons menu*****************
+  const handleMenuClick = (event, booking) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedBooking(booking);
+  };
 
-const handleClose = () => {
-  setAnchorEl(null);
-  setSelectedBooking(null);
-  setModalState("close")
-};
+  const handleClose = () => {
+    setAnchorEl(null);
+    setSelectedBooking(null);
+    setModalState("close");
+  };
+  //******** pagination*************
+  const handleChangePage = (event, newPage) => {
+    setCurrentPage(newPage + 1); // Update currentPage
+    getBookingsList(newPage + 1);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setCurrentPage(1); // Set currentPage to 1 when rowsPerPage changes
+    getBookingsList(1); // Pass 1 as the initial page when rowsPerPage changes
+  };
 
   useEffect(() => {
-    getBookingsList();
-  }, []);
+    getBookingsList(currentPage);
+  }, [currentPage]);
 
   return (
     <>
@@ -127,7 +152,7 @@ const handleClose = () => {
           </Typography>
           <TableContainer component={Paper}>
             <Table>
-              <TableHead sx={{ backgroundColor: "#f8f9fb" }}>
+              <TableHead className="tableHeadCustom">
                 <TableRow>
                   <TableCell>Booking Status</TableCell>
                   <TableCell>Price</TableCell>
@@ -138,71 +163,92 @@ const handleClose = () => {
               </TableHead>
               <TableBody>
                 {bookings?.length > 0 ? (
-                  bookings.map(
-                    (booking) => (
-                      <TableRow key={booking?._id}>
-                        <TableCell>{booking?.status}</TableCell>
-                        <TableCell>{booking?.totalPrice}</TableCell>
-                        <TableCell>
-                          {new Date(booking?.startDate).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell>
-                          {new Date(booking?.endDate).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell>
-                      <IconButton onClick={(e) => handleMenuClick(e, booking)}>
-                        <MoreVertIcon />
-                      </IconButton>
-                      <Menu
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl && selectedBooking?._id === booking?._id)}
-                        onClose={handleClose}
-                      >
-                        <MenuItem
-                          onClick={() => showViewModal(booking?._id)}
+                  bookings.map((booking, index) => (
+                    <TableRow
+                      key={booking?._id}
+                      style={
+                        index % 2
+                          ? { background: "#f6f6f6" }
+                          : { background: "white" }
+                      }
+                    >
+                      <TableCell>{booking?.status}</TableCell>
+                      <TableCell>{booking?.totalPrice}</TableCell>
+                      <TableCell>
+                        {new Date(booking?.startDate).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        {new Date(booking?.endDate).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={(e) => handleMenuClick(e, booking)}
                         >
-                          <Tooltip title="View" arrow>
-                            <IconButton color="primary" >
-                              <VisibilityIcon  fontSize='small'/>
-                              <p style={{ fontSize: '14px' }}>View</p> 
+                          <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                          anchorEl={anchorEl}
+                          open={Boolean(
+                            anchorEl && selectedBooking?._id === booking?._id
+                          )}
+                          onClose={handleClose}
+                        >
+                          <MenuItem onClick={() => showViewModal(booking?._id)}>
+                            <Tooltip title="View" arrow>
+                              <IconButton color="primary">
+                                <VisibilityIcon fontSize="small" />
                               
-                            </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                     
-                        <MenuItem onClick={() => showDeleteModal(booking?._id)}>
-                          <Tooltip title="Delete" arrow>
-                            <IconButton color="error" >
-                              <DeleteIcon fontSize='small'/>
-                              <p style={{ fontSize: '14px' }}>Delete</p>
-                            </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                      </Menu>
-                    </TableCell>
-                     
-                      </TableRow>
-                    )
-                  )
+                              </IconButton>
+                            </Tooltip>
+                          </MenuItem>
+
+                          <MenuItem
+                            onClick={() => showDeleteModal(booking?._id)}
+                          >
+                            <Tooltip title="Delete" arrow>
+                              <IconButton color="error">
+                                <DeleteIcon fontSize="small" />
+                               
+                              </IconButton>
+                            </Tooltip>
+                          </MenuItem>
+                        </Menu>
+                      </TableCell>
+                    </TableRow>
+                  ))
                 ) : (
                   <TableRow key="no-data">
-                    <TableCell colSpan={5} style={{ height: "100%" }}>
+                    <TableCell colSpan={5} className="noDataBox">
                       <Box
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
                         height="100%"
                       >
-                        <img
-                          src={noData}
-                          alt="No Data"
-                          style={{ maxWidth: "100%", maxHeight: "100%" }}
-                        />
+                        <img src={noData} alt="No Data" className="noData" />
                       </Box>
                     </TableCell>
                   </TableRow>
                 )}
               </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[
+                      5,
+                      10,
+                      25,
+                      { label: "All", value: -1 },
+                    ]}
+                    colSpan={6}
+                    count={pagesArray.length} // Update this line
+                    rowsPerPage={rowsPerPage}
+                    page={currentPage - 1}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </TableRow>
+              </TableFooter>
             </Table>
           </TableContainer>
           {/* view dialog */}
@@ -211,31 +257,27 @@ const handleClose = () => {
           <CustomModal
             open={modalState === "view-modal"}
             onClose={handleClose}
-            title="Your Booking Details"
+            title="View Your Booking Details"
           >
-            <div>
-              <div style={{ textAlign: "center",marginTop:".5rem" }}>
-                <div   style={{ width: "200px", height: "150px" }}>
-              <img
-                src={bookDetails}
-                alt="view"
-                style={{ maxWidth: "100%", maxHeight: "100%", margin: "auto" }}
-              />
-              </div>
+            <div className="customModal">
+              <div className="customModalCont">
+                <div className="customModalImgCont">
+                  <img src={bookDetails} alt="view" className="bookDetail" />
+                </div>
                 <p>
-                  <span className="text-warning"> Start date :&nbsp;</span>
+                  <span className="modalInfo"> Start date :&nbsp;</span>
                   {new Date(bookingDetails?.startDate).toLocaleDateString()}
                 </p>
                 <p>
-                  <span className="text-warning"> End date :&nbsp;</span>
+                  <span className="modalInfo"> End date :&nbsp;</span>
                   {new Date(bookingDetails?.endDate).toLocaleDateString()}
                 </p>
                 <p>
-                  <span className="text-warning">Booking status :&nbsp;</span>
+                  <span className="modalInfo">Booking status :&nbsp;</span>
                   {bookingDetails?.status}
                 </p>
                 <p>
-                  <span className="text-warning">Price :&nbsp;</span>
+                  <span className="modalInfo">Price :&nbsp;</span>
                   {bookingDetails?.totalPrice}
                 </p>
               </div>
@@ -245,13 +287,9 @@ const handleClose = () => {
                   variant="contained"
                   type="submit"
                   onClick={handleClose}
-                  style={{
-                    position: "absolute",
-                    bottom: "30px",
-                    right: "20px",
-                  }}
+                  className="btnClose"
                 >
-                  Ok
+                  close
                 </Button>
               </Grid>
             </div>
@@ -262,35 +300,28 @@ const handleClose = () => {
             open={modalState === "delete-modal"}
             onClose={handleClose}
             title="Delete this Booking?"
+           
           >
             <div
+            className="deleteBox"
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
                 textAlign: "center",
               }}
             >
               <img
                 src={noImage}
                 alt="Delete"
-                style={{ maxWidth: "100%", maxHeight: "100%", margin: "auto" }}
               />
             </div>
             <p>Are you sure you want to delete this booking ? </p>
-            <div>
+            <div  className ="customModal">
               <Grid item xs={6}>
                 <Button
                   variant="contained"
                   color="error"
                   type="submit"
                   onClick={() => deleteBooking(bookingId)}
-                  style={{
-                    position: "absolute",
-                    bottom: "30px",
-                    right: "20px",
-                  }}
+                  className="btnClose"
                 >
                   Delete Booking
                 </Button>
