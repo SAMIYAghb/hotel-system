@@ -48,6 +48,7 @@ import CustomModal from "../../UI/CustomModal/CustomModal";
 import { toast } from 'react-toastify';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Container } from "@mui/system";
 const Rooms = () => {
   const { requestHeaders } = useContext(AuthContext);
   const [roomsList, setRoomsList] = useState([]);
@@ -266,25 +267,26 @@ const Rooms = () => {
           </Link>
         </div>
       </AppBar>
-      <div style={{ marginTop: '40px' }}></div>
-      {/* search */}
-      <div style={{ marginBottom: '5px', width: '50%' }}>
-        <TextField
-          fullWidth
-          placeholder="Search by Room Number...."
-          // onChange={getRoomNumberValue}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon color="success" />
-              </InputAdornment>
-            ),
-            style: { paddingLeft: "2rem" },
-          }}
-          className="my-2"
-        />
-      </div>
-      <div>
+      <div style={{ marginTop: '10px' }}></div>
+
+      <Container>
+        {/* search */}
+        <div style={{ marginBottom: '5px', width: '50%' }}>
+          <TextField
+            fullWidth
+            placeholder="Search by Room Number...."
+            // onChange={getRoomNumberValue}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon color="success" />
+                </InputAdornment>
+              ),
+              style: { paddingLeft: "2rem" },
+            }}
+            className="my-2"
+          />
+        </div>
         {/* Table */}
         <TableContainer component={Paper}>
           <Table>
@@ -300,7 +302,7 @@ const Rooms = () => {
             </TableHead>
             <TableBody>
               {roomsList?.length > 0 &&
-                roomsList.map((room,index) => (
+                roomsList.map((room, index) => (
                   <TableRow key={room?._id}
                     style={
                       index % 2
@@ -386,7 +388,7 @@ const Rooms = () => {
             </TableFooter>
           </Table>
         </TableContainer>
-      </div>
+      </Container>
       {/* -------------------------------------------------- */}
       {/* View Modal */}
       <CustomModal

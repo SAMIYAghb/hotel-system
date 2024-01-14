@@ -11,6 +11,7 @@ import {
 } from "../../../services/api.tsx";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  AppBar,
   Box,
   Button,
   Container,
@@ -33,7 +34,8 @@ import {
 import CustomModal from "../../UI/CustomModal/CustomModal.tsx";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
+import { toast } from 'react-toastify';
+import style from './Booking.module.scss'
 const Bookings: React.FC = () => {
   const { requestHeaders }: any = useContext(AuthContext);
 
@@ -96,11 +98,12 @@ const Bookings: React.FC = () => {
         headers: requestHeaders,
       })
       .then((response) => {
+        toast.success("Booking Delete Successfully")
         handleClose();
         getBookingsList();
       })
       .catch((error) => {
-        // console.log("book delet err", error);
+        toast.error(error.response.data.message)
       });
   };
   // ***********view-Modal*************
@@ -142,14 +145,19 @@ const Bookings: React.FC = () => {
 
   return (
     <>
+      <AppBar position="static">
+        <div className={style.header}>
+          <Typography variant="h6">
+            Booking Table Details
+            <p variant="h6">You can check all details</p>
+          </Typography>
+
+        </div>
+      </AppBar>
+      <div style={{ marginTop: '40px' }}></div>
       <Container>
         <Grid item>
-          <Typography component="h2" variant="h4">
-            Booking Table Details
-          </Typography>
-          <Typography component="h2" variant="h6">
-            You can check all details
-          </Typography>
+
           <TableContainer component={Paper}>
             <Table>
               <TableHead className="tableHeadCustom">
@@ -197,7 +205,7 @@ const Bookings: React.FC = () => {
                             <Tooltip title="View" arrow>
                               <IconButton color="primary">
                                 <VisibilityIcon fontSize="small" />
-                              
+
                               </IconButton>
                             </Tooltip>
                           </MenuItem>
@@ -208,7 +216,7 @@ const Bookings: React.FC = () => {
                             <Tooltip title="Delete" arrow>
                               <IconButton color="error">
                                 <DeleteIcon fontSize="small" />
-                               
+
                               </IconButton>
                             </Tooltip>
                           </MenuItem>
@@ -300,10 +308,10 @@ const Bookings: React.FC = () => {
             open={modalState === "delete-modal"}
             onClose={handleClose}
             title="Delete this Booking?"
-           
+
           >
             <div
-            className="deleteBox"
+              className="deleteBox"
               style={{
                 textAlign: "center",
               }}
@@ -314,7 +322,7 @@ const Bookings: React.FC = () => {
               />
             </div>
             <p>Are you sure you want to delete this booking ? </p>
-            <div  className ="customModal">
+            <div className="customModal">
               <Grid item xs={6}>
                 <Button
                   variant="contained"

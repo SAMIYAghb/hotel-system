@@ -16,7 +16,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import noData from '../../../assets/images/noData.png';
 import CustomButton from "./../../UI/CustomButton/CustomButton";
 import CustomModal from "./../../UI/CustomModal/CustomModal";
-
+import { toast } from 'react-toastify';
 const Facilities = () => {
   const { requestHeaders } = useContext(AuthContext);
   const [facilitiesList, setFacilitiesList] = useState([]);
@@ -79,6 +79,7 @@ const Facilities = () => {
         headers: requestHeaders,
       })
       .then((response) => {
+        toast.success("Facility Add Successfully")
         console.log("succ response", response);
         handleClose();
         getAllFacilities();
@@ -86,7 +87,8 @@ const Facilities = () => {
       })
       .catch((error) => {
         console.log(error);
-        // getToastValue("error", error.response?.data.message || "An error occurred");
+        toast.error(error.response.data.message)
+
       });
   };
 
@@ -114,6 +116,7 @@ const Facilities = () => {
         headers: requestHeaders,
       })
       .then((response) => {
+        toast.success("Facility Update Successfully")
         // console.log(response);
         handleClose();
 
@@ -122,7 +125,7 @@ const Facilities = () => {
         // getAllRooms(currentPage);
       })
       .catch((error) => {
-        // console.log(error);
+        toast.error(error.response.data.message)
       });
   };
 
@@ -133,6 +136,7 @@ const Facilities = () => {
         headers: requestHeaders,
       })
       .then((response) => {
+        toast.success("Facility Delete Successfully")
         // setRoomsList(response.data.data.totalCount);
         // setRoomId(roomId);
         handleClose();
@@ -140,7 +144,7 @@ const Facilities = () => {
         // getAllRooms(currentPage);
       })
       .catch((error) => {
-
+        toast.error(error.response.data.message)
       });
   };
 
@@ -159,7 +163,7 @@ const Facilities = () => {
       });
   };
 
-  
+
 
   useEffect(() => {
     getAllFacilities();
@@ -188,7 +192,7 @@ const Facilities = () => {
           </div>
         </AppBar>
         <div style={{ marginTop: "40px" }}></div>
-        
+
         {/* Add Modal */}
         <CustomModal
           open={modalState === "add-modal"}
