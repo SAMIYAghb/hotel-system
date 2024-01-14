@@ -4,11 +4,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useTheme } from '@mui/material/styles';
-import { Button, Container, Grid, Paper, TextField, Typography } from '@mui/material';
+import { Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import styles from "./ForgetPass.module.scss"
 import logo from "../../assets/images/Staycation.png";
 import img from "../../assets/images/resetPass.png"
+import { toast } from 'react-toastify';
 
 const ForgetPass = () => {
   const theme = useTheme();
@@ -25,26 +26,17 @@ const ForgetPass = () => {
 
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // console.log(data);
+
     axios
       .post(`${forgetPassUrl}`, data)
       .then((response) => {
-        console.log("succ response", response);
-        console.log(data);
+
         navigate("/reset-password");
-        // getToastValue(
-        //   "success",
-        //   response?.data?.message || "password reset successfully"
-        // );
+        toast.success("Mail send please check inbox !")
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.response.data.message)
 
-        // getToastValue(
-        //   "error",
-        //   error?.response?.data?.message ||
-        //     "An error occurred. Please try again."
-        // );
       });
   };
 

@@ -17,6 +17,7 @@ import { AuthContext } from "./../../context/AuthContext.tsx";
 import { changePassUrl } from "../../services/api.tsx";
 import CustomButton from './../../features/UI/CustomButton/CustomButton';
 import { IChangePass } from './../../interface/AuthInterface';
+import { toast } from "react-toastify";
 
 const ChangePass: React.FC = () => {
   const { saveUserData, requestHeaders } = useContext(AuthContext);
@@ -30,21 +31,20 @@ const ChangePass: React.FC = () => {
   } = useForm<IChangePass>();
 
   const onSubmit: SubmitHandler<IChangePass> = async (data) => {
-    // console.log(data);
+
     await axios
       .post(`${changePassUrl}`, data, {
         headers: requestHeaders,
       })
       .then((response) => {
-        console.log("succ response", response);
+
         navigate('/home');
 
+        toast.success("Password change successfully!")
 
-        // getToastValue("success", "Login successfully!")
       })
       .catch((error) => {
-        console.log(error);
-        // getToastValue("error", error.response?.data.message || "An error occurred");
+        toast.error(error.response.data.message)
       });
   };
 

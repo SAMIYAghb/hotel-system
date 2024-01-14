@@ -12,6 +12,7 @@ import img from "../../assets/images/resetPass.png"
 import { InputAdornment, IconButton } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { toast } from 'react-toastify';
 
 const ResetPass: React.FC = () => {
 
@@ -37,26 +38,18 @@ const ResetPass: React.FC = () => {
     setShowPassword((prev) => !prev);
   };
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // console.log(data);
+
     axios
       .post(`${resetPassUrl}`, data)
       .then((response) => {
-        console.log("succ response", response);
-        console.log(data);
+
         navigate("/login");
-        // getToastValue(
-        //   "success",
-        //   response?.data?.message || "password reset successfully"
-        // );
+    
+        toast.success("Password Reset successfully!")
       })
       .catch((error) => {
-        console.log(error);
 
-        // getToastValue(
-        //   "error",
-        //   error?.response?.data?.message ||
-        //     "An error occurred. Please try again."
-        // );
+        toast.error(error.response.data.message)
       });
   };
 

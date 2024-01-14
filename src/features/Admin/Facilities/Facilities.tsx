@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { facilitiesRoomsUrl } from "../../../services/api";
-import CustomTable from "../../UI/CustomTable/CustomTable";
+// import CustomTable from "../../UI/CustomTable/CustomTable";
 import styleFacilities from "./Facilities.module.scss";
 
 import {
@@ -30,21 +30,21 @@ import noData from '../../../assets/images/noData.png';
 import CustomButton from "./../../UI/CustomButton/CustomButton";
 import CustomModal from "./../../UI/CustomModal/CustomModal";
 import { toast } from 'react-toastify';
-// import { MenuItem } from "react-pro-sidebar";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Container } from "@mui/system";
 const Facilities = () => {
   const { requestHeaders } = useContext(AuthContext);
   const [facilitiesList, setFacilitiesList] = useState([]);
-  const facilityColumns = [
-    { label: "Facility", key: "name" },
-    // { label: "Image", key: "image" },
-    { label: "Created By", key: "createdBy.userName" },
-    { label: "Created At", key: "createdAt" },
-    { label: "Updated At", key: "updatedAt" },
-  ];
+  // const facilityColumns = [
+  //   { label: "Facility", key: "name" },
+  //   // { label: "Image", key: "image" },
+  //   { label: "Created By", key: "createdBy.userName" },
+  //   { label: "Created At", key: "createdAt" },
+  //   { label: "Updated At", key: "updatedAt" },
+  // ];
   const [facilityId, setFacilityId] = useState(0);
   const [facilityDetails, setFacilityDetails] = useState([]);
   // Modal
@@ -56,7 +56,7 @@ const Facilities = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pagesArray, setPagesArray] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  // const handleClose = () => setModalState("close");
+
   const handleMenuClick = (event, facility) => {
     setAnchorEl(event.currentTarget);
     setSelectedFacility(facility);
@@ -74,7 +74,7 @@ const Facilities = () => {
   };
   // view-Modal
   const showViewModal = (id) => {
-    // console.log(id);
+
     setFacilityId(id);
     setModalState("view-modal");
     getFacilityDetails(id);
@@ -105,8 +105,7 @@ const Facilities = () => {
 
   // ************Add Facility
   const onSubmit: SubmitHandler<IFacility> = async (data: IFacility) => {
-    // console.log(data);
-    console.log("Valeur de name avant envoi:", data.name);
+
 
     await axios
       .post(`${facilitiesRoomsUrl}`, data, {
@@ -114,13 +113,12 @@ const Facilities = () => {
       })
       .then((response) => {
         toast.success("Facility Add Successfully")
-        console.log("succ response", response);
         handleClose();
         getAllFacilities();
-        console.log(facilitiesList);
+
       })
       .catch((error) => {
-        console.log(error);
+
         toast.error(error.response.data.message)
 
       });
@@ -134,29 +132,29 @@ const Facilities = () => {
       })
       .then((response) => {
         setFacilityDetails(response?.data?.data?.facility);
-        // console.log(response?.data?.data?.facility);
+
       })
       .catch((error) => {
-        console.log(error);
+
       });
   };
 
   //**************** */ update  Facility
   const updateFacility = async (data) => {
     // const upfdateFormData = appendToFormData(data);
-    // console.log(data);
+
     await axios
       .put(`${facilitiesRoomsUrl}/${facilityId}`, data, {
         headers: requestHeaders,
       })
       .then((response) => {
         toast.success("Facility Update Successfully")
-        // console.log(response);
+
         handleClose();
 
         // Fetch updated data after the update
         getAllFacilities();
-        // getAllRooms(currentPage);
+
       })
       .catch((error) => {
         toast.error(error.response.data.message)
@@ -175,7 +173,7 @@ const Facilities = () => {
         // setRoomId(roomId);
         handleClose();
         getAllFacilities();
-        // getAllRooms(currentPage);
+
       })
       .catch((error) => {
         toast.error(error.response.data.message)
@@ -198,10 +196,10 @@ const Facilities = () => {
           { length: response?.data?.data.totalCount },
           (_, i) => i + 1));
         setFacilitiesList(response?.data?.data?.facilities);
-        // console.log(response?.data?.data?.facilities);
+
       })
       .catch((error) => {
-        console.log("Error fetching facilities:", error);
+
       });
   };
   //******** pagination*************
@@ -308,11 +306,11 @@ const Facilities = () => {
               </p>
               <p>
                 <span className="text-warning">Created at :&nbsp;</span>
-                {facilityDetails?.createdAt}
+                {new Date(facilityDetails?.createdAt).toLocaleDateString()}
               </p>
               <p>
                 <span className="text-warning">Updated at :&nbsp;</span>
-                {facilityDetails?.updatedAt}
+                {new Date(facilityDetails?.updatedAt).toLocaleDateString()}
               </p>
             </div>
 
@@ -413,8 +411,8 @@ const Facilities = () => {
           modelName="Facility"
           columns={facilityColumns || []}
         /> */}
-
-        <TableContainer component={Paper}>
+<Container>
+<TableContainer component={Paper}>
           <Table>
             <TableHead className="tableHeadCustom" >
               <TableRow>
@@ -500,6 +498,8 @@ const Facilities = () => {
             </TableFooter>
           </Table>
         </TableContainer>
+</Container>
+
       </div>
     </>
   );

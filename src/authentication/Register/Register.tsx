@@ -19,6 +19,7 @@ import { regisrterUrl } from "../../services/api.tsx";
 import { AuthContext } from "./../../context/AuthContext.tsx";
 import CustomButton from "./../../features/UI/CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Register: React.FC = () => {
   const { saveUserData } = useContext(AuthContext);
@@ -52,21 +53,22 @@ const Register: React.FC = () => {
   };
 
   const onSubmit: SubmitHandler<IRegister> = async (data: IRegister) => {
-    // console.log(data);
+
     const addFormData = appendToFormData(data);
     await axios
       .post(`${regisrterUrl}`, addFormData)
       .then((response) => {
-        console.log("succ response", response);
+
         // localStorage.setItem("userToken", response.data.data.token);
-        // console.log(response.data.data.token , 'token from registration');
+   
         // saveUserData();
         navigate('/home');
-        // getToastValue("success", "Login successfully!")
+
+        toast.success("Register successfully!")
       })
       .catch((error) => {
-        console.log(error);
-        // getToastValue("error", error.response?.data.message || "An error occurred");
+
+        toast.error(error.response.data.message)
       });
   };
 
@@ -240,18 +242,11 @@ const Register: React.FC = () => {
                 required
                 fullWidth
                 name="profileImage"
-                label="profileImage"
+                // label="profileImage"
                 type="file"
                 id="profileImage"
               // autoComplete="current-password"
               />
-              {/* <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-              </Grid> */}
 
               <Grid container>
                 <Grid item xs sx={{ mb: 5, pb: 5, pt: 2 }}>
