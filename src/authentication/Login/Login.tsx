@@ -52,7 +52,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Grid container component="main" className={Styles.root}>
+    <Grid container component="main" className={Styles.main}>
       <Grid item xs={12} sm={12} md={6} className={Styles.formContainer}>
         <Paper elevation={0} className={Styles.paper}>
           <Paper elevation={0} sx={{ mx: 4, pt: 1, mb: 2 }}>
@@ -65,7 +65,7 @@ const Login: React.FC = () => {
               mx: 4,
               display: "flex",
               flexDirection: "column",
-                // mt: 3, maxWidth: '400px', margin: 'auto'
+              // mt: 3, maxWidth: '400px', margin: 'auto'
             }}
           >
             <Typography component="h2" variant="h5">
@@ -149,24 +149,8 @@ const Login: React.FC = () => {
         </Paper>
       </Grid>
       <Grid item xs={false} sm={false} md={6} className={Styles.imageContainer}>
-        <img
-          src={img}
-          alt="Login Image"
-          className={Styles.image}
-          style={{ maxWidth: "100%", height: "auto" ,paddingTop:'20px'}}
-        />
-        <Typography
-          variant="h4"
-          sx={{
-            position: "absolute",
-            bottom: 80,
-            right: "14%",
-            transform: "translateX(-50%)",
-            color: "white",
-            zIndex: 1,
-          }}
-
-        >
+        <img src={img} alt="Login Image" className={Styles.image} />
+        <Typography variant="h4" className={Styles.imageText}>
           Sign in to Roamhome
           <h6>Homes as unique as you.</h6>
         </Typography>

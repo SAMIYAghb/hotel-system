@@ -1,6 +1,6 @@
-.root{
+.root {
   overflow: hidden;
-  height: 100vh,
+  /* height: 100vh; */
 }
 *,
 html,
@@ -8,6 +8,14 @@ body,
 .modal-content {
   font-family: "Montserrat", sans-serif;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
 }
 .errorMsg {
   color: rgb(197, 36, 36);
@@ -56,25 +64,20 @@ body,
   padding: 16px;
 }
 
-
-
-.master-layout{
+.master-layout {
   display: flex;
-  
 }
-.sidbar{
-
+.sidbar {
 }
 .AdminNavbar {
   margin-left: 250px;
-width: calc(100%-250px);
-
+  width: calc(100%-250px);
 }
 /* .css-1wvake5  */
 /* .css-hip9hq-MuiPaper-root-MuiAppBar-root{
  background: #fff;
 } */
-.nav-bg{
+.nav-bg {
   background: #fff !important;
 }
 
@@ -111,7 +114,8 @@ width: calc(100%-250px);
   height: 150px;
 }
 
-.customModal .btnClose, .btnClose{
+.customModal .btnClose,
+.btnClose {
   position: absolute;
   bottom: 30px;
   right: 20px;
@@ -120,13 +124,12 @@ width: calc(100%-250px);
   display: flex;
   flex-direction: column;
   align-items: center !important;
-  justify-content: center ;
+  justify-content: center;
   text-align: center !important;
 }
-.customModal .deleteBox img,.bookDetail {
+.customModal .deleteBox img,
+.bookDetail {
   max-width: 100%;
   max-height: 100%;
   margin: auto;
 }
-
-
