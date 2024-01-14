@@ -17,12 +17,10 @@ import Ads from './features/Admin/Ads/Ads';
 import Bookings from './features/Admin/Bookings/Bookings';
 import ForgetPass from './authentication/ForgetPass/ForgetPass';
 import { IAuth } from './interface/AuthInterface';
-
 import AddNewRoom from './features/Admin/Rooms/AddNewRoom/AddNewRoom';
 import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
-
 import Facilities from './features/Admin/Facilities/Facilities';
-import AddNewRoom from "./features/Admin/Rooms/AddNewRoom/AddNewRoom";
+
 
 
 

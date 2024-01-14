@@ -73,7 +73,7 @@ const Users: React.FC = () => {
           </Typography>
           <TableContainer component={Paper}>
             <Table>
-              <TableHead sx={{ backgroundColor: '#f8f9fb' }}>
+              <TableHead className="tableHeadCustom">
                 <TableRow>
                   <TableCell>User name</TableCell>
                   <TableCell>Role</TableCell>
@@ -84,14 +84,18 @@ const Users: React.FC = () => {
               </TableHead>
               <TableBody>
                 {users?.length > 0 ? (
-                  users.map(({ _id,userName, role, phoneNumber, email, country}) => (
+                  users.map((user,index) => (
                    
-                      <TableRow  key={_id}>
-                        <TableCell>{userName}</TableCell>
-                        <TableCell>{role}</TableCell>
-                        <TableCell>{phoneNumber}</TableCell>
-                        <TableCell>{email}</TableCell>
-                        <TableCell>{country}</TableCell>
+                      <TableRow  key={user?._id}   style={
+                        index % 2
+                          ? { background: "#f6f6f6" }
+                          : { background: "white" }
+                      }>
+                        <TableCell>{user?.userName}</TableCell>
+                        <TableCell>{user?.role}</TableCell>
+                        <TableCell>{user?.phoneNumber}</TableCell>
+                        <TableCell>{user?.email}</TableCell>
+                        <TableCell>{user?.country}</TableCell>
                       </TableRow>
         
                   ))
