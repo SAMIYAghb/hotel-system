@@ -268,7 +268,7 @@ const Rooms = () => {
       </AppBar>
       <div style={{ marginTop: '40px' }}></div>
       {/* search */}
-      <div style={{ marginBottom: '10px', width: '50%' }}>
+      <div style={{ marginBottom: '5px', width: '50%' }}>
         <TextField
           fullWidth
           placeholder="Search by Room Number...."
@@ -288,29 +288,36 @@ const Rooms = () => {
         {/* Table */}
         <TableContainer component={Paper}>
           <Table>
-            <TableHead>
+            <TableHead className="tableHeadCustom">
               <TableRow>
                 <TableCell>Room Number</TableCell>
                 <TableCell >Image</TableCell>
                 <TableCell>Price</TableCell>
                 <TableCell>Discount</TableCell>
                 <TableCell>Capacity</TableCell>
-                <TableCell align="center" valign="middle">Actios</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {roomsList?.length > 0 &&
-                roomsList.map((room) => (
-                  <TableRow key={room?._id}>
+                roomsList.map((room,index) => (
+                  <TableRow key={room?._id}
+                    style={
+                      index % 2
+                        ? { background: "#f6f6f6" }
+                        : { background: "white" }
+                    }>
                     <TableCell align="center" valign="middle">{room?.roomNumber}</TableCell>
                     <TableCell  >
                       {room?.images && room.images.length > 0 ?
                         <img
                           src={room?.images[0]}
+                          crossOrigin="anonymous"
                           alt={`Room ${room?.roomNumber}`}
                           style={{ width: "50px", height: "50px" }}
                         /> :
                         <img src={noImage}
+                          crossOrigin="anonymous"
                           alt="Placeholder"
                           style={{ width: "50px", height: "50px" }} />}
                     </TableCell>
@@ -561,7 +568,7 @@ const Rooms = () => {
         </div>
         <p>Are you sure you want to delete this room ? </p>
         <div >
-         
+
           <Grid item xs={6}>
             <Button variant="contained" type="submit"
               onClick={deleteRoom}

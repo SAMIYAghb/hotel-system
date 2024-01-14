@@ -131,7 +131,7 @@ const AddNewRoom: React.FC = () => {
                     marginBottom: "1rem",
                   }}
                 />
-                {errors.price && errors.price.type === "required" && (
+                {errors.roomNumber && errors.roomNumber.type === "required" && (
                   <span className="errorMsg">This field is required</span>
                 )}
 
@@ -253,7 +253,7 @@ const AddNewRoom: React.FC = () => {
                 </div>
 
 
-                
+
                 <Grid
                   container
                   spacing={2}
