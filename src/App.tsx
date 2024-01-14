@@ -56,7 +56,7 @@ function App() {
         { index: true, element: <Home /> },
         { path: "users", element: <Users /> },
         { path: "rooms", element: <Rooms /> },
-        // { path: "rooms/add-room", element: <AddNewRoom /> },
+        { path: "rooms/add-room", element: <AddNewRoom /> },
         { path: "ads", element: <Ads /> },
 
         { path: "ads/add-ad", element: <AddNewAd /> },
@@ -70,7 +70,7 @@ function App() {
 
   return (
     <>
-      
+
       <RouterProvider router={routes} />
     </>
   );
