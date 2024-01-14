@@ -26,5 +26,28 @@ export const updateRoomsUrl = `${baseUrl}/admin/rooms/` //with id
 export const deleteRoomsUrl = `${baseUrl}/admin/rooms/` //with id
 // ******* Get All Rooms Facility*********
 export const facilitiesRoomsUrl = `${baseUrl}/admin/room-facilities`;
+
 // ******* Get facility Details*********
 // export const facilitiesDetailsUrl = `${baseUrl}/admin/room-facilities`;
+
+
+//********* Get Ads ********/
+export const adsUrl = `${baseUrl}/admin/ads`
+//********* Create Ads ********/
+export const addAdsUrl = `${baseUrl}/admin/ads`
+//********* Get Ads Details ********/
+export const adsDetailsUrl = `${baseUrl}/admin/ads/` //With id
+//********* Update Ads ********/
+export const updateAdsUrl = `${baseUrl}/admin/ads/` //With id
+//********* Delete Ads ********/
+export const deleteAdsUrl = `${baseUrl}/admin/ads/` //With id
+
+
+// ******** all bookings ********
+export const bookingUrl = `${baseUrl}/admin/booking`;
+// ******** booking details********
+export const bookingDetailsUrl = `${baseUrl}/admin/booking`;
+// ******** delete booking ********
+export const deleteBookingUrl = `${baseUrl}/admin/booking`;
+
+

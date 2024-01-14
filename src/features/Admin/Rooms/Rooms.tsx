@@ -14,9 +14,11 @@ import {
   Checkbox,
   FormControl,
   Grid,
+  IconButton,
   InputAdornment,
   InputLabel,
   ListItemText,
+  Menu,
   Paper,
   Select,
   Table,
@@ -28,12 +30,11 @@ import {
   TablePagination,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import styleroom from "./Rooms.module.scss";
 import { IAddRoom } from "../../../interface/RoomInterface";
@@ -44,7 +45,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import noImage from '../../../assets/images/noImage.jpg'
 import useFacilities from "../../Hook/useFacilities";
 import CustomModal from "../../UI/CustomModal/CustomModal";
-
+import { toast } from 'react-toastify';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 const Rooms = () => {
   const { requestHeaders } = useContext(AuthContext);
   const [roomsList, setRoomsList] = useState([]);
@@ -54,8 +57,10 @@ const Rooms = () => {
   const [modalState, setModalState] = React.useState("close");
   const [currentPage, setCurrentPage] = useState(1);
   const [pagesArray, setPagesArray] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const handleClose = () => setModalState("close");
+
   // const [searchRoom, setSearchRoom] = useState('');
   // const [timerId, setTimerId] = useState(null);
   const { facilitiesList } = useFacilities();
@@ -67,6 +72,16 @@ const Rooms = () => {
     setValue
   } = useForm<IAddRoom>();
 
+  const handleMenuClick = (event, room) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedRoom(room);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setSelectedRoom(null);
+    setModalState("close")
+  };
 
   // view-Modal
   const showViewModal = (id) => {
@@ -82,7 +97,6 @@ const Rooms = () => {
     setValue("capacity", room.capacity);
     setValue("discount", room.discount);
     // setValue("facilities", room?.facilities?.name);
-    // setValue("facilities", room?.facilities?.name || []);
     const selectedFacilities = room?.facilities?.map((f) => f._id) || [];
     setValue("facilities", selectedFacilities);
 
@@ -106,12 +120,6 @@ const Rooms = () => {
         formData.append("facilities[]", facility);
       });
     }
-    // else if (data.facilities) {
-    //   formData.append("facilities[]", data.facilities);
-    // }
-
-    // formData.append("facilities", data["facilities"][0]);
-    // formData.append("imgs", data["imgs"][0]);
     return formData;
   };
 
@@ -150,12 +158,12 @@ const Rooms = () => {
       .then((response) => {
 
         handleClose();
-
         // Fetch updated data after the update
         getAllRooms(currentPage);
+        toast.success("Room Update Successfully")
       })
       .catch((error) => {
-
+        toast.error(error.response.data.message)
       });
   };
   //********** Deleted Rooms****************
@@ -165,13 +173,15 @@ const Rooms = () => {
         headers: requestHeaders,
       })
       .then((response) => {
+        toast.success("Room Delete Successfully")
         setRoomsList(response.data.data.totalCount);
         setRoomId(roomId);
         handleClose();
         getAllRooms(currentPage);
+
       })
       .catch((error) => {
-
+        toast.error(error.response.data.message)
       });
   };
   // ************Room Details****************
@@ -309,33 +319,46 @@ const Rooms = () => {
                     <TableCell align="center" valign="middle">{room?.capacity}</TableCell>
 
                     <TableCell>
-                      <Button
-                        color="primary"
-                        className={`${styleroom.customBtn}`}
-                        onClick={() => showViewModal(room?._id)}
-                        style={{ marginRight: '2px !important' }}
-                      >
-                        <RemoveRedEyeIcon style={{ border: 'none' }} />
-                      </Button>
-                      <Button
+                      <IconButton onClick={(e) => handleMenuClick(e, room)}>
+                        <MoreVertIcon />
+                      </IconButton>
+                      <Menu
+                        anchorEl={anchorEl}
 
-                        color="warning"
-                        className={`${styleroom.customBtn}`}
-
-                        onClick={() => showUpdateModal(room)}
-                        style={{ marginRight: '2px !important' }}
+                        open={Boolean(anchorEl && selectedRoom?._id === room?._id)}
+                        onClose={handleClose}
                       >
-                        <EditIcon style={{ border: 'none' }} />
-                      </Button>
-                      <Button
-                        // color="danger"
-                        onClick={() => showDeleteModal(room._id)}
-                        className={`${styleroom.customBtn}`}
-                        style={{ marginRight: '2px !important' }}
-                      >
+                        <MenuItem
+                          onClick={() => showViewModal(room?._id)}
+                        >
+                          <Tooltip title="View" arrow>
+                            <IconButton color="primary" >
+                              <VisibilityIcon fontSize='small' />
 
-                        <DeleteIcon style={{ border: 'none' }} sx={{ color: red[500] }} />
-                      </Button>
+                            </IconButton>
+                          </Tooltip>
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => showUpdateModal(room)}>
+                          <Tooltip title="Update" arrow>
+                            <IconButton color="warning">
+                              <EditIcon fontSize='small' />
+
+                            </IconButton>
+                          </Tooltip>
+                        </MenuItem>
+                        <MenuItem onClick={() => showDeleteModal(room._id)}>
+                          <Tooltip title="Delete" arrow>
+                            <IconButton
+
+                              color="error"
+                            >
+                              <DeleteIcon fontSize='small' />
+
+                            </IconButton>
+                          </Tooltip>
+                        </MenuItem>
+                      </Menu>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -449,14 +472,14 @@ const Rooms = () => {
                   required
                   id="discount"
                   label="Discount"
-                  // variant="filled"
+
                   fullWidth
                   sx={{
                     width: "100%",
                     marginBottom: "1rem",
                     display: "flex",
                     flexDirection: "column",
-                    height: "100%", // Add this line
+                    height: "100%",
                     paddingTop: '5px'
                   }}
                 />
@@ -469,24 +492,7 @@ const Rooms = () => {
                 <FormControl sx={{ padding: "5px", minWidth: 120, width: '98%' }}>
                   <InputLabel id="facilities-label">Facilities</InputLabel>
 
-                  {/* <Select
-                        labelId="facilities-label"
-                        id="facilities"
-                        multiple
-                        value={watch("facilities") || []} // Using watch from react-hook-form to get the current value
-                        onChange={(e) => setValue("facilities", e.target.value, { shouldValidate: true })}
-                        fullWidth
-                        sx={{
-                          width: "100%",
-                          marginBottom: "1rem",
-                        }}
-                      >
-                        {facilitiesList.map((facility) => (
-                          <MenuItem key={facility._id} value={facility._id}>
-                            {facility.name}
-                          </MenuItem>
-                        ))}
-                      </Select> */}
+
                   <Select
                     labelId="facilities-label"
                     id="facilities"
@@ -504,16 +510,7 @@ const Rooms = () => {
                         ))}
                       </div>
                     )}
-                  // MenuComponent={({ children, ...props }) => (
-                  //   <div {...props}>
-                  //     {children}
-                  //     <Divider />
-                  //     <MenuItem>
-                  //       <Checkbox checked={watch('facilities')?.length === facilitiesList.length} />
-                  //       <ListItemText primary="Select All" />
-                  //     </MenuItem>
-                  //   </div>
-                  // )}
+
                   >
                     {facilitiesList.map((facility) => (
                       <MenuItem key={facility._id} value={facility._id}>
@@ -564,14 +561,7 @@ const Rooms = () => {
         </div>
         <p>Are you sure you want to delete this room ? </p>
         <div >
-          {/* <Button
-              onClick={deleteRoom}
-              className={
-                "btn btn-outline-danger my-3" + (isLoading ? " disabled" : "")
-              }
-            >
-              {isLoading ? <CircularProgress size={20} /> : "Delete this item"}
-            </Button> */}
+         
           <Grid item xs={6}>
             <Button variant="contained" type="submit"
               onClick={deleteRoom}

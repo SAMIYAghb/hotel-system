@@ -12,7 +12,9 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from "@mui/material";
@@ -21,26 +23,46 @@ const Users: React.FC = () => {
   const { requestHeaders }: any = useContext(AuthContext);
 
   const [users, setUsers] = useState([]);
-
+  // **********paginate*********
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagesArray, setPagesArray] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   // **********get all users*****************
-  const getUsersList = () => {
+  const getUsersList = (page: number) => {
     axios
-      .get(`${usersUrl}?page=1&size=10`, {
+      .get(`${usersUrl}`, {
         headers: requestHeaders,
+        params: {
+          size: rowsPerPage,
+          page: page,
+        }
       })
       .then((response) => {
         // console.log("succ list", response?.data?.data.users);
-
+        setPagesArray(Array.from(
+          { length: response?.data?.data.totalCount },
+          (_, i) => i + 1));
         setUsers(response?.data?.data.users);
+        setCurrentPage(page);
       })
       .catch((error) => {
         console.log("error", error);
       });
   };
   // ************************
+    //******** pagination*************
+    const handleChangePage = (event, newPage) => {
+      setCurrentPage(newPage + 1); // Update currentPage
+      getUsersList(newPage + 1); // Pass the newPage to getAllRooms
+    };
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(+event.target.value);
+      setCurrentPage(1); // Set currentPage to 1 when rowsPerPage changes
+      getUsersList(1); // Pass 1 as the initial page when rowsPerPage changes
+    };
   useEffect(() => {
-    getUsersList();
-  }, []);
+    getUsersList(currentPage);
+  }, [currentPage]);
 
   return (
     <>
@@ -51,7 +73,7 @@ const Users: React.FC = () => {
           </Typography>
           <TableContainer component={Paper}>
             <Table>
-              <TableHead sx={{ backgroundColor: '#f8f9fb' }}>
+              <TableHead className="tableHeadCustom">
                 <TableRow>
                   <TableCell>User name</TableCell>
                   <TableCell>Role</TableCell>
@@ -62,14 +84,18 @@ const Users: React.FC = () => {
               </TableHead>
               <TableBody>
                 {users?.length > 0 ? (
-                  users.map(({ _id,userName, role, phoneNumber, email, country}) => (
+                  users.map((user,index) => (
                    
-                      <TableRow  key={_id}>
-                        <TableCell>{userName}</TableCell>
-                        <TableCell>{role}</TableCell>
-                        <TableCell>{phoneNumber}</TableCell>
-                        <TableCell>{email}</TableCell>
-                        <TableCell>{country}</TableCell>
+                      <TableRow  key={user?._id}   style={
+                        index % 2
+                          ? { background: "#f6f6f6" }
+                          : { background: "white" }
+                      }>
+                        <TableCell>{user?.userName}</TableCell>
+                        <TableCell>{user?.role}</TableCell>
+                        <TableCell>{user?.phoneNumber}</TableCell>
+                        <TableCell>{user?.email}</TableCell>
+                        <TableCell>{user?.country}</TableCell>
                       </TableRow>
         
                   ))
@@ -92,6 +118,20 @@ const Users: React.FC = () => {
                   </TableRow>
                 )}
               </TableBody>
+              <TableFooter>
+              <TableRow>
+
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                  colSpan={6}
+                  count={pagesArray.length}  // Update this line
+                  rowsPerPage={rowsPerPage}
+                  page={currentPage - 1}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </TableRow>
+            </TableFooter>
             </Table>
           </TableContainer>
         </Grid>
