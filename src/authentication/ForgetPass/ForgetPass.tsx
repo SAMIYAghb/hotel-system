@@ -4,11 +4,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useTheme } from '@mui/material/styles';
-import { Button, Container, Grid, Paper, TextField, Typography } from '@mui/material';
+import { Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import styles from "./ForgetPass.module.scss"
 import logo from "../../assets/images/Staycation.png";
 import img from "../../assets/images/resetPass.png"
+import { toast } from 'react-toastify';
 
 const ForgetPass = () => {
   const theme = useTheme();
@@ -25,153 +26,106 @@ const ForgetPass = () => {
 
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // console.log(data);
+
     axios
       .post(`${forgetPassUrl}`, data)
       .then((response) => {
-        console.log("succ response", response);
-        console.log(data);
+
         navigate("/reset-password");
-        // getToastValue(
-        //   "success",
-        //   response?.data?.message || "password reset successfully"
-        // );
+        toast.success("Mail send please check inbox !")
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.response.data.message)
 
-        // getToastValue(
-        //   "error",
-        //   error?.response?.data?.message ||
-        //     "An error occurred. Please try again."
-        // );
       });
   };
 
 
   return (
-    <Container className={`${styles.wrapper}`} component="main">
-    <Grid container>
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        md={5}
-        component={Paper}
-        elevation={6}
-        mb={8}
-        mt={4}
-        sx={{
-          width: "100%", // Full width on small screens
-          [theme.breakpoints.up("md")]: {
-            width: "50%", // Half width on medium and larger screens
-          },
-        }}
-      >
-        <Paper elevation={0} sx={{ mx: 4, mt: 4 }}>
-          <img src={logo} />
-        </Paper>
-        {/* *******container of left side******* */}
-        <Box
-          sx={{
-            my: 4,
-            mx: 4,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Typography component="h1" variant="h4">
-          Forgot password
-          </Typography>
-          <Typography sx={{ my: 2 }} component="body" variant="body1">
-            If you already have an account register
-            <br />
-            You can
-            <Link to="/login" className={`${styles.forgetpass}`}> Login here !</Link>
-          </Typography>
-          {/* **********form inputs*********** */}
+    <Grid container component="main" className={styles.main}>
+      <Grid item xs={12} sm={12} md={6} className={styles.formContainer}>
+        <Paper elevation={0} className={styles.paper}>
+          <Paper elevation={0} sx={{ mx: 4, pt: 1, mb: 2 }}>
+            <img src={logo} />
+          </Paper>
+          {/* *******container of left side******* */}
           <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ mt: 1 }}
+            sx={{
+              // my: 2,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              // mt: 3, maxWidth: '400px', margin: 'auto'
+            }}
           >
-            <TextField
-              {...register("email", {
-                required: true,
-                pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-              })}
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            {errors.email && errors.email.type === "required" && (
-              <span className="errorMsg">Email is required</span>
-            )}
-
-            {errors.email && errors.email.type === "pattern" && (
-              <span className="errorMsg">Email is invalid</span>
-            )}
-
-            <Button
-              className={`${styles.forgetBtn}`}
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Send Mail
-            </Button>
-          </Box>
-          {/* //end form inputs */}
-        </Box>
-      </Grid>
-
-      {/* right side img  */}
-      <Grid
-        item
-
-        sm={12}
-        md={6}
-        component={Paper}
-        elevation={6}
-        mb={8}
-        mt={4}
-        sx={{
-          display: "flex",
-          flexDirection: 'column',
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Paper elevation={0} sx={{ mx: 4, mt: 4 }}>
-          <div style={{ position: 'relative' }}>
-
-            <img className={`${styles.forgetImg}`} src={img} />
-            <Typography
-              variant="h4"
-              sx={{
-                position: 'absolute',
-                bottom: 100, // Align the text to the bottom
-                left: '40%',
-                transform: 'translateX(-50%)',
-                color: 'white', // Text color
-                zIndex: 1, // Place text above the image
-              }}
-            >
-              Forgot password
-              <h6>Homes as unique as you.</h6>
+            <Typography component="h2" variant="h5">
+            Forgot password
             </Typography>
-          </div>
+            <Typography sx={{ my: 2 }} component="body" variant="body1">
+            If you already have an account register
+              <br />
+              You can
+              <Link to="/login" className={`${styles.forgetpass}`}> Login here !</Link>
+            </Typography>
+            {/* **********form inputs*********** */}
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit(onSubmit)}
+              sx={{ mt: 3 }}
+            >
+              <TextField
+                {...register("email", {
+                  required: true,
+                  pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                })}
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              {errors.email && errors.email.type === "required" && (
+                <span className="errorMsg">Email is required</span>
+              )}
+
+              {errors.email && errors.email.type === "pattern" && (
+                <span className="errorMsg">Email is invalid</span>
+              )}
+
+
+
+              <Grid container>
+                <Grid item xs sx={{ mb: 5, pb: 5, pt: 2 }}>
+                  <Link to="/forget-password">Forgot password?</Link>
+                </Grid>
+              </Grid>
+
+              <Button
+                className={`${styles.loginBtn}`}
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                sx={{ mt: 5, mb: 2, py: 1 }}
+              >
+                Send Mail
+              </Button>
+            </Box>
+          </Box>
         </Paper>
+      </Grid>
+      <Grid item xs={false} sm={false} md={6} className={styles.imageContainer}>
+        <img src={img} alt="Login Image" className={styles.image} />
+        <Typography variant="h4" className={styles.imageText}>
+        Forgot password
+          <h6>Homes as unique as you.</h6>
+        </Typography>
       </Grid>
     </Grid>
-  </Container>
   )
 }
 

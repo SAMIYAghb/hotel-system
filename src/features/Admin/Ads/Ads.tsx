@@ -21,7 +21,6 @@ import { Container } from '@mui/system';
 
 const Ads: React.FC = () => {
   const { requestHeaders } = useContext(AuthContext);
-  // const [adsList, setAdsList] = useState([]);
   const [adsList, setAdsList] = useState([] ?? []);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedAd, setSelectedAd] = useState(null);
@@ -105,25 +104,6 @@ const Ads: React.FC = () => {
       })
   }
   //************* Update Ads **************
-
-  // const updateAds = (data) => {
-  //   const isActiveBoolean = active === 'yes';
-  //   data.isActive = isActiveBoolean;
-  //   axios
-  //     .put(`${updateAdsUrl}/${adId}`, data, {
-  //       headers: requestHeaders,
-  //     })
-  //     .then((response) => {
-
-  //       handleClose();
-
-  //       // Fetch updated data after the update
-  //       getAllAds(currentPage);
-  //     })
-  //     .catch((error) => {
-
-  //     });
-  // };
   const updateAds = (data) => {
     // const isActiveBoolean = active === 'yes';
     data.isActive = active === 'yes';

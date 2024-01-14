@@ -1,7 +1,8 @@
 import { Container } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -17,7 +18,8 @@ import { IRegister } from "../../interface/AuthInterface";
 import { regisrterUrl } from "../../services/api.tsx";
 import { AuthContext } from "./../../context/AuthContext.tsx";
 import CustomButton from "./../../features/UI/CustomButton/CustomButton";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Register: React.FC = () => {
   const { saveUserData } = useContext(AuthContext);
@@ -51,64 +53,58 @@ const Register: React.FC = () => {
   };
 
   const onSubmit: SubmitHandler<IRegister> = async (data: IRegister) => {
-    // console.log(data);
+
     const addFormData = appendToFormData(data);
     await axios
       .post(`${regisrterUrl}`, addFormData)
       .then((response) => {
-        console.log("succ response", response);
+
         // localStorage.setItem("userToken", response.data.data.token);
-        // console.log(response.data.data.token , 'token from registration');
+   
         // saveUserData();
         navigate('/home');
-        // getToastValue("success", "Login successfully!")
+
+        toast.success("Register successfully!")
       })
       .catch((error) => {
-        console.log(error);
-        // getToastValue("error", error.response?.data.message || "An error occurred");
+
+        toast.error(error.response.data.message)
       });
   };
 
   return (
-    <Container className={`${Styles.wrapper}`} component="main">
-      <Grid container>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={5}
-          component={Paper}
-          elevation={6}
-          mb={8}
-          mt={4}
-        >
-          <Paper elevation={0} sx={{ mx: 4, mt: 4 }}>
+
+    <Grid container component="main" className={Styles.main}>
+      <Grid item xs={12} sm={12} md={6} className={Styles.formContainer}>
+        <Paper elevation={0} className={Styles.paper}>
+          <Paper elevation={0} sx={{ mx: 4, pt: 1, mb: 2 }}>
             <img src={logo} />
           </Paper>
           {/* *******container of left side******* */}
           <Box
             sx={{
-              my: 4,
+              // my: 2,
               mx: 4,
               display: "flex",
               flexDirection: "column",
+              // mt: 3, maxWidth: '400px', margin: 'auto'
             }}
           >
-            <Typography component="h1" variant="h4">
+            <Typography component="h2" variant="h5">
               Sign up
             </Typography>
             <Typography sx={{ my: 2 }} component="body" variant="body1">
-              If you already have an account register
+              If you have an account login
               <br />
               You can
-              <Link className={`${Styles.register}`}> Login here !</Link>
+              <Link to="/login" className={`${Styles.register}`}> Login here !</Link>
             </Typography>
             {/* **********form inputs*********** */}
             <Box
               component="form"
               noValidate
               onSubmit={handleSubmit(onSubmit)}
-              sx={{ mt: 1 }}
+              sx={{ mt: 3 }}
             >
               <TextField
                 {...register("userName", {
@@ -126,6 +122,7 @@ const Register: React.FC = () => {
               {errors.userName && errors.userName.type === "required" && (
                 <span className="errorMsg">userName is required</span>
               )}
+
               <Grid
                 container
                 rowSpacing={1}
@@ -245,28 +242,18 @@ const Register: React.FC = () => {
                 required
                 fullWidth
                 name="profileImage"
-                label="profileImage"
+                // label="profileImage"
                 type="file"
                 id="profileImage"
-                // autoComplete="current-password"
+              // autoComplete="current-password"
               />
+
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+                <Grid item xs sx={{ mb: 5, pb: 5, pt: 2 }}>
+                  <Link to="/forget-password">Forgot password?</Link>
                 </Grid>
               </Grid>
 
-              {/* <Button
-                className={`${Styles.loginBtn}`}
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Login
-              </Button> */}
               <CustomButton
                 className="your-custom-class"
                 type="submit"
@@ -277,15 +264,17 @@ const Register: React.FC = () => {
                 Register
               </CustomButton>
             </Box>
-            {/* //end form inputs */}
           </Box>
-        </Grid>
-
-        <Grid item sm={12} md={5} component={Paper} elevation={6} mb={8} mt={4}>
-          <img className={`${Styles.RegisterImg}`} src={registerimg} />
-        </Grid>
+        </Paper>
       </Grid>
-    </Container>
+      <Grid item xs={false} sm={false} md={6} className={Styles.imageContainer}>
+        <img src={registerimg} alt="Register Image" className={Styles.image} />
+        <Typography variant="h4" className={Styles.imageText}>
+          Sign in to Roamhome
+          <h6>Homes as unique as you.</h6>
+        </Typography>
+      </Grid>
+    </Grid>
   );
 };
 export default Register;

@@ -20,6 +20,7 @@ const useFacilities = () => {
             .then((response) => {
                 setFacilitiesList(response?.data?.data?.facilities);
                 setLoading(false);
+               
             })
             .catch((error) => {
                 setLoading(false);

@@ -95,7 +95,7 @@ const AddNewRoom: React.FC = () => {
             elevation={6}
             mb={8}
             mt={4}
-            sx={{ padding: "2rem" }}
+            sx={{ padding: "1rem" }}
           >
             <Box
               sx={{

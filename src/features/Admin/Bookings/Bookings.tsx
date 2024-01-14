@@ -63,7 +63,7 @@ const Bookings: React.FC = () => {
         },
       })
       .then((response) => {
-        // console.log("succ book list", response?.data?.data?.booking);
+
         setPagesArray(
           Array.from(
             { length: response?.data?.data.totalCount },
@@ -74,7 +74,7 @@ const Bookings: React.FC = () => {
         setCurrentPage(page);
       })
       .catch((error) => {
-        // console.log("error", error);
+      
       });
   };
   // ************booking Details****************
@@ -84,11 +84,11 @@ const Bookings: React.FC = () => {
         headers: requestHeaders,
       })
       .then((response) => {
-        // console.log("book details", response?.data?.data.booking);
+
         setBookingDetails(response?.data?.data?.booking);
       })
       .catch((error) => {
-        // console.log("book det", error);
+
       });
   };
   //********** Deleted booking****************

@@ -5,7 +5,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import logo from "../../assets/images/Staycation.png";
-import img from "../../assets/images/login.png";
+import img from "../../assets/images/Rectangle 7.png";
 import Styles from "./ChangePass.module.scss";
 import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
@@ -17,6 +17,7 @@ import { AuthContext } from "./../../context/AuthContext.tsx";
 import { changePassUrl } from "../../services/api.tsx";
 import CustomButton from './../../features/UI/CustomButton/CustomButton';
 import { IChangePass } from './../../interface/AuthInterface';
+import { toast } from "react-toastify";
 
 const ChangePass: React.FC = () => {
   const { saveUserData, requestHeaders } = useContext(AuthContext);
@@ -30,61 +31,50 @@ const ChangePass: React.FC = () => {
   } = useForm<IChangePass>();
 
   const onSubmit: SubmitHandler<IChangePass> = async (data) => {
-    // console.log(data);
+
     await axios
       .post(`${changePassUrl}`, data, {
         headers: requestHeaders,
       })
       .then((response) => {
-        console.log("succ response", response);
+
         navigate('/home');
 
+        toast.success("Password change successfully!")
 
-        // getToastValue("success", "Login successfully!")
       })
       .catch((error) => {
-        console.log(error);
-        // getToastValue("error", error.response?.data.message || "An error occurred");
+        toast.error(error.response.data.message)
       });
   };
 
   return (
-    <Container className={`${Styles.wrapper}`} component="main">
-      <Grid container>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={5}
-          component={Paper}
-          elevation={6}
-          mb={8}
-          mt={4}
-        >
-          <Paper elevation={0} sx={{ mx: 4, mt: 4 }}>
+    <Grid container component="main" className={Styles.main}>
+      <Grid item xs={12} sm={12} md={6} className={Styles.formContainer}>
+        <Paper elevation={0} className={Styles.paper}>
+          <Paper elevation={0} sx={{ mx: 4, pt: 1, mb: 2 }}>
             <img src={logo} />
           </Paper>
           {/* *******container of left side******* */}
           <Box
             sx={{
-              my: 4,
+              // my: 2,
               mx: 4,
               display: "flex",
               flexDirection: "column",
+              // mt: 3, maxWidth: '400px', margin: 'auto'
             }}
           >
-            <Typography component="h1" variant="h4">
+            <Typography component="h2" variant="h5">
               Change password
             </Typography>
-            <Typography sx={{ my: 2 }} component="body" variant="body1">
-              Change password
-            </Typography>
+
             {/* **********form inputs*********** */}
             <Box
               component="form"
               noValidate
               onSubmit={handleSubmit(onSubmit)}
-              sx={{ mt: 1 }}
+              sx={{ mt: 3 }}
             >
               <TextField
                 {...register("oldPassword", {
@@ -169,6 +159,8 @@ const ChangePass: React.FC = () => {
                   </Link>
                 </Grid>
               </Grid>
+
+
               <CustomButton
                 className="your-custom-class"
                 type="submit"
@@ -179,25 +171,17 @@ const ChangePass: React.FC = () => {
                 Change Password
               </CustomButton>
             </Box>
-            {/* //end form inputs */}
           </Box>
-        </Grid>
-
-        <Grid
-          item
-
-          sm={12}
-          md={5}
-          component={Paper}
-          elevation={6}
-          mb={8}
-          mt={4}
-        >
-          <img className={`${Styles.loginImg}`} src={img} />
-
-        </Grid>
+        </Paper>
       </Grid>
-    </Container>
+      <Grid item xs={false} sm={false} md={6} className={Styles.imageContainer}>
+        <img src={img} alt="Login Image" className={Styles.image} />
+        <Typography variant="h4" className={Styles.imageText}>
+          Change password
+          <h6>Homes as unique as you.</h6>
+        </Typography>
+      </Grid>
+    </Grid>
 
   );
 };

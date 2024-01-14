@@ -39,7 +39,7 @@ const Users: React.FC = () => {
         }
       })
       .then((response) => {
-        // console.log("succ list", response?.data?.data.users);
+
         setPagesArray(Array.from(
           { length: response?.data?.data.totalCount },
           (_, i) => i + 1));
@@ -47,7 +47,7 @@ const Users: React.FC = () => {
         setCurrentPage(page);
       })
       .catch((error) => {
-        console.log("error", error);
+    
       });
   };
   // ************************
@@ -78,7 +78,7 @@ const Users: React.FC = () => {
       <div style={{ marginTop: '40px' }}></div>
       <Container>
         <Grid item>
-        
+
           <TableContainer component={Paper}>
             <Table>
               <TableHead className="tableHeadCustom">

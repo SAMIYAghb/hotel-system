@@ -14,6 +14,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
 import { loginUrl } from "../../services/api.tsx";
+import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
   const { saveUserData } = useContext(AuthContext);
@@ -31,23 +32,23 @@ const Login: React.FC = () => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // console.log(data);
+
     await axios
       .post(`${loginUrl}`, data)
       .then((response) => {
-        console.log("succ response", response);
+
         localStorage.setItem("userToken", response.data.data.token);
 
-        console.log(response.data.token);
+
 
         saveUserData();
         navigate("/home");
 
-        // getToastValue("success", "Login successfully!")
+        toast.success("Login Successfully")
       })
       .catch((error) => {
-        console.log(error);
-        // getToastValue("error", error.response?.data.message || "An error occurred");
+        toast.error(error.response.data.message)
+
       });
   };
 

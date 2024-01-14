@@ -43,8 +43,7 @@ const CustomTable: React.FC<CustomTableProps<DataType>> = ({
   modelName,
   columns,
 }) => {
-    // console.log("Columns: ", columns);
-  // console.log("Data: ", data);
+ 
   return (
     <TableContainer>
       <Table>
