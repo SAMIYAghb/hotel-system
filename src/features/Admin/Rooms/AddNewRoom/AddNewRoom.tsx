@@ -11,6 +11,7 @@ import { addroomsUrl } from "../../../../services/api";
 import { IAddRoom } from "../../../../interface/RoomInterface";
 import DragDropFileUpload from "../../../../shared/DragDropFileUpload/DragDropFileUpload";
 import useFacilities from "../../../Hook/useFacilities";
+import { toast } from 'react-toastify';
 const AddNewRoom: React.FC = () => {
   const { requestHeaders } = useContext(AuthContext);
 
@@ -42,9 +43,7 @@ const AddNewRoom: React.FC = () => {
         formData.append("facilities[]", facility);
       });
     }
-    // else if (data.facilities) {
-    //   formData.append("facilities[]", data.facilities);
-    // }
+
 
     // formData.append("imgs", data["imgs"][0]);
     return formData;
@@ -63,9 +62,11 @@ const AddNewRoom: React.FC = () => {
         // setIsLoading(false)
 
         navigate("/home/rooms");
+        toast.success("Room Add Successfully");
       })
       .catch((error) => {
         // setIsLoading(false)
+        toast.error(error.response.data.message)
 
       })
       .finally(() => setIsLoading(false));
@@ -175,73 +176,7 @@ const AddNewRoom: React.FC = () => {
                   </Grid>
                 </Grid>
 
-                {/* <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <TextField
-                      {...register("discount", {
-                        required: true,
-                        valueAsNumber: true,
-                      })}
-                      required
-                      id="discount"
-                      label="Discount"
-                      variant="filled"
-                      fullWidth
-                      sx={{
-                        width: "100%",
-                        marginBottom: "1rem",
-                      }}
-                    />
-                    {errors.discount && errors.discount.type === "required" && (
-                      <span className="errorMsg">This field is required</span>
-                    )}
-                  </Grid>
 
-                  <Grid item xs={6}>
-                    <InputLabel id="simple-dropdown-label">
-                      facilities
-                    </InputLabel>
-
-
-                    <Select
-                      labelId="facilities-label"
-                      id="facilities"
-                      multiple
-                      value={watch('facilities') || []}
-                      onChange={(e) => setValue('facilities', e.target.value, { shouldValidate: true })}
-                      sx={{ width: '100%' }}
-                      renderValue={(selected) => (
-                        <div>
-                          {selected.map((value) => (
-                            <span key={value} style={{ marginRight: '8px' }}>
-                              {facilitiesList.find((facility) => facility._id === value)?.name || ''}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      MenuComponent={({ children, ...props }) => (
-                        <div {...props}>
-                          {children}
-                          <Divider />
-                          <MenuItem>
-                            <Checkbox checked={watch('facilities')?.length === facilitiesList.length} />
-                            <ListItemText primary="Select All" />
-                          </MenuItem>
-                        </div>
-                      )}
-                    >
-                      {facilitiesList.map((facility) => (
-                        <MenuItem key={facility._id} value={facility._id}>
-                          <Checkbox checked={watch('facilities')?.includes(facility._id)} />
-                          <ListItemText primary={facility.name} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    {errors.facilities && errors.facilities.type === "required" && (
-                      <span className="errorMsg">Facilities are required</span>
-                    )}
-                  </Grid>
-                </Grid> */}
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <TextField
@@ -272,24 +207,7 @@ const AddNewRoom: React.FC = () => {
                     <FormControl sx={{ padding: "5px", minWidth: 120, width: '98%' }}>
                       <InputLabel id="facilities-label">Facilities</InputLabel>
 
-                      {/* <Select
-                        labelId="facilities-label"
-                        id="facilities"
-                        multiple
-                        value={watch("facilities") || []} // Using watch from react-hook-form to get the current value
-                        onChange={(e) => setValue("facilities", e.target.value, { shouldValidate: true })}
-                        fullWidth
-                        sx={{
-                          width: "100%",
-                          marginBottom: "1rem",
-                        }}
-                      >
-                        {facilitiesList.map((facility) => (
-                          <MenuItem key={facility._id} value={facility._id}>
-                            {facility.name}
-                          </MenuItem>
-                        ))}
-                      </Select> */}
+
                       <Select
                         labelId="facilities-label"
                         id="facilities"
@@ -307,16 +225,7 @@ const AddNewRoom: React.FC = () => {
                             ))}
                           </div>
                         )}
-                      // MenuComponent={({ children, ...props }) => (
-                      //   <div {...props}>
-                      //     {children}
-                      //     <Divider />
-                      //     <MenuItem>
-                      //       <Checkbox checked={watch('facilities')?.length === facilitiesList.length} />
-                      //       <ListItemText primary="Select All" />
-                      //     </MenuItem>
-                      //   </div>
-                      // )}
+
                       >
                         {facilitiesList.map((facility) => (
                           <MenuItem key={facility._id} value={facility._id}>
@@ -344,20 +253,7 @@ const AddNewRoom: React.FC = () => {
                 </div>
 
 
-                {/*
-                  <Grid item xs={6}>
-                    <Button variant="contained" type="submit">
-                      Add
-                    </Button>
-                    <Button
-                      // variant="contained"
-                      color="orange"
-                      className={`my-3 px-4 ${isLoading ? "disabled" : ""}`}
-                      disabled={isLoading}
-                    >
-                      {isLoading ? <CircularProgress size={20} thickness={5} /> : "Save"}
-                    </Button>
-                  </Grid> */}
+                
                 <Grid
                   container
                   spacing={2}

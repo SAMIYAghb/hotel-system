@@ -54,7 +54,7 @@ const Facilities = () => {
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
-  
+
 
   // ************Add Facility
   const onSubmit: SubmitHandler<IFacility> = async (data: IFacility) => {

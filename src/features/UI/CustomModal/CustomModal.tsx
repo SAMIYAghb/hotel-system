@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Typography, Button } from "@mui/material";
 import style from './CustomModal.module.scss'
-const CustomModal = ({ open, onClose, title, children }) => {
+const CustomModal = ({ open, onClose, title, children}) => {
   return (
     <Modal open={open} onClose={onClose} className={style.modal}>
       <div className={style.paper}style={{
