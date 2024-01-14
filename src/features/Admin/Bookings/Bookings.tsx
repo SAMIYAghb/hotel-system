@@ -197,7 +197,7 @@ const Bookings: React.FC = () => {
                             <Tooltip title="View" arrow>
                               <IconButton color="primary">
                                 <VisibilityIcon fontSize="small" />
-                                <p className="menuText">View</p>
+                              
                               </IconButton>
                             </Tooltip>
                           </MenuItem>
@@ -208,7 +208,7 @@ const Bookings: React.FC = () => {
                             <Tooltip title="Delete" arrow>
                               <IconButton color="error">
                                 <DeleteIcon fontSize="small" />
-                                <p className="menuText">Delete</p>
+                               
                               </IconButton>
                             </Tooltip>
                           </MenuItem>
