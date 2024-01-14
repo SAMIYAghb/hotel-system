@@ -78,9 +78,7 @@ const Users: React.FC = () => {
       <div style={{ marginTop: '40px' }}></div>
       <Container>
         <Grid item>
-          <Typography component="h2" variant="h5">
-            Users
-          </Typography>
+        
           <TableContainer component={Paper}>
             <Table>
               <TableHead className="tableHeadCustom">
