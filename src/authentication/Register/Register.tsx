@@ -247,7 +247,10 @@ const Register: React.FC = () => {
                 id="profileImage"
               // autoComplete="current-password"
               />
-
+{errors.profileImage &&
+                errors.profileImage.type === "required" && (
+                  <span className="errorMsg">profileImage is required</span>
+                )}
               <Grid container>
                 <Grid item xs sx={{ mb: 5, pb: 5, pt: 2 }}>
                   <Link to="/forget-password">Forgot password?</Link>
