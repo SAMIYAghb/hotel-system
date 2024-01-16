@@ -51,3 +51,14 @@ export const bookingDetailsUrl = `${baseUrl}/admin/booking`;
 export const deleteBookingUrl = `${baseUrl}/admin/booking`;
 
 
+// ******** USER API********
+// ******** Login user ********
+export const userLoginUrl = `${baseUrl}/portal/users/login`;
+// ******** Register user  ********
+export const userRegisrterUrl = `${baseUrl}/portal/users`;
+// ******** Reset-Password user  ********
+export const userResetPassUrl = `${baseUrl}/portal/users/reset-password`;
+// ******** forget-Password user  ********
+export const userForgetPassUrl = `${baseUrl}/portal/users/forgot-password`;
+// ******** Change-Password user ********
+export const userChangePassUrl = `${baseUrl}/portal/users/change-password`;

@@ -14,13 +14,13 @@ import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
-import { changePassUrl } from "../../services/api.tsx";
-import CustomButton from './../../features/UI/CustomButton/CustomButton';
-import { IChangePass } from './../../interface/AuthInterface';
+import { changePassUrl, userChangePassUrl } from "../../services/api.tsx";
+import CustomButton from "./../../features/UI/CustomButton/CustomButton";
+import { IChangePass } from "./../../interface/AuthInterface";
 import { toast } from "react-toastify";
 
 const ChangePass: React.FC = () => {
-  const { saveUserData, requestHeaders } = useContext(AuthContext);
+  const { saveUserData, requestHeaders, userRole } = useContext(AuthContext);
   // let {getToastValue} = useContext(ToastContext);
   const navigate = useNavigate();
 
@@ -31,20 +31,22 @@ const ChangePass: React.FC = () => {
   } = useForm<IChangePass>();
 
   const onSubmit: SubmitHandler<IChangePass> = async (data) => {
-
+    const url = userRole === "admin" ? changePassUrl : userChangePassUrl;
     await axios
-      .post(`${changePassUrl}`, data, {
+      .post(url, data, {
         headers: requestHeaders,
       })
       .then((response) => {
+        if (userRole == "admin") {
+          navigate("/admin/home");
+        } else {
+          navigate("/user/home");
+        }
 
-        navigate('/home');
-
-        toast.success("Password change successfully!")
-
+        toast.success("Password change successfully!");
       })
       .catch((error) => {
-        toast.error(error.response.data.message)
+        toast.error(error.response.data.message);
       });
   };
 
@@ -79,7 +81,8 @@ const ChangePass: React.FC = () => {
               <TextField
                 {...register("oldPassword", {
                   required: true,
-                  pattern: /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  pattern:
+                    /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                 })}
                 margin="normal"
                 required
@@ -135,31 +138,28 @@ const ChangePass: React.FC = () => {
                 id="confirmPassword"
                 autoComplete="confirmPassword"
               />
-              {errors.confirmPassword && errors.confirmPassword.type === "required" && (
-                <span className="errorMsg">confirmPassword is required</span>
-              )}
-              {errors.confirmPassword && errors.confirmPassword.type === "pattern" && (
-                <span className="errorMsg">confirmPassword is invalid</span>
-              )}
+              {errors.confirmPassword &&
+                errors.confirmPassword.type === "required" && (
+                  <span className="errorMsg">confirmPassword is required</span>
+                )}
+              {errors.confirmPassword &&
+                errors.confirmPassword.type === "pattern" && (
+                  <span className="errorMsg">confirmPassword is invalid</span>
+                )}
 
               <Grid
                 container
                 sx={{
-                  justifyContent: 'space-between',
+                  justifyContent: "space-between",
                 }}
               >
                 <Grid item>
-                  <Link to="/forget-password">
-                    Forgot password?
-                  </Link>
+                  <Link to="/forget-password">Forgot password?</Link>
                 </Grid>
-                <Grid item >
-                  <Link to="/home">
-                    Back to Home
-                  </Link>
+                <Grid item>
+                  <Link to="/home">Back to Home</Link>
                 </Grid>
               </Grid>
-
 
               <CustomButton
                 className="your-custom-class"
@@ -182,7 +182,6 @@ const ChangePass: React.FC = () => {
         </Typography>
       </Grid>
     </Grid>
-
   );
 };
 export default ChangePass;

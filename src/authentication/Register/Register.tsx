@@ -1,8 +1,6 @@
-import { Container } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 // import Link from "@mui/material/Link";
-import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -10,16 +8,17 @@ import axios from "axios";
 import * as React from "react";
 import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import logo from "../../assets/images/Staycation.png";
 import registerimg from "../../assets/images/registerimg.png";
 import Styles from "./Register.module.scss";
 // import { useNavigate } from "react-router-dom";
-import { IRegister } from "../../interface/AuthInterface";
-import { regisrterUrl } from "../../services/api.tsx";
-import { AuthContext } from "./../../context/AuthContext.tsx";
-import CustomButton from "./../../features/UI/CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { IRegister } from "../../interface/AuthInterface";
+import { userRegisrterUrl} from "../../services/api.tsx";
+import { AuthContext } from "./../../context/AuthContext.tsx";
+import CustomButton from "./../../features/UI/CustomButton/CustomButton";
 
 const Register: React.FC = () => {
   const { saveUserData } = useContext(AuthContext);
@@ -47,33 +46,29 @@ const Register: React.FC = () => {
     //   formData.append("profileImage", data["profileImage"]);
     // }
     if (data.profileImage) {
-      formData.append("profileImage", data.profileImage[0]); // Prenez le premier fichier du FileList
+      formData.append("profileImage", data.profileImage[0]); // take the first folder of FileList
     }
     return formData;
   };
 
   const onSubmit: SubmitHandler<IRegister> = async (data: IRegister) => {
-
     const addFormData = appendToFormData(data);
     await axios
-      .post(`${regisrterUrl}`, addFormData)
+      .post(`${userRegisrterUrl}`, addFormData)
       .then((response) => {
-
         // localStorage.setItem("userToken", response.data.data.token);
-   
-        // saveUserData();
-        navigate('/home');
 
-        toast.success("Register successfully!")
+        // saveUserData();
+        navigate("/user/home");
+
+        toast.success("Register successfully!");
       })
       .catch((error) => {
-
-        toast.error(error.response.data.message)
+        toast.error(error.response.data.message);
       });
   };
 
   return (
-
     <Grid container component="main" className={Styles.main}>
       <Grid item xs={12} sm={12} md={6} className={Styles.formContainer}>
         <Paper elevation={0} className={Styles.paper}>
@@ -97,7 +92,10 @@ const Register: React.FC = () => {
               If you have an account login
               <br />
               You can
-              <Link to="/login" className={`${Styles.register}`}> Login here !</Link>
+              <Link to="/login" className={`${Styles.register}`}>
+                {" "}
+                Login here !
+              </Link>
             </Typography>
             {/* **********form inputs*********** */}
             <Box
@@ -132,6 +130,9 @@ const Register: React.FC = () => {
                   <TextField
                     {...register("phoneNumber", {
                       required: true,
+                      pattern: /^01[0-2]{1}\d{8}$/,
+                        // message: "Phone number must start with 01 and be 11 digits in total"
+                    
                     })}
                     margin="normal"
                     required
@@ -145,6 +146,10 @@ const Register: React.FC = () => {
                   {errors.phoneNumber &&
                     errors.phoneNumber.type === "required" && (
                       <span className="errorMsg">phoneNumber is required</span>
+                    )}
+                    {errors.phoneNumber &&
+                    errors.phoneNumber.type === "pattern" && (
+                      <span className="errorMsg">Phone number must start with 01 and be 11 digits in total</span>
                     )}
                 </Grid>
                 <Grid item xs={6}>
@@ -236,7 +241,6 @@ const Register: React.FC = () => {
               <TextField
                 {...register("profileImage", {
                   required: true,
-
                 })}
                 margin="normal"
                 required
@@ -245,9 +249,9 @@ const Register: React.FC = () => {
                 // label="profileImage"
                 type="file"
                 id="profileImage"
-              // autoComplete="current-password"
+                // autoComplete="current-password"
               />
-{errors.profileImage &&
+              {errors.profileImage &&
                 errors.profileImage.type === "required" && (
                   <span className="errorMsg">profileImage is required</span>
                 )}

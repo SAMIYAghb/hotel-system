@@ -52,7 +52,7 @@ const AddNewAd: React.FC = () => {
         axios
             .post(`${addAdsUrl}`, data, { headers: requestHeaders })
             .then((response) => {
-                navigate('/home/ads');
+                navigate('/admin/home/ads');
                 toast.success("Ads Add Successfully");
             })
             .catch((error) => {

@@ -1,4 +1,4 @@
-import * as React from "react";
+
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
@@ -13,11 +13,11 @@ import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
-import { loginUrl } from "../../services/api.tsx";
+import { loginUrl , userLoginUrl} from "../../services/api.tsx";
 import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
-  const { saveUserData } = useContext(AuthContext);
+  const { saveUserData , userRole} = useContext(AuthContext);
   // let {getToastValue} = useContext(ToastContext);
   const navigate = useNavigate();
   type FormValues = {
@@ -32,17 +32,21 @@ const Login: React.FC = () => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-
+    const url = userRole === "admin" ? loginUrl : userLoginUrl;
     await axios
-      .post(`${loginUrl}`, data)
+      .post(url, data)
       .then((response) => {
 
         localStorage.setItem("userToken", response.data.data.token);
 
-
-
         saveUserData();
-        navigate("/home");
+
+        if(userRole == "admin"){
+          navigate("/admin/home");
+        }else{
+          navigate("/user/home");
+        }
+       
 
         toast.success("Login Successfully")
       })

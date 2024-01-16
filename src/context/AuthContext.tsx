@@ -54,7 +54,10 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
 
 
             setUserData(decodedToken);
+            
             setUserRole(decodedToken.role);
+            console.log(decodedToken.role);
+
 
         } catch (error) {
 
