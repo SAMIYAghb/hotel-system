@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { resetPassUrl } from '../../services/api'
+import React, { useState,useContext } from 'react'
+import { resetPassUrl , userResetPassUrl} from '../../services/api'
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -13,8 +13,10 @@ import { InputAdornment, IconButton } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { toast } from 'react-toastify';
+import { AuthContext } from "./../../context/AuthContext.tsx";
 
 const ResetPass: React.FC = () => {
+  const { userRole} = useContext(AuthContext);
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -38,9 +40,9 @@ const ResetPass: React.FC = () => {
     setShowPassword((prev) => !prev);
   };
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-
-    axios
-      .post(`${resetPassUrl}`, data)
+    const url = userRole === "admin" ? resetPassUrl : userResetPassUrl;
+    await axios
+      .post(url, data)
       .then((response) => {
 
         navigate("/login");

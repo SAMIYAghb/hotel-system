@@ -254,7 +254,7 @@ const Rooms = () => {
             <p variant="h6">You can check all details</p>
           </Typography>
 
-          <Link to="/home/rooms/add-room">
+          <Link to="/admin/home/rooms/add-room">
             <CustomButton
               className="your-custom-class"
               type="submit"

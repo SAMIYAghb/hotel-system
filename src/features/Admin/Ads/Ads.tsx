@@ -180,7 +180,7 @@ const Ads: React.FC = () => {
             <p variant="h6">You can check all details</p>
           </Typography>
 
-          <Link to="/home/ads/add-ad">
+          <Link to="/admin/home/ads/add-ad">
             <CustomButton
               className="your-custom-class"
               type="submit"

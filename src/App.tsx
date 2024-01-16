@@ -20,6 +20,7 @@ import { IAuth } from './interface/AuthInterface';
 import AddNewRoom from './features/Admin/Rooms/AddNewRoom/AddNewRoom';
 import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
 import Facilities from './features/Admin/Facilities/Facilities';
+import UserHome from './features/User/UserHome/UserHome';
 
 
 
@@ -44,7 +45,7 @@ function App() {
       ],
     },
     {
-      path: "home",
+      path: "/admin/home",
 
       element: (
         <ProtectedRoute userData={userData}>
@@ -64,6 +65,29 @@ function App() {
         { path: "facilities", element: <Facilities /> },
 
         { path: "bookings", element: <Bookings /> },
+      ],
+    },
+    {
+      path: "/user/home",
+
+      // element: (
+      //   <ProtectedRoute userData={userData}>
+      //     <MasterLayout userData={userData} />
+      //   </ProtectedRoute>
+      // ),
+      errorElement: <NotFound />,
+      children: [
+        { index: true, element: <UserHome /> },
+        // { path: "users", element: <Users /> },
+        // { path: "rooms", element: <Rooms /> },
+        // { path: "rooms/add-room", element: <AddNewRoom /> },
+        // { path: "ads", element: <Ads /> },
+
+        // { path: "ads/add-ad", element: <AddNewAd /> },
+
+        // { path: "facilities", element: <Facilities /> },
+
+        // { path: "bookings", element: <Bookings /> },
       ],
     },
   ]);

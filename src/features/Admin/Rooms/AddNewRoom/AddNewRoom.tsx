@@ -61,7 +61,7 @@ const AddNewRoom: React.FC = () => {
       .then((response) => {
         // setIsLoading(false)
 
-        navigate("/home/rooms");
+        navigate("/admin/home/rooms");
         toast.success("Room Add Successfully");
       })
       .catch((error) => {

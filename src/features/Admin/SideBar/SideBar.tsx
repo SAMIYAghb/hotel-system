@@ -42,38 +42,38 @@ const SideBar: React.FC = () => {
         <Menu className="menu-space">
           <MenuItem
             icon={<AccountBalanceIcon />}
-            component={<Link to="/home" />}
+            component={<Link to="/admin/home" />}
           >
             Home
           </MenuItem>
           <MenuItem
             icon={<PeopleAltIcon />}
-            component={<Link to="/home/users" />}
+            component={<Link to="users" />}
           >
             Users
           </MenuItem>
           <MenuItem
             icon={<GridViewIcon />}
-            component={<Link to="/home/rooms" />}
+            component={<Link to="rooms" />}
           >
             Rooms
           </MenuItem>
           <MenuItem
             icon={<CardGiftcardIcon />}
-            component={<Link to="/home/ads" />}
+            component={<Link to="ads" />}
           >
             Ads
           </MenuItem>
           <MenuItem
             icon={<ApiIcon />}
-            component={<Link to="/home/bookings" />}
+            component={<Link to="bookings" />}
           >
             Bookings
           </MenuItem>
           <MenuItem
 
             icon={<CalendarMonthIcon />}
-            component={<Link to="/home/facilities" />}
+            component={<Link to="facilities" />}
           >
             Facilities
           </MenuItem>
