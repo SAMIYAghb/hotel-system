@@ -15,9 +15,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
 import { changePassUrl, userChangePassUrl } from "../../services/api.tsx";
-import CustomButton from "./../../features/UI/CustomButton/CustomButton";
 import { IChangePass } from "./../../interface/AuthInterface";
 import { toast } from "react-toastify";
+import CustomButton from "../../features/Shared/CustomButton/CustomButton.tsx";
 
 const ChangePass: React.FC = () => {
   const { saveUserData, requestHeaders, userRole } = useContext(AuthContext);

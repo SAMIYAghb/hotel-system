@@ -2,7 +2,6 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { facilitiesRoomsUrl } from "../../../services/api";
-// import CustomTable from "../../UI/CustomTable/CustomTable";
 import styleFacilities from "./Facilities.module.scss";
 
 import {
@@ -27,8 +26,8 @@ import {
 } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import noData from '../../../assets/images/noData.png';
-import CustomButton from "./../../UI/CustomButton/CustomButton";
-import CustomModal from "./../../UI/CustomModal/CustomModal";
+import CustomButton from "./../../Shared/CustomButton/CustomButton";
+import CustomModal from "./../../Shared/CustomModal/CustomModal";
 import { toast } from 'react-toastify';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';

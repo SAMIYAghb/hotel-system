@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import { IRegister } from "../../interface/AuthInterface";
 import { userRegisrterUrl} from "../../services/api.tsx";
 import { AuthContext } from "./../../context/AuthContext.tsx";
-import CustomButton from "./../../features/UI/CustomButton/CustomButton";
+import CustomButton from "../../features/Shared/CustomButton/CustomButton.tsx";
 
 const Register: React.FC = () => {
   const { saveUserData } = useContext(AuthContext);

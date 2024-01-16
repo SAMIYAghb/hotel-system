@@ -8,10 +8,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
-import CustomButton from '../../UI/CustomButton/CustomButton';
+import CustomButton from '../../Shared/CustomButton/CustomButton';
 import noData from '../../../assets/images/noData.png'
 import style from './Ads.module.scss'
-import CustomModal from '../../UI/CustomModal/CustomModal';
+import CustomModal from '../../Shared/CustomModal/CustomModal';
 import { useForm } from 'react-hook-form';
 import { IAds } from '../../../interface/AdsInterface';
 import { toast } from 'react-toastify';

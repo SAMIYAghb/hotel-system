@@ -31,7 +31,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import CustomModal from "../../UI/CustomModal/CustomModal.tsx";
+import CustomModal from "../../Shared/CustomModal/CustomModal.tsx";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { toast } from 'react-toastify';
