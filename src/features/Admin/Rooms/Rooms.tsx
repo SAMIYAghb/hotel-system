@@ -7,7 +7,6 @@ import {
   roomsUrl,
   updateRoomsUrl,
 } from "../../../services/api";
-import CustomButton from "../../UI/CustomButton/CustomButton";
 import {
   AppBar,
   Button,
@@ -44,11 +43,12 @@ import noData from '../../../assets/images/noData.png'
 import SearchIcon from "@mui/icons-material/Search";
 import noImage from '../../../assets/images/noImage.jpg'
 import useFacilities from "../../Hook/useFacilities";
-import CustomModal from "../../UI/CustomModal/CustomModal";
+import CustomModal from "../../Shared/CustomModal/CustomModal";
 import { toast } from 'react-toastify';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Container } from "@mui/system";
+import CustomButton from "../../Shared/CustomButton/CustomButton";
 const Rooms = () => {
   const { requestHeaders } = useContext(AuthContext);
   const [roomsList, setRoomsList] = useState([]);
