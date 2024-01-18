@@ -4,17 +4,18 @@ import HeroSection from '../Ui/HeroSection/HeroSection'
 import RoomsDisplay from './../Ui/RoomsDisplay/RoomsDisplay';
 import Review from './../Ui/Review/Review';
 import Footer from './../Ui/Footer/Footer';
+import { Box} from '@mui/system';
 
 
 const UserHome = () => {
   return (
-    <div>
+    <Box>
       <NavBar/>
       <HeroSection/>
       <RoomsDisplay/>
       <Review/>
       <Footer/>
-      </div>
+      </Box>
   )
 }
 
