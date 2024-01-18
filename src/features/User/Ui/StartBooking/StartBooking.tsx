@@ -6,7 +6,7 @@ import CustomButton from "../../../Shared/CustomButton/CustomButton";
 import styles from "./StartBooking.module.scss";
 import MyDateRangePicker from "../../../Shared/DateRangePicker/MyDateRangePicker";
 import axios from "axios";
-import { roomsUrl } from "../../../../services/api";
+import { allRoomsFilterdUrl } from "../../../../services/api";
 import { AuthContext } from "../../../../context/AuthContext";
 const StartBooking = () => {
   const [selectedDateRange, setSelectedDateRange] = useState(null);
@@ -29,17 +29,17 @@ const StartBooking = () => {
     }
   };
   // ****************************
-  const handleIncrease = () => {
-    setNumberOfNights((prevValue) => prevValue + 1);
-    updateDateRange();
-  };
+  // const handleIncrease = () => {
+  //   setNumberOfNights((prevValue) => prevValue + 1);
+  //   updateDateRange();
+  // };
   // ****************************
-  const handleDecrease = () => {
-    if (numberOfNights > 0) {
-      setNumberOfNights((prevValue) => prevValue - 1);
-      updateDateRange();
-    }
-  };
+  // const handleDecrease = () => {
+  //   if (numberOfNights > 0) {
+  //     setNumberOfNights((prevValue) => prevValue - 1);
+  //     updateDateRange();
+  //   }
+  // };
   // ****************************
   const updateDateRange = () => {
     const newEndDate = new Date(selectedDateRange.startDate);
@@ -56,8 +56,8 @@ const StartBooking = () => {
       console.log("req head",requestHeaders)
      
       axios
-        .get(`${roomsUrl}`, {
-          headers: requestHeaders,
+        .get(`${allRoomsFilterdUrl}`, {
+          // headers: requestHeaders,
           params: {
             startDate: startDate,
             endDate: endDate,
@@ -109,9 +109,9 @@ const StartBooking = () => {
         How long you will stay?
       </Typography>
       <Box display="flex" alignItems="center">
-        <Button onClick={handleDecrease} variant="contained" color="secondary">
+        {/* <Button onClick={handleDecrease} variant="contained" color="secondary">
           -
-        </Button>
+        </Button> */}
 
         {/* Update TextField to display the calculated number of nights */}
         <TextField
@@ -122,9 +122,9 @@ const StartBooking = () => {
           sx={{ mx: 1 }}
           inputProps={{ style: { textAlign: "center" } }}
         />
-        <Button onClick={handleIncrease} variant="contained" color="primary">
+        {/* <Button onClick={handleIncrease} variant="contained" color="primary">
           +
-        </Button>
+        </Button> */}
       </Box>
       <Typography
         className={styles.headParag}
