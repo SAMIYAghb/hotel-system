@@ -1,0 +1,67 @@
+// .main{
+//     position: relative;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+      
+// }
+// .textContainer {
+//     padding-top:1rem ;
+//     padding-bottom: 1rem;
+	
+//   }
+//   .headText{
+//     color: rgba(21, 44, 91, 1);
+//     font-weight: 700 !important;
+
+//   }
+ 
+//   .headParag{
+//     color: rgba(176, 176, 176, 1);
+//   }
+//   .imageContainer{ 
+//     display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+    
+//   }
+//   .imageContainer .image{
+//     border-radius: 100px 15px 15px 15px;
+//     z-index: 3;
+//   }
+//   .imageContainer .imgBorderCont{
+//     // border: 2px solid #ccc;
+//     // border-radius: 100px 15px 15px 15px;
+//     // width: 400px;
+//     // height: 350px;
+//     // position: absolute;
+//     // right:125px;
+//     // top: 190px;
+// }
+// @media (max-width: 960px) {
+//   .imageContainer .imgBorderCont{
+//     display: none;
+//   }
+// }
+// .reviewImageParent{
+//     width: 45%;
+// }
+.imageBack{
+    position: absolute;
+    border: 2px solid #ccc;
+    border-radius: 15px  15px 100px 15px;
+    width: 20%;
+    height: 53%;
+    left: 25%;
+    bottom: 33%;
+}
+
+@media (max-width: 991px) {
+    .imageBack {
+        display: none;
+     }
+}
+.reviewImage{
+    position: relative;
+    border-radius:  15px  15px 100px 15px;
+}
