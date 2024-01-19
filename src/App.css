@@ -136,3 +136,9 @@ body,
 .centered-cell {
   text-align: center;
 }
+.btnWidth{
+  width: 50%;
+}
+.rdrDefinedRangesWrapper {
+  display: none;
+}
