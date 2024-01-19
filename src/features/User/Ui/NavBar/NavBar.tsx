@@ -13,16 +13,18 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 // import AdbIcon from "@mui/icons-material/Adb";
 import Box from "@mui/material/Box";
-
+import styles from "./NavBar.module.scss";
+import { useContext } from "react";
 // import IconButton from "@mui/material/IconButton";
 
 // import MenuIcon from "@mui/icons-material/Menu";
 
 // import Tooltip from "@mui/material/Tooltip";
-import { useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "./../../../../context/AuthContext";
 
 const NavBar = () => {
+  const { userRole } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -41,17 +43,16 @@ const NavBar = () => {
     <>
       <AppBar
         elevation={0}
-        color="transparent"
+        // color="transparent"
         // sx={{ml:"250px"}}
         position="static"
       >
-        <Container 
-        component="navbar"
-        maxWidth="l"
-         style={{ justifyContent: "end" }}
-         >
+        <Container
+          component="header"
+          maxWidth="xl"
+          style={{ justifyContent: "end" }}
+        >
           <Toolbar style={{ justifyContent: "space-between" }}>
-
             <Typography
               variant="h6"
               noWrap
@@ -65,72 +66,128 @@ const NavBar = () => {
                 letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
-                fontSize: "1.8rem" 
+                fontSize: "2.3rem",
               }}
             >
               <Box
-              component="span"
-              sx={{ color: "#007BFF", fontWeight: 'bold' }}
-            >
-              Stay
-            </Box>
-            <Box component="span" sx={{ color: "black", fontWeight: 'bold' }}>
-              cation.
-            </Box>
-            </Typography>
-            <Box sx={{ display: "flex" }}>
-              <Box
-                sx={{
-                  flexGrow: 0,
-                  display: { xs: 'none', md: 'flex' },
-                  // display: "flex",
-                }}
+                component="span"
+                sx={{ color: "#007BFF", fontWeight: "bold" }}
               >
-                <MenuItem>Home</MenuItem>
-                <MenuItem>Rooms</MenuItem>
-                <MenuItem>Favorites</MenuItem>
+                Stay
               </Box>
-              <Box>
-                <Typography
-                  sx={{
-                    "&:hover": {
-                      color: "red",
-                      // fontSize: "24px"
-                    },
-                  }}
-                  // color="inherit"
-                >
-                  {/* user */}
-                  {/* {userData?.userName || "user"}*/}
-                </Typography>
-                <Button
-                  id="fade-button"
-                  size="large"
-                  aria-controls={open ? "fade-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                  onClick={handleClick}
-                >
-                  <Avatar alt="Remy Sharp" src={avatar} />
-                </Button>
-                <Menu
-                  id="fade-menu"
-                  MenuListProps={{
-                    "aria-labelledby": "fade-button",
-                  }}
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  TransitionComponent={Fade}
-                >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>Favorites</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
-                  <MenuItem onClick={logOut}>Logout</MenuItem>
-                </Menu>
+              <Box component="span" sx={{ color: "black", fontWeight: "bold" }}>
+                cation.
               </Box>
-            </Box>
-          </Toolbar>                  
+            </Typography>
+            {userRole == "user" ? (
+              <>
+                <Box sx={{ display: "flex" }}>
+                  <Box
+                    sx={{
+                      flexGrow: 0,
+                      display: { xs: "none", md: "flex" },
+                      // display: "flex",
+                    }}
+                  >
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/user/home">
+                        Home
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/rooms">
+                        Rooms
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/favorite">
+                        Favorites
+                      </Link>
+                    </MenuItem>
+                  </Box>
+                  <Box>
+                    <Typography
+                      sx={{
+                        "&:hover": {
+                          color: "red",
+                          // fontSize: "24px"
+                        },
+                      }}
+                      // color="inherit"
+                    >
+                      {/* user */}
+                      {/* {userData?.userName || "user"}*/}
+                    </Typography>
+                    <Button
+                      id="fade-button"
+                      size="large"
+                      aria-controls={open ? "fade-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                    >
+                      <Avatar
+                        alt="Remy Sharp"
+                        src={avatar}
+                        className={styles.avatarImg}
+                      />
+                    </Button>
+                    <Menu
+                      className={styles.menuDetails}
+                      id="fade-menu"
+                      MenuListProps={{
+                        "aria-labelledby": "fade-button",
+                      }}
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      TransitionComponent={Fade}
+                    >
+                      <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      <MenuItem onClick={handleClose}>Favorites</MenuItem>
+                      <MenuItem onClick={handleClose}>My account</MenuItem>
+                      <MenuItem onClick={logOut}>Logout</MenuItem>
+                    </Menu>
+                  </Box>
+                </Box>
+              </>
+            ) : (
+              <>
+                <Box sx={{ display: "flex" }}>
+                  <Box
+                    sx={{
+                      flexGrow: 0,
+                      display: { xs: "none", md: "flex" },
+                      // display: "flex",
+                    }}
+                  >
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/user/home">
+                        Home
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/rooms">
+                        Rooms
+                      </Link>
+                    </MenuItem>
+
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/register">
+                        Register
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/login">
+                        Login
+                      </Link>
+                    </MenuItem>
+                  </Box>
+                </Box>
+              </>
+            )}
+            
+          </Toolbar>
         </Container>
       </AppBar>
     </>

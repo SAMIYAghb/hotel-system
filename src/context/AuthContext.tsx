@@ -3,17 +3,14 @@ import { jwtDecode } from "jwt-decode";
 import { IAuth } from "../interface/AuthInterface";
 import { AuthContextProviderProps } from "../interface/AuthInterface";
 
-
 // Create the AuthContext and set the initial value
 export const AuthContext = createContext<IAuth>({
-
   userData: "",
   saveUserData: () => {},
   requestHeaders: "",
   //   baseUrl: '',
   userRole: "",
   updateUserData: () => {},
-
 });
 
 // // Define the props for AuthContextProvider component
@@ -52,22 +49,18 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
     try {
       const decodedToken = jwtDecode(encodedToken!) as DecodedToken;
 
-
-            setUserData(decodedToken);
-            
-            setUserRole(decodedToken.role);
-            console.log(decodedToken.role);
-
-
-        } catch (error) {
-
-            // Handle the error appropriately, e.g., show a message to the user or log it
-        }
-    };
-    // Compute request headers
-    const requestHeaders = {
-        Authorization: ` ${localStorage.getItem("userToken")}`,
-    };
+      setUserData(decodedToken);
+      console.log(decodedToken);
+      setUserRole(decodedToken.role);
+      console.log(decodedToken.role);
+    } catch (error) {
+      // Handle the error appropriately, e.g., show a message to the user or log it
+    }
+  };
+  // Compute request headers
+  const requestHeaders = {
+    Authorization: ` ${localStorage.getItem("userToken")}`,
+  };
 
   // check for userToken and save data
   useEffect(() => {
@@ -86,11 +79,9 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
     updateUserData,
   };
 
-
   return (
     <AuthContext.Provider value={contextValue}>
       {props.children}
     </AuthContext.Provider>
   );
 };
-

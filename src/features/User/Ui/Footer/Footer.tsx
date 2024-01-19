@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, Grid, Box,ScopedCssBaseline } from "@mui/material";
+import { Container, Grid, Box, ScopedCssBaseline } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import { Typography, List, ListItem } from "@mui/material";
@@ -7,6 +7,14 @@ import Link from "@mui/material/Link";
 
 const Footer = () => {
   const footerSections = [
+    {
+      title: "Staycation.",
+      links: [
+        { text: "We kaboom your beauty holiday instantly and memorable." },
+        { text: "" },
+        { text: "" },
+      ],
+    },
     {
       title: "For Beginners",
       links: [
@@ -32,29 +40,36 @@ const Footer = () => {
       ],
     },
   ];
+  // Défin  routes for every text
+// const linkRoutes = {
+//   'New Account': '/register',
+//   'Start Booking a Room': '/booking',
+//   'Use Payments': '/pay',
+
+// };
 
   return (
-    <ScopedCssBaseline  sx={{ backgroundColor: "#f5f5f5" }}>
-    <Container component="footer">
-      <Grid
-        container
-        spacing={4}
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{
-          pl: 8,
-        }}
-      >
-        {/* /* /** */}
-        <Grid item xs={12} sm={6} md={3}>
+    <ScopedCssBaseline sx={{ backgroundColor: "#f5f5f5" }}>
+      <Container component="footer">
+        <Grid
+          container
+          spacing={4}
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{
+            pl: 8,
+          }}
+        >
+          {/* /* /** */}
+          {/* <Grid >
           <Typography
             variant="h5"
             noWrap
             component="a"
             // gutterBottom
-            href="#app-bar-with-responsive-menu"
+            href="#home"
             sx={{ textDecoration: "none",
-            fontSize: "2rem" }}
+            fontSize: "2.5rem" }}
           >
             <Box component="span" sx={{ color: "#007BFF", fontWeight: "bold" }}>
               Stay
@@ -65,47 +80,61 @@ const Footer = () => {
           </Typography>
           <Typography sx={{ pt: 3, maxWidth: "200px" }}>
             We kaboom your beauty holiday instantly and memorable.
+
           </Typography>
+
+        </Grid> */}
+          {/* /* /** */}
+          {footerSections.map((section, index) => (
+            <Grid key={index} item xs={12} sm={6} md={3}>
+              <Typography
+                variant="h5"
+                component="p"
+                sx={{
+                  fontWeight: index === 0 ? "bold" : "normal",
+                  color: index === 0 ? "#007BFF" : "text.primary",
+                  fontSize: index === 0 ? "2.3rem" : "1.5rem",
+                }}
+                gutterBottom
+              >
+                {index === 0 ? (
+                  <>
+                    <span style={{ color: "#007BFF" }}>Stay</span>
+                    <span style={{ color: "black" }}>cation.</span>
+                  </>
+                ) : (
+                  section.title
+                )}
+              </Typography>
+              {section.links && (
+                <List>
+                  {section.links.map((link, linkIndex) => (
+                    <ListItem
+                      key={linkIndex}
+                      sx={{ fontWeight: "bold", color: "text.secondary" }}
+                    >
+                      {link.text}
+                      
+                    </ListItem>
+                  ))}
+                </List>
+              )}
+              {section.contactInfo && (
+                <List>
+                  {section.contactInfo.map((info, infoIndex) => (
+                    <ListItem
+                      key={infoIndex}
+                      sx={{ fontWeight: "bold", color: "text.secondary" }}
+                    >
+                      {info.text}
+                    </ListItem>
+                  ))}
+                </List>
+              )}
+            </Grid>
+          ))}
         </Grid>
-        {/* /* /** */}
-        {footerSections.map((section, index) => (
-          <Grid key={index} item xs={12} sm={6} md={3}>
-            <Typography
-              variant="h6"
-              component="p"
-              sx={{ fontWeight: "bold" }}
-              gutterBottom
-            >
-              {section.title}
-            </Typography>
-            {section.links && (
-              <List>
-                {section.links.map((link, linkIndex) => (
-                  <ListItem
-                    key={linkIndex}
-                    sx={{ fontWeight: "bold", color: "text.secondary" }}
-                  >
-                    {link.text}
-                  </ListItem>
-                ))}
-              </List>
-            )}
-            {section.contactInfo && (
-              <List>
-                {section.contactInfo.map((info, infoIndex) => (
-                  <ListItem
-                    key={infoIndex}
-                    sx={{ fontWeight: "bold", color: "text.secondary" }}
-                  >
-                    {info.text}
-                  </ListItem>
-                ))}
-              </List>
-            )}
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+      </Container>
     </ScopedCssBaseline>
   );
 };

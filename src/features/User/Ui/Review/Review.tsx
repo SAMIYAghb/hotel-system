@@ -20,12 +20,14 @@ const AccentStarIcon = styled(StarIcon)({
 });
 const Review = () => {
   return (
-    <ScopedCssBaseline 
-    sx={{ 
-      // backgroundColor: "#f58c01" ,
-     paddingTop:"3rem",paddingBottom:"4rem"}}>
-      <Container 
-      maxWidth="md">
+    <ScopedCssBaseline
+      sx={{
+        backgroundColor: "#f58c01" ,
+        paddingTop: "5rem",
+        paddingBottom: "8rem",
+      }}
+    >
+      <Container maxWidth="xl">
         <Stack
           spacing={{ xs: 1, sm: 2 }}
           direction={{ xs: "column", md: "row" }}
@@ -34,9 +36,12 @@ const Review = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Box className={styles.reviewImageParent}>
+          {/* <Box className={styles.reviewImageParent}>
             <Box className={styles.imageBack}></Box>
             <img src={img} alt="" className={styles.reviewImage} />
+          </Box> */}
+          <Box className={styles.imageWrapper}>
+            <img src={img} />
           </Box>
 
           <Box sx={{ paddingLeft: "2rem" }}>
