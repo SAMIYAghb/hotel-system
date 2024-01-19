@@ -64,6 +64,7 @@ export const userForgetPassUrl = `${baseUrl}/portal/users/forgot-password`;
 export const userChangePassUrl = `${baseUrl}/portal/users/change-password`;
 
 
+
 // ******** Rooms Dispaly ***********
 export const roomsDisplayUrl = `${baseUrl}/portal/rooms/available?page=1&size=10`;
 
@@ -72,3 +73,7 @@ export const favRooms = `${baseUrl}/portal/favorite-rooms`
 
 // ******** Rooms Details ***********
 export const userRoomsDetailsUrl =`${baseUrl}/portal/rooms/` //with id 
+=======
+// ***********get all filtered rooms*************
+export const allRoomsFilterdUrl =`${baseUrl}/portal/rooms/available`;
+
