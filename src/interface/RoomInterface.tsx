@@ -4,4 +4,5 @@ export interface  IAddRoom  {
     capacity: string;
     discount: string;
     facilities: string;
+    imgs:string[];
 }

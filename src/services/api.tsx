@@ -62,3 +62,13 @@ export const userResetPassUrl = `${baseUrl}/portal/users/reset-password`;
 export const userForgetPassUrl = `${baseUrl}/portal/users/forgot-password`;
 // ******** Change-Password user ********
 export const userChangePassUrl = `${baseUrl}/portal/users/change-password`;
+
+
+// ******** Rooms Dispaly ***********
+export const roomsDisplayUrl = `${baseUrl}/portal/rooms/available?page=1&size=10`;
+
+// ******** Favorite Rooms **********
+export const favRooms = `${baseUrl}/portal/favorite-rooms`
+
+// ******** Rooms Details ***********
+export const userRoomsDetailsUrl =`${baseUrl}/portal/rooms/` //with id 
