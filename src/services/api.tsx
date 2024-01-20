@@ -65,10 +65,10 @@ export const userChangePassUrl = `${baseUrl}/portal/users/change-password`;
 
 
 // ******** Rooms Dispaly ***********
-export const roomsDisplayUrl = `${baseUrl}/portal/rooms/available?page=1&size=10`;
+export const roomsDisplayUrl = `${baseUrl}/portal/rooms/available?page=1&size=20`;
 
 // ******** Favorite Rooms **********
 export const favRooms = `${baseUrl}/portal/favorite-rooms`
 
 // ******** Rooms Details ***********
-export const userRoomsDetailsUrl =`${baseUrl}/portal/rooms/` //with id 
+export const userRoomsDetailsUrl =`${baseUrl}/portal/rooms/` //with id

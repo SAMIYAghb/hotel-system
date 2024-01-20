@@ -21,6 +21,7 @@ import AddNewRoom from './features/Admin/Rooms/AddNewRoom/AddNewRoom';
 import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
 import Facilities from './features/Admin/Facilities/Facilities';
 import UserHome from './features/User/UserHome/UserHome';
+import RoomDetails from './features/User/Ui/RoomDetails/RoomDetails';
 
 
 
@@ -87,7 +88,7 @@ function App() {
 
         // { path: "facilities", element: <Facilities /> },
 
-        // { path: "bookings", element: <Bookings /> },
+        { path: "room-details", element: <RoomDetails /> },
       ],
     },
   ]);

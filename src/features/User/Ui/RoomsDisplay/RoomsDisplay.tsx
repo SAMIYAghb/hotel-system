@@ -18,6 +18,8 @@ import noImage from "../../../../assets/images/noImage.jpg"
 import { toast } from 'react-toastify';
 import { NextArrow, PrevArrow } from '../../../../shared/CarouselArrows/CarouselArrows';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
 
 const RoomsDisplay = () => {
 
@@ -30,7 +32,7 @@ const RoomsDisplay = () => {
   const settings = {
     className: "center",
     infinite: true,
-    centerPadding: "0px",
+    centerPadding: "60px",
     slidesToShow: 5,
     autoplay: true,
     speed: 2000,
@@ -48,14 +50,18 @@ const RoomsDisplay = () => {
         breakpoint: 600,
         settings: {
           slidesToShow: 1,
+          centerMode: true,
         },
       },
 
     ],
   };
-
+  const navigate = useNavigate();
   // Navigate to room details page
   const navigateToDetails = (roomId) => {
+
+   navigate('/user/home/room-details/');
+
     console.log("Navigate to room details with ID:", roomId);
   };
   // Get All Rooms
@@ -117,35 +123,38 @@ const RoomsDisplay = () => {
           <Slider  {...settings} {...responsiveSettings}>
             {roomsList.map((room) => (
               <div key={room._id} className="room-container">
-                <h3>{room.roomNumber}</h3>
+
                 {room.images && room.images.length > 0 ? (
                   <div className="room-content">
                     <img
                       src={room.images[0]}
                       alt={`Room ${room.roomNumber} - Image 1`}
                       className="room-image"
-                      style={{ padding: '5px' }}
+
                     />
-                    {room.discount && (
+                    {room.price && (
                       <div className="discount-badge" style={{ position: 'absolute', top: '10px', right: '10px' }}>
-                        -{room.discount}%OFF
+                        -{room.price}per night
                       </div>
                     )}
+                    <div>
+                      <h3 className='room-name'>{room.roomNumber}</h3>
+                    </div>
 
                     <div className="overlay">
                       <Grid container justifyContent="center" alignItems="center">
                         <IconButton onClick={() => addToFav(room._id)}>
                           <FavoriteIcon style={{ color: favStatus[room._id] ? '#f50057' : 'white' }} />
                         </IconButton>
-                        {/* <IconButton>
-                          <VisibilityIcon style={{ color: '#4dabf5' }} />
-                        </IconButton> */}
-                        {/* Link to the details page when the eye icon is clicked */}
-                        <Link to={`/room-details/${room._id}`} style={{ textDecoration: 'none' }}>
-                          <IconButton onClick={() => navigateToDetails(room._id)}>
+
+                        {/* <Link
+                          to={`/user/home/room-details/${room._id}`}
+                          style={{ textDecoration: 'none' }}> */}
+                          <IconButton
+                          onClick={() => navigateToDetails(room._id)}>
                             <VisibilityIcon style={{ color: '#4dabf5' }} />
                           </IconButton>
-                        </Link>
+                        {/* </Link> */}
                       </Grid>
                     </div>
                   </div>
