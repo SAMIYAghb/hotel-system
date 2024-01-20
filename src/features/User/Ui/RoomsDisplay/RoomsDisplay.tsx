@@ -3,7 +3,8 @@ import { AuthContext } from '../../../../context/AuthContext';
 import axios from 'axios';
 import { favRooms, roomsDisplayUrl } from '../../../../services/api';
 // import Carousel from 'react-material-ui-carousel'
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+// import "react-responsive-carousel/lib/styles/carousel.min.css";
+ // requires a loader
 
 import "./RoomsDisplay.scss"
 
