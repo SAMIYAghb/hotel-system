@@ -93,7 +93,11 @@ const NavBar = () => {
                     }}
                   >
                     <MenuItem>
-                      <Link style={{ color: "#3252DF"}}  className={styles.linkStyle} to="/user/home">
+                      <Link
+                        style={{ color: "#3252DF" }}
+                        className={styles.linkStyle}
+                        to="/user/home"
+                      >
                         Home
                       </Link>
                     </MenuItem>
@@ -124,8 +128,8 @@ const NavBar = () => {
                       // color="inherit"
                     >
                       {/* user */}
-            {/* {userData?.userName || "user"}*/}
-             </Typography>
+                      {/* {userData?.userName || "user"}*/}
+                    </Typography>
                     <Button
                       id="fade-button"
                       size="large"
@@ -151,9 +155,17 @@ const NavBar = () => {
                       onClose={handleClose}
                       TransitionComponent={Fade}
                     >
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={handleClose}>Favorites</MenuItem>
-                      <MenuItem onClick={handleClose}>My account</MenuItem>
+                      <MenuItem>
+                        <Link className={styles.linkStyle} to="/profile">
+                          Profile
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link className={styles.linkStyle} to="/favorite">
+                          Favorites
+                        </Link>
+                      </MenuItem>
+                      {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
                       <MenuItem onClick={logOut}>Logout</MenuItem>
                     </Menu>
                   </Box>
@@ -161,38 +173,41 @@ const NavBar = () => {
               </>
             ) : (
               <>
-            <Box sx={{ display: "flex" }}>
-              <Box
-                sx={{
-                  flexGrow: 0,
-                  display: { xs: "none", md: "flex" },
-                  // display: "flex",
-                }}
-              >
-                <MenuItem>
-                  <Link  style={{ color: "#3252DF"}}
-                  className={styles.linkStyle} to="/user/home">
-                    Home
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link className={styles.linkStyle} to="/explore">
-                    Explore
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link className={styles.linkStyle} to="/review">
-                    Reviews
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link className={styles.linkStyle} to="/login">
-                    <Button variant="contained">Login Now</Button>
-                  </Link>
-                </MenuItem>
-              </Box>
-            </Box>
-            </>
+                <Box sx={{ display: "flex" }}>
+                  <Box
+                    sx={{
+                      flexGrow: 0,
+                      display: { xs: "none", md: "flex" },
+                      // display: "flex",
+                    }}
+                  >
+                    <MenuItem>
+                      <Link
+                        style={{ color: "#3252DF" }}
+                        className={styles.linkStyle}
+                        to="/user/home"
+                      >
+                        Home
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/explore">
+                        Explore
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/review">
+                        Reviews
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/login">
+                        <Button variant="contained">Login Now</Button>
+                      </Link>
+                    </MenuItem>
+                  </Box>
+                </Box>
+              </>
             )}
           </Toolbar>
         </Container>
