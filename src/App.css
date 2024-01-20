@@ -161,6 +161,7 @@ body,
 }
 
 
+
 /* RoomSlider - User */
 /*
 .room-container {
@@ -319,4 +320,16 @@ body,
 
 
 
+
 /* End - RoomSlider - User */
+
+  /* End - RoomSlider - User */
+
+.btnWidth{
+  width: 50%;
+}
+.rdrDefinedRangesWrapper {
+  display: none;
+}
+
+
