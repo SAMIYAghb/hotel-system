@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import avatar from "../../../../assets/images/avatar.png";
+import avatarImg from "../../../../assets/images/avatar.png";
 // import { AuthContext } from "../../../../context/AuthContext";
 // import { useContext } from 'react';
 import Button from "@mui/material/Button";
@@ -43,7 +43,7 @@ const NavBar = () => {
     <>
       <AppBar
         elevation={0}
-        // color="transparent"
+        color="transparent"
         // sx={{ml:"250px"}}
         position="static"
       >
@@ -66,16 +66,19 @@ const NavBar = () => {
                 letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
-                fontSize: "2.3rem",
+                fontSize: "2rem",
               }}
             >
               <Box
                 component="span"
-                sx={{ color: "#007BFF", fontWeight: "bold" }}
+                sx={{ color: "#3252DF", fontWeight: "bold" }}
               >
                 Stay
               </Box>
-              <Box component="span" sx={{ color: "black", fontWeight: "bold" }}>
+              <Box
+                component="span"
+                sx={{ color: "#152C5B", fontWeight: "bold" }}
+              >
                 cation.
               </Box>
             </Typography>
@@ -90,13 +93,18 @@ const NavBar = () => {
                     }}
                   >
                     <MenuItem>
-                      <Link className={styles.linkStyle} to="/user/home">
+                      <Link style={{ color: "#3252DF"}}  className={styles.linkStyle} to="/user/home">
                         Home
                       </Link>
                     </MenuItem>
                     <MenuItem>
-                      <Link className={styles.linkStyle} to="/rooms">
-                        Rooms
+                      <Link className={styles.linkStyle} to="/explore">
+                        Explore
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link className={styles.linkStyle} to="/review">
+                        Reviews
                       </Link>
                     </MenuItem>
                     <MenuItem>
@@ -116,8 +124,8 @@ const NavBar = () => {
                       // color="inherit"
                     >
                       {/* user */}
-                      {/* {userData?.userName || "user"}*/}
-                    </Typography>
+            {/* {userData?.userName || "user"}*/}
+             </Typography>
                     <Button
                       id="fade-button"
                       size="large"
@@ -128,8 +136,8 @@ const NavBar = () => {
                     >
                       <Avatar
                         alt="Remy Sharp"
-                        src={avatar}
-                        className={styles.avatarImg}
+                        src={avatarImg}
+                        className={styles.avatarImage}
                       />
                     </Button>
                     <Menu
@@ -153,40 +161,39 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                <Box sx={{ display: "flex" }}>
-                  <Box
-                    sx={{
-                      flexGrow: 0,
-                      display: { xs: "none", md: "flex" },
-                      // display: "flex",
-                    }}
-                  >
-                    <MenuItem>
-                      <Link className={styles.linkStyle} to="/user/home">
-                        Home
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link className={styles.linkStyle} to="/rooms">
-                        Rooms
-                      </Link>
-                    </MenuItem>
-
-                    <MenuItem>
-                      <Link className={styles.linkStyle} to="/register">
-                        Register
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link className={styles.linkStyle} to="/login">
-                        Login
-                      </Link>
-                    </MenuItem>
-                  </Box>
-                </Box>
-              </>
+            <Box sx={{ display: "flex" }}>
+              <Box
+                sx={{
+                  flexGrow: 0,
+                  display: { xs: "none", md: "flex" },
+                  // display: "flex",
+                }}
+              >
+                <MenuItem>
+                  <Link  style={{ color: "#3252DF"}}
+                  className={styles.linkStyle} to="/user/home">
+                    Home
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link className={styles.linkStyle} to="/explore">
+                    Explore
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link className={styles.linkStyle} to="/review">
+                    Reviews
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link className={styles.linkStyle} to="/login">
+                    <Button variant="contained">Login Now</Button>
+                  </Link>
+                </MenuItem>
+              </Box>
+            </Box>
+            </>
             )}
-            
           </Toolbar>
         </Container>
       </AppBar>

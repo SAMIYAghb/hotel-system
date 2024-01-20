@@ -50,9 +50,9 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
       const decodedToken = jwtDecode(encodedToken!) as DecodedToken;
 
       setUserData(decodedToken);
-      console.log(decodedToken);
+      // console.log(decodedToken);
       setUserRole(decodedToken.role);
-      console.log(decodedToken.role);
+      // console.log(decodedToken.role);
     } catch (error) {
       // Handle the error appropriately, e.g., show a message to the user or log it
     }
