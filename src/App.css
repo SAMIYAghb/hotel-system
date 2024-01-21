@@ -143,22 +143,19 @@ body,
   display: none;
 }
 /********** pagination ***********/
-nav{
- padding-left: 22rem;
- /* padding-right: 10rem; */
+nav {
+  padding-left: 22rem;
+  /* padding-right: 10rem; */
 }
-.pagination{
+.pagination {
   width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
- 
- 
 }
 .pagination,
 .inputGroup {
- 
-padding: 5px;
+  padding: 5px;
 }
 .pagination .pageLink {
   background-color: #fff;
@@ -182,25 +179,7 @@ padding: 5px;
 
   color: #fff !important;
 }
-.textCenter{
- padding-left: 15rem;
+.textCenter {
+  padding-left: 15rem;
 }
-.pricePadge{
-  background-color: deeppink;
-  width: 140px;
-  height: 40px;
-  border-bottom-left-radius: 15px;
-  border-top-right-radius: 10px;
-}
-
-
-
-
-
-
-
-
-
-
-
 

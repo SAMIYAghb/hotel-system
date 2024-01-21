@@ -8,6 +8,7 @@ import { Badge, CardContent, Grid, Typography } from "@mui/material";
 import noHotelImg from "../../assets/images/noo-img.webp";
 import CustomPagination from "../../shared/CustomPagination/CustomPagination";
 import { useLocation } from "react-router-dom";
+import Style from "./Explore.module.scss"
 
 const ExplorePage: React.FC = () => {
 // *******to use selectedDateRange*******
@@ -82,40 +83,26 @@ const ExplorePage: React.FC = () => {
         {roomsList?.length > 0 &&
           roomsList.map((room, index) => (
             <Grid item key={index} xs={12} sm={6} md={4} lg={4}>
-              <CardContent style={{ textAlign: "center", height: "300px" }}>
+              <CardContent>
                 {room?.images && room?.images.length > 0 ? (
-                  <>
+                  <div className={Style.imageWrapper}>
+                  <span className={Style.badge}> ${room?.price} per night</span>
                     <img
                       src={room?.images}
                       alt={`Image ${index + 1}`}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: ".6rem",
-                      }}
+                  
                     />
-                    <Badge
-                      className="pricePadge"
-                      style={{
-                        position: "absolute",
-                        top: "128px",
-                        right: "16px",
-                      }}
-                    >
-                      ${room?.price} per night
-                    </Badge>
-                  </>
+                  </div>
                 ) : (
+                  <div className={Style.imageWrapper}>
+                  <span className={Style.badge}>800$</span>
                   <img
                     className="imgAnimate"
                     src={noHotelImg}
                     alt={`Image ${index + 1}`}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: ".6rem",
-                    }}
+                 
                   />
+                  </div>
                 )}
               </CardContent>
             </Grid>

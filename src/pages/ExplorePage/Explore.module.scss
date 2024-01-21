@@ -1,0 +1,28 @@
+/* badge */
+.imageWrapper {
+    flex-shrink: 0;
+    position: relative;
+    height: 300px;
+    width: 450px;
+    overflow: hidden;
+    border-radius: 15px;
+  }
+  .badge {
+    background-color: deeppink;
+    width: 140px;
+    height: 40px;
+    border-bottom-left-radius: 15px;
+   font-size: 14px;
+    padding: 5px; 
+    position: absolute;
+    right: 40px;
+    color: #fff;
+    z-index: 555;
+  }
+  img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: top;
+  }
+  
