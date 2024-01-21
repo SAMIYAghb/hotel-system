@@ -137,7 +137,12 @@ body,
   text-align: center;
 }
 .btnWidth {
-  width: 50%;
+  /* width: 50%; */
+  height: 40px;
+  background-color: #425ece;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
 }
 .rdrDefinedRangesWrapper {
   display: none;

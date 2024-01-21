@@ -24,7 +24,8 @@ const ExplorePage: React.FC = () => {
   // ***********getAllFilterdRooms*****************
   const getAllFilterdRooms = (page, startDate, endDate) => {
     axios
-      .get(`${allRoomsFilterdUrl}`, {
+      .get(
+        `${allRoomsFilterdUrl}`, {
         params: {
           size: 6,
           page: page,
@@ -33,23 +34,39 @@ const ExplorePage: React.FC = () => {
         },
       })
       .then((response) => {
-        console.log("filt rooms succ", response);
-        console.log("total count", response.data.data.totalCount);
+        
         setRoomsList(response.data.data.rooms);
         setTotalCount(response.data.data.totalCount);
         setCurrentPage(page);
       })
       .catch((error) => {
-        console.log("filt rooms err", error);
+        // console.log("filt rooms err", error);
       });
   };
-  // useEffect(() => {
-  //   getAllFilterdRooms(
-  //     currentPage,
-  //     selectedDateRange?.startDate,
-  //     selectedDateRange?.endDate
-  //   );
-  // }, []);
+  // const getAllFilterdRooms = (page, startDate, endDate) => {
+  //   const params = {
+  //     size: 6,
+  //     page: page,
+  //   };
+  
+  //   if (startDate && endDate) {
+  //     params.startDate = startDate;
+  //     params.endDate = endDate;
+  //   }
+  
+  //   axios
+  //     .get(allRoomsFilterdUrl, { params })
+  //     .then((response) => {
+  //       setRoomsList(response.data.data.rooms);
+  //       setTotalCount(response.data.data.totalCount);
+  //       setCurrentPage(page);
+  //     })
+  //     .catch((error) => {
+  //       // Handle error
+  //     });
+  // };
+  
+  
   useEffect(() => {
     getAllFilterdRooms(
       currentPage,

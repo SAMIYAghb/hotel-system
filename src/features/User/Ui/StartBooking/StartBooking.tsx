@@ -97,29 +97,15 @@ const StartBooking = () => {
         You will pay <strong>$480 USD </strong> per
         <strong> {numberOfPersons} persons</strong>
       </Typography>
-      {/* <Link to="user/home/explore" > */}
-      {/* <Link
-        to={{
-          pathname: "/user/home/explore",
-          state: { selectedDateRange },
-        }}
-      > */}
-      <Link
+
+      <button
+        className="btnWidth"
         onClick={() =>
           navigate("/user/home/explore", { state: { selectedDateRange } })
         }
       >
-         {/* </Link> */}
-        <CustomButton
-          className="btnWidth"
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3 }}
-        >
-          Explore
-        </CustomButton>
-      </Link>
+        Explore
+      </button>
     </Box>
   );
 };
