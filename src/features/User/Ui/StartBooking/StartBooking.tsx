@@ -5,10 +5,12 @@ import CustomButton from "../../../Shared/CustomButton/CustomButton";
 import styles from "./StartBooking.module.scss";
 import MyDateRangePicker from "../../../Shared/DateRangePicker/MyDateRangePicker";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const StartBooking = () => {
   const [selectedDateRange, setSelectedDateRange] = useState(null);
   const [numberOfPersons, setNumberOfPersons] = useState(1);
-  // ****************************
+  const navigate = useNavigate();
+
   const handleDateChange = (dateRange) => {
     setSelectedDateRange(dateRange);
   };
@@ -96,12 +98,18 @@ const StartBooking = () => {
         <strong> {numberOfPersons} persons</strong>
       </Typography>
       {/* <Link to="user/home/explore" > */}
-      <Link
+      {/* <Link
         to={{
           pathname: "/user/home/explore",
           state: { selectedDateRange },
         }}
+      > */}
+      <Link
+        onClick={() =>
+          navigate("/user/home/explore", { state: { selectedDateRange } })
+        }
       >
+         {/* </Link> */}
         <CustomButton
           className="btnWidth"
           type="submit"

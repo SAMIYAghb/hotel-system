@@ -136,9 +136,71 @@ body,
 .centered-cell {
   text-align: center;
 }
-.btnWidth{
+.btnWidth {
   width: 50%;
 }
 .rdrDefinedRangesWrapper {
   display: none;
 }
+/********** pagination ***********/
+nav{
+ padding-left: 22rem;
+ /* padding-right: 10rem; */
+}
+.pagination{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+ 
+}
+.pagination,
+.inputGroup {
+ 
+padding: 5px;
+}
+.pagination .pageLink {
+  background-color: #fff;
+  /* padding-left: 5px;
+  padding-right: 5px; */
+  border: none !important;
+}
+.pagination .pageLink,
+.pagination .pageLink > span,
+.pagination .pageLink:hover {
+  color: rgba(32, 63, 199, 1) !important;
+  font-weight: bold !important;
+  border: 1px solid #ccc !important;
+}
+.pagination .pageLink:focus,
+.pagination .pageLink:active,
+.active > .pageLink,
+.pageLink.active {
+  background-color: rgba(32, 63, 199, 1) !important;
+  border-color: rgba(32, 63, 199, 1) !important;
+
+  color: #fff !important;
+}
+.textCenter{
+ padding-left: 15rem;
+}
+.pricePadge{
+  background-color: deeppink;
+  width: 140px;
+  height: 40px;
+  border-bottom-left-radius: 15px;
+  border-top-right-radius: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
