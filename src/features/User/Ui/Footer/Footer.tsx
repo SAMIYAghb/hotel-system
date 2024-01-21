@@ -4,6 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import { Typography, List, ListItem } from "@mui/material";
 import Link from "@mui/material/Link";
+import styles from './Footer.module.scss'
 
 const Footer = () => {
   const footerSections = [
@@ -110,6 +111,7 @@ const Footer = () => {
                 <List>
                   {section.links.map((link, linkIndex) => (
                     <ListItem
+                       className={styles['css-18olizl-MuiListItem-root']}
                       key={linkIndex}
                       sx={{ fontWeight: "bold", color: "text.secondary" }}
                     >
@@ -123,6 +125,7 @@ const Footer = () => {
                 <List>
                   {section.contactInfo.map((info, infoIndex) => (
                     <ListItem
+                       className={styles['css-18olizl-MuiListItem-root']}
                       key={infoIndex}
                       sx={{ fontWeight: "bold", color: "text.secondary" }}
                     >
