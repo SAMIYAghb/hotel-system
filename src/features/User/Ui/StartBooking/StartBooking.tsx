@@ -13,6 +13,12 @@ const StartBooking = () => {
 
   const handleDateChange = (dateRange) => {
     setSelectedDateRange(dateRange);
+    // if (dateRange) {
+    //   console.log('Plage de dates sélectionnée :', dateRange);
+    //   console.log('startDate sélectionnée :', dateRange.startDate);
+    //   console.log('endDate sélectionnée :', dateRange.endDate);
+    //   console.log('numberOfNights sélectionnée :', dateRange.numberOfNights);
+    // }
   };
   // *************increase num of persons***************
   const handleIncrease = () => {
@@ -36,6 +42,7 @@ const StartBooking = () => {
       endDate: newEndDate,
       key: "selection",
     });
+
   };
   return (
     <Box

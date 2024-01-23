@@ -14,6 +14,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
 import style from './RoomDetails.module.scss'
 import Box from '@mui/material/Box';
+import CreateBooking from './../CreateBooking/CreateBooking';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -90,7 +91,7 @@ const RoomDetails = () => {
       })
       .then((response) => {
         setRoomDetails(response?.data?.data?.room)
-        console.log(response.data.data.room)
+        // console.log(response.data.data.room)
 
 
       })
@@ -109,7 +110,7 @@ const RoomDetails = () => {
     setCurrentImage(clickedImage);
   };
   useEffect(() => {
-    console.log("roomId:", roomId);
+    // console.log("roomId:", roomId);
     displayRoomsDetails();
   }, [])
 
@@ -282,7 +283,8 @@ const RoomDetails = () => {
             </div>
           </Grid>
           <Grid item xs={6} md={4}>
-            <StartBooking />
+            <Box> <CreateBooking /></Box>
+           
           </Grid>
         </Grid>
       </Box>

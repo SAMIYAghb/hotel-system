@@ -106,7 +106,7 @@ function App() {
 
 
         // { path: "bookings", element: <Bookings /> },
-        { path: "payment", element: <Payment /> },
+        // { path: "payment", element: <Payment /> },
 
   ]},
   ]);
