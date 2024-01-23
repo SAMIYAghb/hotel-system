@@ -64,5 +64,15 @@ export const userForgetPassUrl = `${baseUrl}/portal/users/forgot-password`;
 export const userChangePassUrl = `${baseUrl}/portal/users/change-password`;
 // ***********get all filtered rooms*************
 export const allRoomsFilterdUrl =`${baseUrl}/portal/rooms/available`;
+
+// ***********add to fav rooms*************
+export const addToFavUrl =`${baseUrl}/portal/favorite-rooms`;
+// ***********get all fav rooms*************
+export const allFavRoomsUrl =`${baseUrl}/portal/favorite-rooms`;
+// ***********remove from fav rooms*************
+// TODO add id
+export const removeFavRoomUrl =`${baseUrl}/portal/favorite-rooms`;
+
 // ***********get all reviewss*************
 export const allReviewsUrl =`${baseUrl}/portal/room-reviews/`;//With id
+
