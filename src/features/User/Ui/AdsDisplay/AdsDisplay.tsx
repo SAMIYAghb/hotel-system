@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../../../context/AuthContext';
 import axios from 'axios';
-import { favRooms, roomsDisplayUrl } from '../../../../services/api';
+import { favRooms, roomsDisplayUrl, userAdsDisplayUrl } from '../../../../services/api';
 // import Carousel from 'react-material-ui-carousel'
 // import "react-responsive-carousel/lib/styles/carousel.min.css";
- // requires a loader
+// requires a loader
 
-import "./RoomsDisplay.scss"
+import "./AdsDisplay.scss"
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./RoomsDisplay.scss"
+// import "./RoomsDisplay.scss"
 import { IconButton, Grid, Paper } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -22,10 +22,10 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
 
-const RoomsDisplay = () => {
-
+const AdsDisplay = () => {
+  const [isInPage, setIsInPage] = useState(true);
   const { requestHeaders } = useContext(AuthContext);
-  const [roomsList, setRoomsList] = useState([]);
+  const [adsList, setAdsList] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [roomId, setRoomId] = useState(0);
   const [favStatus, setFavStatus] = useState({}); // To update the status of Fav
@@ -48,31 +48,65 @@ const RoomsDisplay = () => {
     // Define responsive settings based on screen width
     responsive: [
       {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 2,
+          // slidesToScroll: 3,
+          infinite: true,
+          // dots: true
+        }
+      },
+      {
         breakpoint: 600,
         settings: {
           slidesToShow: 1,
-          centerMode: true,
-        },
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
       },
-
-    ],
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
   };
   const navigate = useNavigate();
   // Navigate to room details page
   const navigateToDetails = (roomId) => {
 
-   navigate('/user/home/room-details/');
+    navigate(`/user/home/room-details/${roomId}`);
 
     console.log("Navigate to room details with ID:", roomId);
   };
   // Get All Rooms
-  const displayRooms = () => {
-    axios.get(`${roomsDisplayUrl}`, {
+  // const displayRooms = () => {
+  //   axios.get(`${roomsDisplayUrl}`, {
+  //     headers: requestHeaders
+  //   })
+  //     .then((response) => {
+  //       setRoomsList(response?.data?.data?.rooms)
+  //       console.log(response.data.data.rooms)
+
+
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+
+
+  //     })
+  //     .finally(() => setLoading(false));
+  // }
+  // ********* Get All Ads *********
+  const displayAds = () => {
+    axios.get(`${userAdsDisplayUrl}`, {
       headers: requestHeaders
     })
       .then((response) => {
-        setRoomsList(response?.data?.data?.rooms)
-        console.log(response.data.data.rooms)
+        setAdsList(response?.data?.data?.ads)
+        console.log(response.data.data.ads)
 
 
       })
@@ -83,6 +117,7 @@ const RoomsDisplay = () => {
       })
       .finally(() => setLoading(false));
   }
+
 
   // Add to Fav
   const addToFav = (roomId: string) => {
@@ -113,48 +148,57 @@ const RoomsDisplay = () => {
   }
 
   useEffect(() => {
-    displayRooms();
+    displayAds();
+    return () => {
+      setIsInPage(false);
+    };
   }, [])
   return (
     <>
-
+      {/* <div className="container">
+        <div className="wrapper">
+          <h1>hurry up and book now</h1>
+        </div>
+      </div> */}
       <div className="slider">
-        <h3>Most Picked</h3>
-        {roomsList && roomsList.length > 0 && (
+        <h3 className='header-text'>Ads</h3>
+        {adsList && adsList.length > 0 && (
           <Slider  {...settings} {...responsiveSettings}>
-            {roomsList.map((room) => (
-              <div key={room._id} className="room-container">
+            {adsList.map((ad) => (
+              <div key={ad._id} className="room-container">
 
-                {room.images && room.images.length > 0 ? (
+                {ad.room.images && ad.room.images.length > 0 ? (
                   <div className="room-content">
                     <img
-                      src={room.images[0]}
-                      alt={`Room ${room.roomNumber} - Image 1`}
+                      src={ad.room.images[0]}
+                      alt={`Ad ${ad.room.roomNumber} - Image 1`}
                       className="room-image"
+                      crossOrigin='anonymous'
 
                     />
-                    {room.price && (
-                      <div className="discount-badge" style={{ position: 'absolute', top: '10px', right: '10px' }}>
-                        -{room.price}per night
+                    {ad.isActive && ad.room.discount && (
+                      <div className="discount-badge"
+                        style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                        {ad.room.discount}%
                       </div>
                     )}
                     <div>
-                      <h3 className='room-name'>{room.roomNumber}</h3>
+                      <h3 className='room-name'>{ad.roomNumber}</h3>
                     </div>
 
                     <div className="overlay">
                       <Grid container justifyContent="center" alignItems="center">
-                        <IconButton onClick={() => addToFav(room._id)}>
+                        {/* <IconButton onClick={() => addToFav(room._id)}>
                           <FavoriteIcon style={{ color: favStatus[room._id] ? '#f50057' : 'white' }} />
-                        </IconButton>
+                        </IconButton> */}
 
                         {/* <Link
                           to={`/user/home/room-details/${room._id}`}
                           style={{ textDecoration: 'none' }}> */}
-                          <IconButton
+                        {/* <IconButton
                           onClick={() => navigateToDetails(room._id)}>
                             <VisibilityIcon style={{ color: '#4dabf5' }} />
-                          </IconButton>
+                          </IconButton> */}
                         {/* </Link> */}
                       </Grid>
                     </div>
@@ -175,4 +219,4 @@ const RoomsDisplay = () => {
   )
 }
 
-export default RoomsDisplay
+export default AdsDisplay

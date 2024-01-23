@@ -196,7 +196,9 @@ body,
   color: white;
   margin: 0 10px;
 }
- */
+
+*/
+
 .room-container {
   display: flex;
   flex-wrap: nowrap;
@@ -295,9 +297,10 @@ body,
   border-top-right-radius: 10px;
   font-size: 12px;
 }
-.room-name{
+
+.room-name {
   bottom: 10px;
-  left:10px;
+  left: 10px;
   position: absolute;
   color: white;
 
@@ -319,17 +322,89 @@ body,
 }
 
 
-
+.header-text{
+  color: #152C5B;
+  padding-left: 10px;
+  font-size: 30px;
+  font-family:'Times New Roman', Times, serif;
+}
 
 /* End - RoomSlider - User */
 
-  /* End - RoomSlider - User */
-
-.btnWidth{
+.btnWidth {
   width: 50%;
 }
+
 .rdrDefinedRangesWrapper {
   display: none;
 }
 
 
+/* Animation for Text */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+
+}
+
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 300px;
+  height: 150px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  animation: textAnimation 2s ease-in-out infinite alternate, colorAnimation 4s ease-in-out infinite alternate;
+}
+
+@keyframes textAnimation {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes colorAnimation {
+  0% {
+    color: #fff;
+  }
+
+  25% {
+    color: #152C5B;
+  }
+  50% {
+    color: #cb1e1e;
+  }
+
+  100% {
+    color: #fff;
+  }
+}
+@keyframes fireworkAnimation {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 10px 5px #fff, 0 0 20px 10px #fff, 0 0 30px 15px #fff;
+  }
+
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px 10px #ffcc00, 0 0 30px 15px #ffcc00, 0 0 40px 20px #ffcc00;
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px 5px #fff, 0 0 20px 10px #fff, 0 0 30px 15px #fff;
+  }
+}
+
+/* End Animation for Text */

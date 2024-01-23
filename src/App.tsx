@@ -88,7 +88,7 @@ function App() {
 
         // { path: "facilities", element: <Facilities /> },
 
-        { path: "room-details", element: <RoomDetails /> },
+        { path: "room-details/:roomId", element: <RoomDetails /> },
       ],
     },
   ]);

@@ -1,0 +1,85 @@
+/* RoomDetails.module.scss */
+.imagesContainer {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: center; /* Center items horizontally */
+  }
+  .rightColumnContainer {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  justify-content: center; /* Center items horizontally */
+}
+
+  .largeImageFadeIn {
+    opacity: 0;
+    animation: fadeInLarge 0.5s ease-in-out forwards;
+    width: 100%; /* Take full width of the container */
+  }
+
+  .smallImageFadeIn {
+    opacity: 0;
+    animation: fadeInSmall 0.5s ease-in-out forwards;
+    width: 100%; /* Adjust the width as needed */
+    margin: 0 5px; /* Add margin between small images */
+  }
+
+  @keyframes fadeInLarge {
+    from {
+      opacity: 0;
+      // width: 0;
+    }
+    to {
+      opacity: 1;
+      // width: 100%;
+    }
+  }
+
+  @keyframes fadeInSmall {
+    from {
+      opacity: 0;
+      width: 0;
+    }
+    to {
+      opacity: 1;
+      width: 45%;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .imagesContainer {
+      flex-direction: column; /* Stack items vertically on small screens */
+    }
+
+    .smallImageFadeIn {
+      width: 100%; /* Take full width on small screens */
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    /* Adjust paragraph styles for smaller screens */
+    .paragraphClass {
+      font-size: 14px; /* Adjust the font size */
+      margin-bottom: 10px; /* Adjust the bottom margin */
+    }
+  }
+
+  // .imageFadeIn {
+  //   transition: opacity 0.5s;
+  // }
+
+  // .imageScale {
+  //   transition: transform 0.5s ease-in-out;
+  // }
+
+  // .imageScale:hover {
+  //   transform: scale(1.1);
+  // }
+
+  .imageScaleFade {
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  }
+
+  .imageScaleFade:hover {
+    transform: scale(1.1);
+    opacity: 0.8; /* Adjust the opacity value as desired */
+  }
