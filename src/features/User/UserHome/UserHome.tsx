@@ -6,7 +6,7 @@ import Review from './../Ui/Review/Review';
 import Footer from './../Ui/Footer/Footer';
 import { Box } from '@mui/system';
 import StaticSection from '../StaticSection/StaticSection';
-
+import style from './UserHome.module.scss'
 
 const UserHome = () => {
   return (
@@ -14,8 +14,8 @@ const UserHome = () => {
       <NavBar />
       <HeroSection />
       {/* <RoomsDisplay/> */}
-      <div className="container">
-        <div className="wrapper">
+      <div className={`${style.container}`}>
+        <div className={`${style.wrapper}`}>
           <h1>Hurry up and book now </h1>
         </div>
       </div>
