@@ -164,6 +164,7 @@ body,
 
 
 
+
 /* RoomSlider - User */
 /*
 .room-container {
@@ -335,11 +336,21 @@ body,
 
 .btnWidth {
   width: 50%;
+
+.btnWidth {
+  /* width: 50%; */
+  height: 50px;
+  background-color: #425ece;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+
 }
 
 .rdrDefinedRangesWrapper {
   display: none;
 }
+
 
 
 /* Animation for Text */
@@ -410,3 +421,105 @@ h1 {
 }
 
 /* End Animation for Text */
+
+/********** pagination ***********/
+nav {
+  padding-left: 22rem;
+  /* padding-right: 10rem; */
+}
+.pagination {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination,
+.inputGroup {
+  padding: 5px;
+}
+.pagination .pageLink {
+  background-color: #fff;
+  /* padding-left: 5px;
+  padding-right: 5px; */
+  border: none !important;
+}
+.pagination .pageLink,
+.pagination .pageLink > span,
+.pagination .pageLink:hover {
+  color: rgba(32, 63, 199, 1) !important;
+  font-weight: bold !important;
+  border: 1px solid #ccc !important;
+}
+.pagination .pageLink:focus,
+.pagination .pageLink:active,
+.active > .pageLink,
+.pageLink.active {
+  background-color: rgba(32, 63, 199, 1) !important;
+  border-color: rgba(32, 63, 199, 1) !important;
+
+  color: #fff !important;
+}
+.textCenter {
+  padding-left: 15rem;
+}
+
+/* ***********loader********* */
+.loader {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+  border: 2px solid blue;
+  box-sizing: border-box;
+  animation: rotation 2s linear infinite;
+}
+.loader::after,
+.loader::before {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 2px solid blue;
+  width: 38px;
+  height: 38px;
+  animation: rotationBack 1.3s linear infinite;
+  transform-origin: center center;
+}
+.loader::before {
+  width: 28px;
+  height: 28px;
+  border-color: blue;
+  box-sizing: border-box;
+  animation: rotation 2s linear infinite;
+}
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform: -webkit-translate(-50%, -50%);
+  transform: -moz-translate(-50%, -50%);
+  transform: -ms-translate(-50%, -50%);
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+/* ******************** */
+

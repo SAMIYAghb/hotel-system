@@ -8,10 +8,9 @@ import StartBooking from "../StartBooking/StartBooking";
 const HeroSection: React.FC = () => {
   return (
     <Grid container component="main" className={styles.main}>
-       {/* <Box> */}
+      {/* <Box> */}
       <Grid item xs={12} sm={12} md={6} className={styles.textContainer}>
         <Paper elevation={0} className={styles.paper}>
-         
           <Box
             sx={{
               // my: 2,
@@ -25,19 +24,27 @@ const HeroSection: React.FC = () => {
               <br />
               Start Next Vacation
             </Typography>
-            <Typography className={styles.headParag} sx={{ my: 2 }} component="body" variant="body1">
+            <Typography
+              className={styles.headParag}
+              sx={{ my: 2 }}
+              component="body"
+              variant="body1"
+            >
               We provide what you need to enjoy your holiday with family.
               <br />
               Time to make another memorable moments.
             </Typography>
-            <StartBooking/>
+            <StartBooking />
           </Box>
         </Paper>
       </Grid>
-      <Grid item  xs={false} sm={false} md={1}></Grid>
-      <Grid item  xs={false} sm={false} md={5} className={styles.imageContainer}>
-       <div className={styles.imgBorderCont}></div>
-        <img src={img} alt="hero Image" className={styles.image} />    
+      <Grid item xs={false} sm={false} md={1}></Grid>
+      <Grid item xs={false} sm={false} md={5} className={styles.imageContainer}>
+        {/* <div className={styles.imgBorderCont}></div>
+        <img src={img} alt="hero Image" className={styles.image} />     */}
+        <div className={styles.imageWrapper}>
+          <img src={img} />
+        </div>
       </Grid>
       {/* </Box> */}
     </Grid>
