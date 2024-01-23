@@ -49,6 +49,9 @@ const ChangePass: React.FC = () => {
         toast.error(error.response.data.message);
       });
   };
+  const goBack = () => {
+    navigate(-1);
+  };
 
   return (
     <Grid container component="main" className={Styles.main}>
@@ -157,7 +160,9 @@ const ChangePass: React.FC = () => {
                   <Link to="/forget-password">Forgot password?</Link>
                 </Grid>
                 <Grid item>
-                  <Link to="/home">Back to Home</Link>
+
+                  <Link onClick={goBack}>Back to Home</Link>
+
                 </Grid>
               </Grid>
 

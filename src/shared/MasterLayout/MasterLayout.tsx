@@ -28,7 +28,7 @@ export default function MasterLayout() {
       {/* // </Container> */}
 
       <div className="master-layout">
-        <div className="">
+        <div className="side-bar1">
           <SideBar />
         </div>
           <Container maxWidth="xl">

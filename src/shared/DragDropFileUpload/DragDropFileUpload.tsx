@@ -20,8 +20,9 @@ function DragDropFileUpload({ onFileUpload }) {
     (event) => {
       event.preventDefault();
       setDragOver(false);
-      if (event.dataTransfer.files && event.dataTransfer.files[0]) {
-        onFileUpload(event.dataTransfer.files[0]);
+      const files = event.dataTransfer.files;
+      if (files.length > 0) {
+        onFileUpload(files);
       }
     },
     [onFileUpload]
@@ -29,20 +30,13 @@ function DragDropFileUpload({ onFileUpload }) {
 
   const handleChange = useCallback(
     (event) => {
-      if (event.target.files && event.target.files[0]) {
-        handleFileUpload(event.target.files[0]);
+      const files = event.target.files;
+      if (files.length > 0) {
+        onFileUpload(files);
       }
     },
-    []
+    [onFileUpload]
   );
-
-  const handleFileUpload = useCallback(
-    (file) => {
-      onFileUpload(file);
-      setSelectedFile(file);
-    },
-    [onFileUpload]);
-
   return (
     <Paper
       variant="outlined"

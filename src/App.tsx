@@ -21,8 +21,16 @@ import AddNewRoom from './features/Admin/Rooms/AddNewRoom/AddNewRoom';
 import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
 import Facilities from './features/Admin/Facilities/Facilities';
 import UserHome from './features/User/UserHome/UserHome';
+
+
+import ExplorePage from './pages/ExplorePage/ExplorePage';
+import RoomDetails from './features/User/Ui/RoomDetails/RoomDetails';
+import FavouritesPage from './pages/FavouritesPage/FavouritesPage';
+
+
 import Profile from './features/User/Ui/Profile/Profile';
 import Payment from './features/User/Ui/Payment/Payment';
+
 
 
 
@@ -80,7 +88,14 @@ function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <UserHome /> },
+
+        { path: "explore", element: <ExplorePage /> },
+        { path: "fav", element: <FavouritesPage /> },
+        { path: "room-details/:roomId", element: <RoomDetails /> },
+        // { path: "users", element: <Users /> },
+
         { path: "profile", element: <Profile /> },
+
         // { path: "rooms", element: <Rooms /> },
         // { path: "rooms/add-room", element: <AddNewRoom /> },
         // { path: "ads", element: <Ads /> },
@@ -89,10 +104,11 @@ function App() {
 
         // { path: "facilities", element: <Facilities /> },
 
+
         // { path: "bookings", element: <Bookings /> },
         { path: "payment", element: <Payment /> },
-      ],
-    },
+
+  ]},
   ]);
 
   return (
