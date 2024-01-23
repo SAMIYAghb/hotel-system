@@ -45,7 +45,7 @@ const StartBooking = () => {
       }}
     >
       <Typography component="h6" variant="h5">
-        Start Booking
+        Start Filtration
       </Typography>
       <Typography sx={{ ml: 1 }} component="h6" variant="h6">
         Pick a Date

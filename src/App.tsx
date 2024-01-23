@@ -22,6 +22,8 @@ import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
 import Facilities from './features/Admin/Facilities/Facilities';
 import UserHome from './features/User/UserHome/UserHome';
 import ExplorePage from './pages/ExplorePage/ExplorePage';
+import RoomDetails from './features/User/Ui/RoomDetails/RoomDetails';
+import FavouritesPage from './pages/FavouritesPage/FavouritesPage';
 
 
 
@@ -80,6 +82,8 @@ function App() {
       children: [
         { index: true, element: <UserHome /> },
         { path: "explore", element: <ExplorePage /> },
+        { path: "fav", element: <FavouritesPage /> },
+        { path: "room-details/:roomId", element: <RoomDetails /> },
         // { path: "users", element: <Users /> },
         // { path: "rooms", element: <Rooms /> },
         // { path: "rooms/add-room", element: <AddNewRoom /> },

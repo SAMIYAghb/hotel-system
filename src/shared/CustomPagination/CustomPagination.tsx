@@ -7,7 +7,6 @@ interface CustomPaginationProps {
   onPageChange: (page: number) => void;
   onFetchRooms: (page: number) => void;
 }
-
 // ... (your imports and interface)
 
 const CustomPagination: React.FC<CustomPaginationProps> = ({
@@ -28,6 +27,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
   );
 
   const [pageNumberInput, setPageNumberInput] = useState("");
+  
 
 const handlePageNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPageNumberInput(e.target.value);
@@ -35,8 +35,9 @@ const handlePageNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => 
   const handleGoToPage = () => {
     const pageNumber = parseInt(pageNumberInput);
     if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setLoading(true);
       onPageChange(pageNumber);
-      onFetchRooms(pageNumber);;
+      onFetchRooms(pageNumber);
     }
   };
   
@@ -47,6 +48,7 @@ const handlePageNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => 
       handleGoToPage();
     }
   };
+
 
   return (
 
@@ -78,6 +80,7 @@ const handlePageNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => 
           >
             {page}
           </ListItemButton>
+ 
         ))}
 
         <ListItemButton
@@ -89,6 +92,7 @@ const handlePageNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => 
           }}
           disabled={currentPage === totalPages} // Disable if on the last page
         >
+   
           Next
         </ListItemButton>
       </List>
