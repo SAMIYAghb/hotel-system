@@ -1,7 +1,10 @@
 .root {
   overflow: hidden;
   /* height: 100vh; */
+  --main-color: #3252DF;
+  --second-color:#152C5B;
 }
+
 *,
 html,
 body,
