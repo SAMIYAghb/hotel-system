@@ -79,6 +79,8 @@ export const userRoomsDetailsUrl =`${baseUrl}/portal/rooms/` //with id
 // ***********get all filtered rooms*************
 export const allRoomsFilterdUrl =`${baseUrl}/portal/rooms/available`;
 
-
 // ********** Ads Display ************
 export const userAdsDisplayUrl = `${baseUrl}/portal/ads`;
+
+// ***********get all reviewss*************
+export const allReviewsUrl =`${baseUrl}/portal/room-reviews/`;//With id

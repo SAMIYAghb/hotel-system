@@ -21,7 +21,11 @@ import AddNewRoom from './features/Admin/Rooms/AddNewRoom/AddNewRoom';
 import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
 import Facilities from './features/Admin/Facilities/Facilities';
 import UserHome from './features/User/UserHome/UserHome';
+
 import RoomDetails from './features/User/Ui/RoomDetails/RoomDetails';
+
+import Profile from './features/User/Ui/Profile/Profile';
+
 
 
 
@@ -79,7 +83,7 @@ function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <UserHome /> },
-        // { path: "users", element: <Users /> },
+        { path: "profile", element: <Profile /> },
         // { path: "rooms", element: <Rooms /> },
         // { path: "rooms/add-room", element: <AddNewRoom /> },
         // { path: "ads", element: <Ads /> },
