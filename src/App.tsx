@@ -22,9 +22,11 @@ import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
 import Facilities from './features/Admin/Facilities/Facilities';
 import UserHome from './features/User/UserHome/UserHome';
 
+
 import ExplorePage from './pages/ExplorePage/ExplorePage';
 import RoomDetails from './features/User/Ui/RoomDetails/RoomDetails';
 import FavouritesPage from './pages/FavouritesPage/FavouritesPage';
+
 
 import Profile from './features/User/Ui/Profile/Profile';
 
@@ -101,7 +103,7 @@ function App() {
 
         // { path: "facilities", element: <Facilities /> },
 
-        // { path: "bookings", element: <Bookings /> },
+        { path: "room-details/:roomId", element: <RoomDetails /> },
       ],
     },
   ]);

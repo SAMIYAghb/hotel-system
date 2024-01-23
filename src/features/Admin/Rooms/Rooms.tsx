@@ -310,18 +310,23 @@ const Rooms = () => {
                         : { background: "white" }
                     }>
                     <TableCell align="center" valign="middle">{room?.roomNumber}</TableCell>
-                    <TableCell  >
-                      {room?.images && room.images.length > 0 ?
+                    <TableCell>
+                      {room?.images && room.images.length > 0 ? (
+                        room.images.map((image, index) => (
+                          <img
+                            key={index}
+                            src={image}
+                            alt={`Room ${room?.roomNumber}`}
+                            style={{ width: "50px", height: "50px", marginRight: '5px' }}
+                          />
+                        ))
+                      ) : (
                         <img
-                          src={room?.images[0]}
-                          crossOrigin="anonymous"
-                          alt={`Room ${room?.roomNumber}`}
-                          style={{ width: "50px", height: "50px" }}
-                        /> :
-                        <img src={noImage}
-                          crossOrigin="anonymous"
+                          src={noImage}
                           alt="Placeholder"
-                          style={{ width: "50px", height: "50px" }} />}
+                          style={{ width: "50px", height: "50px" }}
+                        />
+                      )}
                     </TableCell>
                     <TableCell align="center" valign="middle">{room?.price}</TableCell>
                     <TableCell align="center" valign="middle">{room?.discount}</TableCell>

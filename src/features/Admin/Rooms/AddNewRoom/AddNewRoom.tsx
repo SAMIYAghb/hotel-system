@@ -1,6 +1,6 @@
 import { Button, Checkbox, Divider, FormControl, Grid, ListItemText, Paper, Select, TextField } from "@mui/material";
 import { Box, Container } from "@mui/system";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Styles from "./AddNewRoom.module.scss";
@@ -12,6 +12,8 @@ import { IAddRoom } from "../../../../interface/RoomInterface";
 import DragDropFileUpload from "../../../../shared/DragDropFileUpload/DragDropFileUpload";
 import useFacilities from "../../../Hook/useFacilities";
 import { toast } from 'react-toastify';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloudUpload from "@mui/icons-material/CloudUpload";
 const AddNewRoom: React.FC = () => {
   const { requestHeaders } = useContext(AuthContext);
 
@@ -21,6 +23,11 @@ const AddNewRoom: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const { facilitiesList } = useFacilities();
+  const [images, setImages] = useState([]);
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImages(files);
+  };
   const {
     register,
     handleSubmit,
@@ -44,17 +51,34 @@ const AddNewRoom: React.FC = () => {
       });
     }
 
-
-    // formData.append("imgs", data["imgs"][0]);
+    // Append multiple images
+    for (let i = 0; i < images.length; i++) {
+      formData.append("imgs", images[i]);
+    }
     return formData;
   };
-// **** Cancel Button*******
+  // **** Cancel Button*******
   const goBack = () => {
     navigate(-1);
   };
   // *******Create New Room**********
   const onSubmit: SubmitHandler<IAddRoom> = async (data: IAddRoom) => {
     // setIsLoading(true)
+    // Check if discount is greater than price
+    if (data.discount && data.price && data.discount > data.price) {
+      setValue('discount', '', { shouldValidate: true });
+      setValue('discount', data.discount, { shouldValidate: true });
+      toast.error('Discount cannot be greater than the price.');
+      return;
+    }
+    // Check if discount is outside the range 0 to 100
+    if (
+      data.discount !== undefined &&
+      (data.discount < 0 || data.discount > 100)
+    ) {
+      toast.error('Discount must be between 0 and 100.');
+      return;
+    }
     const addFormData = appendToFormData(data);
     axios
       .post(`${addroomsUrl}`, addFormData, { headers: requestHeaders })
@@ -72,12 +96,28 @@ const AddNewRoom: React.FC = () => {
       .finally(() => setIsLoading(false));
   };
 
-// ***** Handle File Upload
-  const handleFileUpload = (file) => {
-    setSelectedImage(URL.createObjectURL(file));
-  };
+  // ***** Handle File Upload
+  // const handleFileUpload = (file) => {
+  //   setSelectedImage(URL.createObjectURL(files[0]));
+  // };
 
+  // const handleFileUpload = useCallback(
+  //   (files) => {
+  //     const imageUrls = Array.from(files).map((file) => URL.createObjectURL(file));
+  //     console.log(imageUrls);
+  //     setSelectedImage(imageUrls);
+  //   },
+  //   []
+  // );
 
+  // const handleFileUpload = useCallback(
+  //   (files) => {
+  //     const imageUrls = Array.from(files).map((file) => URL.createObjectURL(file));
+  //     console.log(imageUrls);
+  //     setSelectedImage(imageUrls);
+  //   },
+  //   []
+  // );
   return (
     <>
       <Container
@@ -111,6 +151,7 @@ const AddNewRoom: React.FC = () => {
                 component="form"
                 noValidate
                 onSubmit={handleSubmit(onSubmit)}
+                // encType="multipart/form-data"
                 sx={{
                   width: "100%",
                   maxWidth: "none",
@@ -181,26 +222,31 @@ const AddNewRoom: React.FC = () => {
                   <Grid item xs={6}>
                     <TextField
                       {...register("discount", {
-                        required: true,
                         valueAsNumber: true,
+                        required: true,
+                        // pattern: /^(?!0$|100$)\d+$/,
+
                       })}
                       required
                       id="discount"
                       label="Discount"
-                      // variant="filled"
                       fullWidth
                       sx={{
                         width: "100%",
                         marginBottom: "1rem",
                         display: "flex",
                         flexDirection: "column",
-                        height: "100%", // Add this line
+                        height: "100%",
                         paddingTop: '5px'
                       }}
                     />
                     {errors.discount && errors.discount.type === "required" && (
                       <span className="errorMsg">This field is required</span>
                     )}
+                    {/* {errors.discount && errors.discount.type === "pattern" && (
+                      <span className="errorMsg">Invalid discount value</span>
+                    )} */}
+
                   </Grid>
 
                   <Grid item xs={6}>
@@ -241,19 +287,48 @@ const AddNewRoom: React.FC = () => {
                     )}
                   </Grid>
                 </Grid>
-
                 <div style={{ padding: 50 }}>
-                  <DragDropFileUpload onFileUpload={handleFileUpload} />
+                  {/* <DragDropFileUpload onFileUpload={handleFileUpload} />
                   {selectedImage && (
                     <div style={{ marginTop: '20px' }}>
-                      <img src={selectedImage} alt="Selected"
-                        style={{ maxWidth: '80%', maxHeight: '100px' }} />
+                      {selectedImage.map((imageUrl, index) => (
+                        <img key={index} src={imageUrl} alt={`Selected ${index + 1}`} style={{ maxWidth: '80%', maxHeight: '100px' }} />
+                      ))}
+                    </div>
+                  )} */}
+
+                </div>
+                <Box>
+                  <label htmlFor="upload-input">
+                    <Button
+                      variant="contained"
+                      startIcon={<CloudUploadIcon />}
+                      component="span"
+                    >
+                      Upload Images
+                    </Button>
+                  </label>
+                  <input
+                    id="upload-input"
+                    onChange={handleImageChange}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    style={{ display: 'none' }}
+                  />
+                  {images.length > 0 && (
+                    <div style={{ marginTop: '20px' }}>
+                      {images.map((file, index) => (
+                        <img
+                          key={index}
+                          src={URL.createObjectURL(file)}
+                          alt={`Selected ${index + 1}`}
+                          style={{ maxWidth: '80%', maxHeight: '100px', margin: '5px' }}
+                        />
+                      ))}
                     </div>
                   )}
-                </div>
-
-
-
+                </Box>
                 <Grid
                   container
                   spacing={2}
