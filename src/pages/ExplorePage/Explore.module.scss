@@ -12,17 +12,17 @@
   height:300px;
   width:400px;
   overflow:hidden;
-  border-radius:15px;  
-  
+  border-radius:15px;
+
 }
 .badge{
   padding:5px;
   background-color: deeppink;
   color: #fff;
   position:absolute;
-  right:40px;
+  right:0px;
   top:0px;
-  border-bottom-left-radius:15px;  
+  border-bottom-left-radius:15px;
 
 z-index: 5;
 }
@@ -31,16 +31,16 @@ img{
   height:100%;
   object-fit:cover;
   object-position:top;
-  
+
 }
 .roomName{
   padding:5px;
- 
+
   color: #fff;
   position:absolute;
- 
+
   bottom:32px;
-  
+
 
 z-index: 5;
 }
@@ -48,7 +48,7 @@ z-index: 5;
   position:absolute;
   inset:0;
   background: rgba(0,0,0,0.3);
-  width:90%;
+  width:100%;
   height:100%;
   display:grid;
   place-content:center;

@@ -167,7 +167,7 @@ body,
 
 .btnWidth {
   width: 50%;
-
+}
 .btnWidth {
   /* width: 50%; */
   height: 50px;
@@ -181,7 +181,6 @@ body,
 .rdrDefinedRangesWrapper {
   display: none;
 }
-
 
 
 /********** pagination ***********/
