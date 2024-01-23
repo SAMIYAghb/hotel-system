@@ -22,6 +22,7 @@ import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
 import Facilities from './features/Admin/Facilities/Facilities';
 import UserHome from './features/User/UserHome/UserHome';
 import Profile from './features/User/Ui/Profile/Profile';
+import Payment from './features/User/Ui/Payment/Payment';
 
 
 
@@ -89,6 +90,7 @@ function App() {
         // { path: "facilities", element: <Facilities /> },
 
         // { path: "bookings", element: <Bookings /> },
+        { path: "payment", element: <Payment /> },
       ],
     },
   ]);
