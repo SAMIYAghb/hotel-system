@@ -13,18 +13,18 @@ import Loader from "../../shared/Loader/Loader";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 const FavouritesPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { requestHeaders } = useContext(AuthContext);
-  // const { roomId } = useParams();
 
   // **********************************
   const [favRoomsList, setFavRoomsList] = useState([]);
   // *******pagination*******
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const totalPages = Math.ceil(totalCount / 6);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [totalCount, setTotalCount] = useState(0);
+  // const totalPages = Math.ceil(totalCount / 6);
 
   // ***********getAllFavRooms*****************
   const getAllFavRooms = () => {
@@ -35,7 +35,7 @@ const FavouritesPage: React.FC = () => {
       })
       .then((response) => {
         console.log(
-          "succ fet fav",
+          "succ get all fav",
           response?.data?.data?.favoriteRooms[0].rooms
         );
         setFavRoomsList(response?.data?.data?.favoriteRooms[0].rooms);
@@ -43,27 +43,46 @@ const FavouritesPage: React.FC = () => {
         // setCurrentPage(page);
       })
       .catch((error) => {
-        console.log("fav rooms err", error);
+        // console.log("fav rooms err", error);
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
   // ***********removeFavRooms*****************
+  // const removeFromFav = (roomId: string) => {
+  //   // console.log("room id",room?._id)
+  //   axios
+  //     .delete(`${removeFavRoomUrl}/${roomId}`, {
+  //       headers: requestHeaders,
+  //     })
+
+  //     .then((response) => {
+  //       console.log("succ remove", response);
+  //       toast.success("Removed from Favorite Successfully");
+  //       // setIsLoading(true);
+  //       // setFavRoomsList(response.data.data.rooms);
+  //       // setTotalCount(response.data.data.totalCount);
+  //       // setCurrentPage(page);
+  //     })
+  //     .catch((error) => {
+  //       console.log("fav remov err", error);
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // };
   const removeFromFav = (roomId: string) => {
-    // console.log("room id",room?._id)
+    setIsLoading(true);
     axios
       .delete(`${removeFavRoomUrl}/${roomId}`, {
         headers: requestHeaders,
+        data: { roomId }, // Pass the roomId in the request body as obj
       })
-
       .then((response) => {
-        console.log("succ remove", response);
+        // console.log("succ remove", response);
         toast.success("Removed from Favorite Successfully");
-        // setIsLoading(true);
-        // setFavRoomsList(response.data.data.rooms);
-        // setTotalCount(response.data.data.totalCount);
-        // setCurrentPage(page);
+        getAllFavRooms();
       })
       .catch((error) => {
         console.log("fav remov err", error);
@@ -72,7 +91,6 @@ const FavouritesPage: React.FC = () => {
         setIsLoading(false);
       });
   };
-
   useEffect(() => {
     getAllFavRooms();
   }, []);
@@ -88,6 +106,18 @@ const FavouritesPage: React.FC = () => {
       >
         Your Favorites
       </Typography>
+      <div
+        style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '5px' }}>
+        <Typography variant="body1" style={{ marginRight: '5px' }}>
+          <Link to="/user/home" style={{ color: 'black', textDecoration: 'none' }}>
+            Home
+          </Link>
+        </Typography>
+        <Typography variant="body1" style={{ marginRight: '5px' }}>/</Typography>
+        <Typography variant="body1" style={{ color: '#1a237e' }}>
+          Favorites
+        </Typography>
+      </div>
 
       <Grid container spacing={2}>
         {isLoading ? (
@@ -173,7 +203,7 @@ const FavouritesPage: React.FC = () => {
         )}
       </Grid>
       {/* pagination */}
-      {!isLoading ? (
+      {/* {!isLoading ? (
         <CustomPagination
           totalPages={totalPages}
           currentPage={currentPage}
@@ -182,7 +212,7 @@ const FavouritesPage: React.FC = () => {
         />
       ) : (
         ""
-      )}
+      )} */}
       {/* </Container> */}
       <Footer />
     </Box>
