@@ -17,7 +17,7 @@ const BookingDetails = () => {
         headers: requestHeaders,
       })
       .then((response) => {
-        // console.log(response);
+        console.log(response);
         setBookingDetails(response?.data?.data?.booking);
       })
       .catch((error) => {});
@@ -45,7 +45,7 @@ const BookingDetails = () => {
           <Typography>Booking end date: {bookingDetails?.endDate}</Typography>
           <Typography>totalPrice: {bookingDetails?.totalPrice}</Typography>
           <Typography>Booking status: {bookingDetails?.status}</Typography>
-          <Typography>Booking created at: {bookingDetails?.status}</Typography>
+          <Typography>Booking created at: {bookingDetails?.createdAt}</Typography>
           {/* <Link to='/user/home/payment'> */}
           <Link to={`/user/home/payment/${bookingDetails?._id}`}>
             <Button type="submit" variant="contained">

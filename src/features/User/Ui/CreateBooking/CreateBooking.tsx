@@ -105,7 +105,7 @@ const CreateBooking = () => {
   }
 
   const[bookingDetails, setBookingDetails] = useState({});
-  const[bookingId, setBookingId] = useState({});
+  const[bookingId, setBookingId] = useState(null);
   const onSubmit = async (data) => {
     // console.log(data);
 
@@ -128,50 +128,53 @@ const CreateBooking = () => {
       };
       // console.log("requestBody", requestBody);
       // Envoyer la requête à votre endpoint de création de réservation
-//       await axios
-//       .post(createBookingUrl, requestBody, {
-//   headers: requestHeaders,
-// })
-//       .then((response) => {
-//         // console.log(response);
-//         // console.log(response?.data?.data);
-//         const bookingData = response?.data?.data?.booking;
-//         console.log(bookingData );
-//         // setBookingDetails(response?.data?.data?.booking);
-//       })
-//       .catch((error) => {
-
-//       });
-      try {
-        const response = await axios.post(createBookingUrl, requestBody, {
-          headers: requestHeaders,
-        });
+      await axios
+      .post(createBookingUrl, requestBody, {
+  headers: requestHeaders,
+})
+      .then((response) => {
         // console.log(response);
-        // console.log(response.data.data.booking);
-     
-        if (response?.data?.data?.booking) {
-          setBookingDetails(response.data.data.booking);
-          // console.log(bookingDetails);
-        } else {
-          console.log("La réponse ne contient pas de données de réservation.");
-        }
-        if (response?.data?.data?.booking._id) {
-          setBookingId(bookingDetails._id);
-          // console.log(bookingId);
-        } else {
-          console.log("La réponse ne contient pas de données de réservation.");
-        }
+        // console.log(response?.data?.data?.booking?._id);
+        // setBookingId(response.data.data.booking._id)
+const bookingId = response.data.data.booking._id
+        console.log(bookingId );
+
         navigate(`/user/home/booking-details/${bookingId}`);
-      } catch (error) {
-        console.error(error);
-      }
-    }
+      })
+      .catch((error) => {
+
+      });
+    //   try {
+    //     const response = await axios.post(createBookingUrl, requestBody, {
+    //       headers: requestHeaders,
+    //     });
+    //     // console.log(response);
+    //     // console.log(response.data.data.booking);
+     
+    //     if (response?.data?.data?.booking) {
+    //       setBookingDetails(response.data.data.booking);
+    //       console.log(response.data.data.booking);
+    //     } else {
+    //       console.log("La réponse ne contient pas de données de réservation.");
+    //     }
+    //     if (response?.data?.data?.booking?._id) {
+    //       setBookingId(response.data.data.booking._id);
+    //       console.log(response.data.data.booking._id);
+    //       console.log(bookingId);
+    //     } else {
+    //       console.log("La réponse ne contient pas de données de réservation.");
+    //     }
+    //     navigate(`/user/home/booking-details/${bookingId}`);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+     }
   };
-  useEffect(() => {
-    // console.log(bookingDetails);
-    // console.log(bookingDetails._id);
-    console.log(bookingId);
-  }, []);
+  // useEffect(() => {
+  //   // console.log(bookingDetails);
+  //   // console.log(bookingDetails._id);
+  //   console.log(bookingId);
+  // }, []);
 
   const formatDate = (date) => {
     if (!(date instanceof Date)) {

@@ -10,15 +10,11 @@ const stripePromise = loadStripe('pk_test_oKhSR5nslBRnBZpjO6KuzZeX');
 
 const Payment = () => {
   const { bookingId } = useParams();
-  console.log(bookingId);
+  // console.log(bookingId);
 
-    // const options = {
-    //     // passing the client secret obtained from the server
-    //     clientSecret: '{{CLIENT_SECRET}}',
-    //   };
+
   return (
     <>
-     {/* <div>Payment</div> */}
     <Elements stripe={stripePromise}
     //  options={options}
      >
