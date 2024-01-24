@@ -1,40 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../../../context/AuthContext';
 import axios from 'axios';
-import { favRooms, roomsDisplayUrl, userAdsDisplayUrl } from '../../../../services/api';
-// import Carousel from 'react-material-ui-carousel'
-// import "react-responsive-carousel/lib/styles/carousel.min.css";
-// requires a loader
+import { favRooms, userAdsDisplayUrl } from '../../../../services/api';
 
-import "./AdsDisplay.scss"
-
+import style from "./AdsDisplay.module.scss"
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import "./RoomsDisplay.scss"
-import { IconButton, Grid, Paper } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import noImage from "../../../../assets/images/noImage.jpg"
+import defultImage from "../../../../assets/images/defultImage.jpg"
 import { toast } from 'react-toastify';
 import { NextArrow, PrevArrow } from '../../../../shared/CarouselArrows/CarouselArrows';
-import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
 
 const AdsDisplay = () => {
-  const [isInPage, setIsInPage] = useState(true);
   const { requestHeaders } = useContext(AuthContext);
   const [adsList, setAdsList] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [roomId, setRoomId] = useState(0);
-  const [favStatus, setFavStatus] = useState({}); // To update the status of Fav
 
   const settings = {
     className: "center",
     infinite: true,
     centerPadding: "60px",
-    slidesToShow: 5,
+    slidesToShow: 4,
     autoplay: true,
     speed: 2000,
     autoplaySpeed: 1000,
@@ -48,7 +38,7 @@ const AdsDisplay = () => {
     // Define responsive settings based on screen width
     responsive: [
       {
-        breakpoint: 800,
+        breakpoint: 888,
         settings: {
           slidesToShow: 2,
           // slidesToScroll: 3,
@@ -60,45 +50,27 @@ const AdsDisplay = () => {
         breakpoint: 600,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 2,
-          initialSlide: 2
+          // slidesToScroll: 2,
+          // initialSlide: 2
         }
       },
       {
-        breakpoint: 480,
+        breakpoint: 980,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 3,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 1110,
+        settings: {
+          slidesToShow: 4,
           slidesToScroll: 1
         }
       }
     ]
   };
-  const navigate = useNavigate();
-  // Navigate to room details page
-  const navigateToDetails = (roomId) => {
 
-    navigate(`/user/home/room-details/${roomId}`);
-
-    console.log("Navigate to room details with ID:", roomId);
-  };
-  // Get All Rooms
-  // const displayRooms = () => {
-  //   axios.get(`${roomsDisplayUrl}`, {
-  //     headers: requestHeaders
-  //   })
-  //     .then((response) => {
-  //       setRoomsList(response?.data?.data?.rooms)
-  //       console.log(response.data.data.rooms)
-
-
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-
-
-  //     })
-  //     .finally(() => setLoading(false));
-  // }
   // ********* Get All Ads *********
   const displayAds = () => {
     axios.get(`${userAdsDisplayUrl}`, {
@@ -160,53 +132,37 @@ const AdsDisplay = () => {
           <h1>hurry up and book now</h1>
         </div>
       </div> */}
-      <div className="slider">
-        <h3 className='header-text'>Ads</h3>
+      <div className={`${style.slider}`}>
+        <h3 className={`${style.headerText}`}>Ads</h3>
         {adsList && adsList.length > 0 && (
           <Slider  {...settings} {...responsiveSettings}>
             {adsList.map((ad) => (
-              <div key={ad._id} className="room-container">
+              <div key={ad._id} className={`${style.roomContainer}`}>
 
                 {ad.room.images && ad.room.images.length > 0 ? (
-                  <div className="room-content">
+                  <div className={`${style.roomContent}`}>
                     <img
                       src={ad.room.images[0]}
                       alt={`Ad ${ad.room.roomNumber} - Image 1`}
-                      className="room-image"
+                      className={`${style.roomImage}`}
                       crossOrigin='anonymous'
 
                     />
                     {ad.isActive && ad.room.discount && (
-                      <div className="discount-badge"
-                        style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                      <div className={`${style.discountBadge}`}
+                      // style={{ position: 'absolute', top: '10px', right: '10px' }}
+                      >
                         {ad.room.discount}%
                       </div>
                     )}
                     <div>
-                      <h3 className='room-name'>{ad.roomNumber}</h3>
-                    </div>
-
-                    <div className="overlay">
-                      <Grid container justifyContent="center" alignItems="center">
-                        {/* <IconButton onClick={() => addToFav(room._id)}>
-                          <FavoriteIcon style={{ color: favStatus[room._id] ? '#f50057' : 'white' }} />
-                        </IconButton> */}
-
-                        {/* <Link
-                          to={`/user/home/room-details/${room._id}`}
-                          style={{ textDecoration: 'none' }}> */}
-                        {/* <IconButton
-                          onClick={() => navigateToDetails(room._id)}>
-                            <VisibilityIcon style={{ color: '#4dabf5' }} />
-                          </IconButton> */}
-                        {/* </Link> */}
-                      </Grid>
+                      <h3 className={`${style.roomName}`}>{ad.roomNumber}</h3>
                     </div>
                   </div>
                 ) : (
-                  <div className="default-image">
+                  <div className={`${style.roomContent}`}>
 
-                    <img src={noImage} width={100} height={100} alt="" />
+                    <img src={defultImage} className={`${style.roomImage}`} alt="" />
                   </div>
                 )}
               </div>
