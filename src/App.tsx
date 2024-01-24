@@ -30,6 +30,7 @@ import FavouritesPage from './pages/FavouritesPage/FavouritesPage';
 
 import Profile from './features/User/Ui/Profile/Profile';
 import Payment from './features/User/Ui/Payment/Payment';
+import BookingDetails from './features/User/Ui/BookingDetails/BookingDetails';
 
 
 
@@ -106,7 +107,8 @@ function App() {
 
 
         // { path: "bookings", element: <Bookings /> },
-        // { path: "payment", element: <Payment /> },
+        { path: "payment/:bookingId", element: <Payment /> },
+        { path: "booking-details/:bookingId", element: <BookingDetails /> },
 
   ]},
   ]);
