@@ -14,7 +14,12 @@ import PeopleIcon from '@mui/icons-material/People';
 import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
 import style from './RoomDetails.module.scss'
 import Box from '@mui/material/Box';
+
 import CreateBooking from './../CreateBooking/CreateBooking';
+
+import Review from '../Review/Review';
+import Footer from '../Footer/Footer';
+
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -116,96 +121,12 @@ const RoomDetails = () => {
 
   return (
     <>
-      {/* <StartBooking /> */}
 
-
-      {/* <Typography variant="h2" style={{ textAlign: 'center', marginBottom: '10px' }}>
-        {roomDetails.roomNumber}
-      </Typography>
-      <div
-        style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '10px' }}>
-        <Typography variant="body1" style={{ marginRight: '5px' }}>
-          <Link to="/" style={{ color: 'black', textDecoration: 'none' }}>
-            Home
-          </Link>
-        </Typography>
-        <Typography variant="body1" style={{ marginRight: '5px' }}>/</Typography>
-        <Typography variant="body1" style={{ color: '#1a237e' }}>
-          Room Details
-        </Typography>
-      </div>
-      <Container>
-
-
-        <LeftColumn>
-          <LeftImage elevation={3}>
-
-            <Image
-              src={roomDetails.images && roomDetails.images.length > 0 ? roomDetails.images[0] : imgO}
-              alt="Large Image"
-            />
-          </LeftImage>
-
-          <div>
-            <Typography variant="body1">
-              Welcome to our elegant and comfortable rooms designed to provide you with a
-              memorable stay. Each room is thoughtfully furnished to ensure a perfect blend of style and functionality. The spacious interiors are adorned with modern décor,
-              creating a welcoming atmosphere for both leisure and business travelers.
-            </Typography>
-            <Typography variant='body2'>
-              Each room boasts a stunning view and is meticulously designed to create a soothing ambiance. The combination of tasteful furnishings and modern conveniences ensures that your time with us is both enjoyable and rejuvenating.
-
-              Indulge in the ultimate comfort with plush bedding, and unwind in the well-appointed
-              sitting area. The en-suite bathroom features a spa-like atmosphere,
-              allowing you to pamper yourself after a day of exploration or business meetings.
-            </Typography>
-            <Typography>
-              Whether you're here for business or leisure, our rooms are your sanctuary away from home. Experience unmatched hospitality and exceptional service throughout your stay.
-              Book now to secure your reservation and embark on a delightful journey of relaxation and luxury.
-            </Typography>
-            <Typography variant="h6" color="secondary">Key Features:</Typography>
-
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-              <MonetizationOnIcon style={{ marginRight: '5px' }} />
-              <Typography variant="body1">Price: {roomDetails.price}</Typography>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-              <PeopleIcon style={{ marginRight: '5px' }} />
-              <Typography variant="body1">Capacity: {roomDetails.capacity}</Typography>
-            </div>
-            <div style={{ marginBottom: '10px' }}>
-              <Typography variant="body1">Facilities:</Typography>
-              <ul style={{ listStyleType: 'none', padding: 0 }}>
-                {roomDetails.facilities?.map((facility) => (
-                  <li key={facility?._id}>
-                    <EmojiObjectsIcon style={{ marginRight: '5px', color: 'red' }} />
-                    {facility?.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </LeftColumn>
-        <RightColumn>
-          <RightImages>
-            {roomDetails.images &&
-              roomDetails.images.slice(1, 3).map((img, index) => (
-                <RightImage key={index} elevation={3} className={style.imageFadeIn}>
-                  <Image src={img} alt={`Small Image ${index + 1}`} />
-                </RightImage>
-              ))}
-          </RightImages>
-          <SmallStartBookingContainer>
-            <StartBooking />
-          </SmallStartBookingContainer>
-        </RightColumn>
-
-      </Container> */}
       <Typography variant="h2" style={{ textAlign: 'center', marginBottom: '10px' }}>
         {roomDetails.roomNumber}
       </Typography>
       <div
-        style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '10px' }}>
+        style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '5px' }}>
         <Typography variant="body1" style={{ marginRight: '5px' }}>
           <Link to="/user/home" style={{ color: 'black', textDecoration: 'none' }}>
             Home
@@ -223,11 +144,13 @@ const RoomDetails = () => {
             <img
               src={roomDetails.images && roomDetails.images.length > 0 ? roomDetails.images[0] : imgO}
               alt="Large Image"
-              style={{ width: '100%', height: '100%',
-               objectFit: 'cover', transition: 'opacity 0.5s' ,
-              }}
-              className={`${style.imageScaleFade}`}
+              className={`${style.largeImage}`}
+            //   style={{ width: '100%', height: '100%',
+            //   objectFit: 'cover',
+            //   transition: 'opacity 0.5s' ,
+            //  }}
             />
+
           </Grid>
           <Grid item xs={6} md={4}>
             {roomDetails.images && roomDetails.images.slice(1, 3).map((img, index) => (
@@ -237,7 +160,7 @@ const RoomDetails = () => {
                   cursor: 'pointer',
                   transition: 'opacity 0.5s',
                 }}
-                className={`${style.imageScaleFade} ${style.smallImage}`}
+                className={`${style.imageScale} ${style.smallImage}`}
                 onClick={() => handleSmallImageClick(img)}
               />
 
@@ -288,6 +211,8 @@ const RoomDetails = () => {
           </Grid>
         </Grid>
       </Box>
+      <Review />
+      <Footer />
     </>
   )
 }
