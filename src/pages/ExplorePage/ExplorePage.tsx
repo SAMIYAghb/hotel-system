@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import noHotelImg from "../../assets/images/noo-img.webp";
 import CustomPagination from "../../shared/CustomPagination/CustomPagination";
-import { Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Style from "./Explore.module.scss";
@@ -124,7 +124,18 @@ const ExplorePage: React.FC = () => {
       >
         Explore ALL Rooms
       </Typography>
-
+      <div
+        style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '5px' }}>
+        <Typography variant="body1" style={{ marginRight: '5px' }}>
+          <Link to="/user/home" style={{ color: 'black', textDecoration: 'none' }}>
+            Home
+          </Link>
+        </Typography>
+        <Typography variant="body1" style={{ marginRight: '5px' }}>/</Typography>
+        <Typography variant="body1" style={{ color: '#1a237e' }}>
+          Explore
+        </Typography>
+      </div>
       <Grid container spacing={2}>
       {isLoading ? (
       <div className="centered"> <Loader /></div>
