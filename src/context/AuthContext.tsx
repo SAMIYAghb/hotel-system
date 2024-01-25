@@ -52,7 +52,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
       setUserData(decodedToken);
       // console.log(decodedToken);
       setUserRole(decodedToken.role);
-      // console.log(decodedToken.role);
+      console.log(decodedToken.role);
     } catch (error) {
       // Handle the error appropriately, e.g., show a message to the user or log it
     }
@@ -67,6 +67,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
     if (localStorage.getItem("userToken")) {
       saveUserData();
     }
+    console.log(userData);
+    
   }, []);
 
   // Value to be provided by the context
