@@ -6,11 +6,11 @@ import { AuthContextProviderProps } from "../interface/AuthInterface";
 // Create the AuthContext and set the initial value
 export const AuthContext = createContext<IAuth>({
   userData: "",
-  saveUserData: () => {},
+  saveUserData: () => { },
   requestHeaders: "",
   //   baseUrl: '',
   userRole: "",
-  updateUserData: () => {},
+  updateUserData: () => { },
 });
 
 // // Define the props for AuthContextProvider component
@@ -31,6 +31,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
 ) => {
   const [userData, setUserData] = useState<DecodedToken | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [authData, setAuthData] = useState(null); //new line 
 
   const updateUserData = (newUserData: string) => {
     setUserData(newUserData);
@@ -53,6 +54,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
       // console.log(decodedToken);
       setUserRole(decodedToken.role);
       // console.log(decodedToken.role);
+      setAuthData({ user, token: encodedToken }); // Save the entire response data & this is new line
+
     } catch (error) {
       // Handle the error appropriately, e.g., show a message to the user or log it
     }
@@ -77,6 +80,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
     // baseUrl: "http://upskilling-egypt.com:3003/api/v1",
     userRole,
     updateUserData,
+    authData,
+    userId: userData?._id || '', //New line in authContext
   };
 
   return (
