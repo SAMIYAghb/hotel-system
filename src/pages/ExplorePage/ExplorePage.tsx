@@ -115,7 +115,7 @@ const ExplorePage: React.FC = () => {
 
   return(
     <Box>
-      <NavBar />
+
       {/* <Container> */}
       <Typography
         component="h6"
@@ -223,7 +223,7 @@ const ExplorePage: React.FC = () => {
       />
       ):""}
       {/* </Container> */}
-      <Footer />
+
     </Box>
     )
     };

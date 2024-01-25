@@ -364,7 +364,6 @@ const RoomDetails = () => {
       </CustomModal>
 
       {/* <Review/> */}
-      <Footer />
     </>
   )
 }

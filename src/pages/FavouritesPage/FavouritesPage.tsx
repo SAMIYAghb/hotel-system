@@ -62,7 +62,7 @@ const FavouritesPage: React.FC = () => {
         {
           headers: requestHeaders,
         }
-      
+
       )
 
       .then((response) => {
@@ -100,7 +100,7 @@ const FavouritesPage: React.FC = () => {
 
   return (
     <Box>
-      <NavBar />
+
       {/* <Container> */}
       <Typography
         component="h6"
@@ -181,7 +181,7 @@ const FavouritesPage: React.FC = () => {
                           >
                             <IconButton onClick={() => removeFromFav(room._id)}>
                               <FavoriteIcon
-                          
+
                               style={{ color: favStatus[room._id] ? '#f50057' : 'white' }}
                               />
                             </IconButton>
@@ -209,7 +209,7 @@ const FavouritesPage: React.FC = () => {
         ""
       )}
       {/* </Container> */}
-      <Footer />
+  
     </Box>
   );
 };
