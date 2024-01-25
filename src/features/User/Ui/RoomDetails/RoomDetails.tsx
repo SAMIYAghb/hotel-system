@@ -19,80 +19,24 @@ import Footer from '../Footer/Footer';
 import { toast } from 'react-toastify';
 import RateComponent from './../../../Shared/RateComponent/RateComponent';
 import { useForm } from 'react-hook-form';
-
-
-
-const Item = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(1),
-  textAlign: 'center',
-
-}));
-// const Container = styled(Grid)({
-//   display: 'flex',
-// });
-
-// const LeftColumn = styled(Grid)(({ theme }) => ({
-//   flex: 3,
-//   display: 'flex',
-//   flexDirection: 'column',
-//   padding: theme.spacing(2),
-// }));
-
-// const RightColumn = styled(Grid)(({ theme }) => ({
-//   flex: 2,
-//   display: 'flex',
-//   flexDirection: 'column',
-//   padding: theme.spacing(2),
-// }));
-
-// const LeftImage = styled(Paper)(({ theme }) => ({
-//   marginBottom: theme.spacing(2),
-//   textAlign: 'center',
-//   overflow: 'hidden',
-//   height: 'auto',
-// }));
-
-// const RightImages = styled(Grid)(({ theme }) => ({
-//   flex: 2,
-//   display: 'flex',
-//   flexDirection: 'column',
-//   padding: theme.spacing(2),
-// }));
-
-// const RightImage = styled(Paper)(({ theme }) => ({
-//   marginBottom: theme.spacing(2),
-//   textAlign: 'center',
-//   overflow: 'hidden',
-//   width: '60%',
-//   height: 'auto',
-// }));
-
-// const Image = styled('img')({
-//   width: '100%',
-//   height: 'auto',
-//   display: 'block',
-// });
-// const SmallStartBookingContainer = styled('div')({
-//   // Add your desired styling for the container here
-//   // For example, you can set a fixed width and height
-//   width: '200px',
-//   height: '150px',
-//   // Add any other styling properties as needed
-// });
+import Comments from '../Comments/Comments';
+import CustomModal from '../../../Shared/CustomModal/CustomModal';
+import Ratings from '../Ratings/Ratings';
 
 const RoomDetails = () => {
   const [roomDetails, setRoomDetails] = useState([]);
   const { requestHeaders } = useContext(AuthContext);
   const { roomId } = useParams();
-
   const { userId } = useContext(AuthContext);
-  interface IRoomDetials {
 
+  interface IRoomDetials {
+    comment: string,
+    roomId: string
   }
   const {
     register,
     handleSubmit,
-    // setValue,
+    setValue,
     // getValues,
     formState: { errors },
   } = useForm<IRoomDetials>();
@@ -114,94 +58,7 @@ const RoomDetails = () => {
 
   }
 
-  const [commentInput, setCommentInput] = useState("");
 
-  // create comment
-  const createComment = (roomId: string, comment: string) => {
-    axios.post(`${commentUrl}`,
-      {
-        roomId: roomId,
-        comment: comment,
-      },
-      {
-        headers: requestHeaders
-      })
-      .then((response) => {
-        console.log("Comment created successfully:", response);
-        setCommentInput("");
-        toast.success("Comment creates Successfully");
-        getAllComments();
-      })
-      .catch((error) => {
-        console.error("Error creating comment:", error);
-        toast.error(error.response.data.message)
-      })
-  }
-  // get all comment for user logged in
-  const [commentsList, setCommentsList] = useState([]);
-  const [showComments, setShowComments] = useState(false);
-
-  const getAllComments = () => {
-    axios.get(`${commentUrl}/${roomId}`,
-      {
-        headers: requestHeaders
-      })
-      .then((response) => {
-        // console.log("Comment created successfully:", response.data);
-        setCommentsList(response?.data?.data?.roomComments)
-        console.log(response?.data?.data?.roomComments);
-
-
-      })
-      .catch((error) => {
-        console.error("Error creating comment:", error);
-
-      })
-  }
-
-  const toggleComments = () => {
-    setShowComments((prev) => !prev);
-  }
-
-  //updtate comment
-  const updateComment = (roomId, comment) => {
-    axios.patch(`${commentUrl}/${roomId}`,
-      {
-        comment: comment,
-      },
-      {
-        headers: requestHeaders
-      })
-      .then((response) => {
-        toast.success("Comment Update Successfully")
-        getAllComments();
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message)
-      })
-
-  }
-
-  //delete comment
-  const deleteComment = (roomId) => {
-    axios.patch(`${commentUrl}/${roomId}`,
-      {
-        roomId: roomId,
-
-      },
-      {
-        headers: requestHeaders
-      })
-      .then((response) => {
-        setCommentsList(response?.data?.data?.roomComments)
-        toast.success("Comment Delete Successfully")
-        getAllComments();
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message)
-      })
-
-  }
   // craete rate and review
 
   const [userRating, setUserRating] = useState(0); // State to store the user's rating
@@ -237,7 +94,87 @@ const RoomDetails = () => {
 
       })
   }
+  // *************************************
+  const [commentsList, setCommentsList] = useState([]);
+  const [showComments, setShowComments] = useState(false);
 
+  const getAllComments = () => {
+    axios.get(`${commentUrl}/${roomId}`,
+      {
+        headers: requestHeaders
+      })
+      .then((response) => {
+        // console.log("Comment created successfully:", response.data);
+        setCommentsList(response?.data?.data?.roomComments)
+        console.log(response?.data?.data?.roomComments);
+
+
+      })
+      .catch((error) => {
+        console.error("Error creating comment:", error);
+
+      })
+  }
+
+  const toggleComments = () => {
+    setShowComments((prev) => !prev);
+  }
+  // ----------------------------
+  const [modalState, setModalState] = React.useState("close");
+  const [commentId, setCommentId] = useState('');
+
+  const handleClose = () => {
+    setModalState("close")
+  };
+  const showUpdateModal = (comment) => {
+    console.log("Comment object:", comment);
+
+    setCommentId(comment);
+    console.log(comment);
+
+    setValue('comment', comment?.comment);
+    setModalState("update-modal");
+  };
+  const updateComment = (data) => {
+    console.log('Comment ID:', commentId);
+    axios.patch(
+      `${commentUrl}/${commentId}`,
+      {
+        headers: requestHeaders,
+        data: { commentId },
+      })
+      .then((response) => {
+        toast.success("Comment Update Successfully");
+        getAllComments();
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
+  };
+  // ------------------------------------------------
+
+    //delete comment
+    const deleteComment = (commentId) => {
+      axios.patch(`${commentUrl}/${commentId}`,
+          {
+              roomId: commentId,
+
+          },
+          {
+              headers: requestHeaders
+          })
+          .then((response) => {
+              setCommentsList(response?.data?.data?.roomComments)
+              toast.success("Comment Delete Successfully")
+              getAllComments();
+          })
+          .catch((error) => {
+              toast.error(error.response.data.message)
+          })
+
+  }
+
+  // *************************************
   useEffect(() => {
     console.log("roomId:", roomId);
     displayRoomsDetails();
@@ -264,16 +201,16 @@ const RoomDetails = () => {
       </div>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          <Grid item xs={6} md={8}>
+          <Grid item xs={6} md={8} lg={8}>
             {/* <Item>xs=6 md=8</Item> */}
             <img
               src={roomDetails.images && roomDetails.images.length > 0 ? roomDetails.images[0] : imgO}
               alt="Large Image"
-              className={`${style.largeImage}`}
-            //   style={{ width: '100%', height: '100%',
-            //   objectFit: 'cover',
-            //   transition: 'opacity 0.5s' ,
-            //  }}
+              className={`${style.fadeInImage} `}
+              style={{
+                width: '100%', height: '100%', objectFit: 'cover',paddingLeft:'20px'
+
+              }}
             />
 
           </Grid>
@@ -282,11 +219,10 @@ const RoomDetails = () => {
               <img src={img} alt={`Small Image ${index + 1}`}
                 style={{
                   width: '80%', height: '50%', objectFit: 'cover',
-                  cursor: 'pointer',
-                  transition: 'opacity 0.5s',
+
                 }}
-                className={`${style.imageScale} ${style.smallImage}`}
-                onClick={() => handleSmallImageClick(img)}
+                className={`${style.fadeInImage} ${style.show}`}
+
               />
 
             ))}
@@ -336,68 +272,33 @@ const RoomDetails = () => {
         </Grid>
       </Box>
 
+      {/* -------------------- */}
       <Container>
-        <div>
-          <Typography component="legend">Rate:</Typography>
-          <RateComponent onChange={handleRatingChange} />
 
-        </div>
         <Box sx={{ pt: "1.5rem", pb: "4rem" }}>
           <Stack
             sx={{ display: 'flex', justifyContent: "center" }}
             direction="row"
             divider={<Divider orientation="vertical" flexItem />}
             spacing={2}>
-            <Box sx={{ pl: "2rem", pr: "2rem", mt: "1rem" }}>
-              <Typography variant="h5" sx={{ pt: "1.5rem", pb: "1.5rem" }}>Rate</Typography>
-              <Box>
-                <TextField
-                  className={style.messageField}
-                  id="outlined-multiline-static"
-                  label="Message"
-                  multiline
-                  rows={4}
-                  defaultValue="Add rate"
-                  value={reviewText}
-                  onChange={handleReviewTextChange}
-                />
-              </Box>
-              <Button
-                variant="contained"
-                sx={{ pl: "2rem", pr: "2rem", mt: "1rem" }}
-                onClick={() => createReview(roomId, userRating, reviewText)}
 
-              >
-                Rate
-              </Button>
-            </Box>
-            <Box sx={{ pl: "2rem", pr: "2rem", mt: "1rem" }}>
-              <Typography variant="h5" sx={{ pt: "1.5rem", pb: "1.5rem" }}>Add Your Comment</Typography>
-              <Box>
-                <TextField
 
-                  className={style.messageField}
-                  id="outlined-multiline-static"
-                  label="Comment"
-                  multiline
-                  rows={4}
-                  defaultValue="Set your comment"
-                  value={commentInput}
-                  onChange={(e) => setCommentInput(e.target.value)}
-                />
-              </Box>
-              <Button
-                variant="contained"
-                sx={{ pl: "2rem", pr: "2rem", mt: "1rem" }}
-                onClick={() => createComment(roomId, commentInput)}
+            <Ratings roomId={roomId} />
 
-              >
-                send
-              </Button>
-            </Box>
+
+
+            <Comments
+              roomId={roomId}
+            />
+
+
+
           </Stack>
         </Box>
       </Container>
+
+      {/* -------------------- */}
+
       {/* Button to toggle comments */}
       <Button variant="contained" onClick={toggleComments}>
         {showComments ? 'Hide Comments' : 'Show Comments'}
@@ -415,24 +316,53 @@ const RoomDetails = () => {
                   {/* Render UI for each comment */}
                   <p>{comment.user.userName}: {comment.comment}</p>
                   <span
-                    style={{ marginLeft: '10px', cursor: 'pointer' }}
-                    onClick={() => updateComment(comment._id, comment.comment)}
+                    style={{ marginLeft: '10px', cursor: 'pointer', color: 'yellow' }}
+                    onClick={() => showUpdateModal(comment._id, comment.comment)}
                   >
-                    🖊️
+                    edit
                   </span>
 
                   {/* Delete Comment Icon */}
                   <span
-                    style={{ marginLeft: '10px', cursor: 'pointer' }}
-                    onClick={() => deleteComment(comment._id)}
+                    style={{ marginLeft: '10px', cursor: 'pointer', color: 'red' }}
+                  onClick={() => deleteComment(comment._id)}
                   >
-                    ❌
+                    delete
                   </span>
                 </div>
               ))}
           </Box>
         </Container>
       }
+      {/* Update Modal */}
+      <CustomModal
+        open={modalState === "update-modal"}
+        onClose={handleClose}
+        title="Update Comment"
+      >
+        <div>
+          <form onSubmit={handleSubmit((data) => updateComment(commentId, data.comment))}>
+            <TextField
+              {...register('comment', { required: true })}
+              className={style.messageField}
+              id="outlined-multiline-static"
+              label="Comment"
+              multiline
+              rows={4}
+            />
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+              </Grid>
+              <Grid item xs={6}>
+                <Button variant="contained" type="submit" style={{ position: 'absolute', bottom: '30px', right: '20px' }}>
+                  Update
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </CustomModal>
+
       {/* <Review/> */}
       <Footer />
     </>

@@ -13,7 +13,7 @@ const RateComponent = ({ onChange }) => {
 
   return (
     <div>
-      <Typography component="legend">Rate:</Typography>
+      {/* <Typography component="legend">Rate:</Typography> */}
       <Rating
         name="rating"
         value={rating}
