@@ -1,6 +1,6 @@
 import { Typography, Box, Button, TextField } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomButton from "../../../Shared/CustomButton/CustomButton";
 import styles from "./StartBooking.module.scss";
 import MyDateRangePicker from "../../../Shared/DateRangePicker/MyDateRangePicker";
@@ -56,16 +56,7 @@ const StartBooking = () => {
           alignItems: "center",
         }}
       >
-        <Box display="flex" alignItems="center">
-          {/* <Button variant="contained"
-       sx={{
-       mr:1,
-        backgroundColor: "rgba(21, 44, 91, 1)",
-      }}
-      >
-      <CalendarMonthIcon  sx={{mb:1}}/>
-      </Button> */}
-        </Box>
+        <Box display="flex" alignItems="center"></Box>
 
         <MyDateRangePicker onDateChange={handleDateChange} />
       </Box>
@@ -94,7 +85,7 @@ const StartBooking = () => {
         component="h6"
         variant="h6"
       >
-        You will pay <strong>$480 USD </strong> per
+        You need room for
         <strong> {numberOfPersons} persons</strong>
       </Typography>
 
