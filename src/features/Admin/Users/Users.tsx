@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import noData from "../../../assets/images/no-data.png";
+// import noData from "../../../assets/images/no-data.png";
+import noData from "../../../assets/images/no--data.webp";
 import { AuthContext } from "../../../context/AuthContext";
 import { usersUrl } from "../../../services/api.tsx";
 import {
@@ -20,9 +21,10 @@ import {
   Typography,
 } from "@mui/material";
 import style from './Users.module.scss'
+import Loader from "../../../shared/Loader/Loader.tsx";
 const Users: React.FC = () => {
   const { requestHeaders }: any = useContext(AuthContext);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState([]);
   // **********paginate*********
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,6 +32,7 @@ const Users: React.FC = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   // **********get all users*****************
   const getUsersList = (page: number) => {
+    setIsLoading(true);
     axios
       .get(`${usersUrl}`, {
         headers: requestHeaders,
@@ -48,6 +51,8 @@ const Users: React.FC = () => {
       })
       .catch((error) => {
     
+      }) .finally(() => {
+        setIsLoading(false);
       });
   };
   // ************************
@@ -91,6 +96,12 @@ const Users: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
+              {isLoading ? (
+                  <div className={`${style.load} centered `}>
+                    <Loader />
+                  </div>
+                ) : (
+                  <>
                 {users?.length > 0 ? (
                   users.map((user,index) => (
 
@@ -124,8 +135,13 @@ const Users: React.FC = () => {
                       </Box>
                     </TableCell>
                   </TableRow>
+                     )}
+                     </>
                 )}
               </TableBody>
+              {isLoading ? (
+                ""
+              ) : (
               <TableFooter>
               <TableRow>
 
@@ -140,6 +156,7 @@ const Users: React.FC = () => {
                 />
               </TableRow>
             </TableFooter>
+            )}
             </Table>
           </TableContainer>
         </Grid>

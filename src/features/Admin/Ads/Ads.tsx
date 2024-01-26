@@ -10,12 +10,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import CustomButton from '../../Shared/CustomButton/CustomButton';
 import noData from '../../../assets/images/noData.png'
+import noDataa from "../../../assets/images/no--data.webp";
 import style from './Ads.module.scss'
 import CustomModal from '../../Shared/CustomModal/CustomModal';
 import { useForm } from 'react-hook-form';
 import { IAds } from '../../../interface/AdsInterface';
 import { toast } from 'react-toastify';
-import { Container } from '@mui/system';
+import { Box, Container } from '@mui/system';
+import bookDetails from "../../../assets/images/bookDetails.png";
+import Loader from "../../../shared/Loader/Loader.tsx";
 
 
 
@@ -31,6 +34,8 @@ const Ads: React.FC = () => {
   const [active, setActive] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pagesArray, setPagesArray] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleChange = (event) => {
     setActive(event.target.value);
@@ -82,6 +87,7 @@ const Ads: React.FC = () => {
 
   // ******** Get All Ads ********
   const getAllAds = (page: number) => {
+    setIsLoading(true);
     axios.get(`${adsUrl}`, {
       headers: requestHeaders,
       params: {
@@ -101,12 +107,15 @@ const Ads: React.FC = () => {
       .catch((error) => {
 
 
-      })
+      }).finally(() => {
+        setIsLoading(false);
+      });
   }
   //************* Update Ads **************
   const updateAds = (data) => {
     // const isActiveBoolean = active === 'yes';
     data.isActive = active === 'yes';
+    setIsLoading(true);
     axios
       .put(`${updateAdsUrl}${adId}`, data, {
         headers: requestHeaders,
@@ -122,12 +131,15 @@ const Ads: React.FC = () => {
         toast.error(error.response.data.message)
 
 
+      }).finally(() => {
+        setIsLoading(false);
       });
 
   };
 
   //********** Deleted Ads ****************
   const deleteAds = () => {
+    setIsLoading(true);
     axios
       .delete(`${deleteAdsUrl}${adId}`, {
         headers: requestHeaders,
@@ -140,6 +152,8 @@ const Ads: React.FC = () => {
       })
       .catch((error) => {
         toast.error(error.response.data.message)
+      }).finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -211,7 +225,13 @@ const Ads: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {adsList?.length > 0 &&
+            {isLoading ? (
+                  <div className={`${style.load} centered `}>
+                    <Loader />
+                  </div>
+                ) : (
+                  <>
+              {adsList?.length > 0 ?
                 adsList.map((ad,index) => (
                   <TableRow key={ad?._id}
                     style={
@@ -265,8 +285,35 @@ const Ads: React.FC = () => {
                       </Menu>
                     </TableCell>
                   </TableRow>
-                ))}
+                ) ): (
+                      <TableRow key="no-data">
+                        <TableCell
+                          colSpan={5}
+                          // rowSpan={1}
+                          className="noDataBox"
+                        >
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            // style={{ height: '500px' }}
+                          >
+                            <img
+                              src={noDataa}
+                              alt="No Data"
+                              className="noData"
+                            />
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                
+                  </>
+                )}
             </TableBody>
+            {isLoading ? (
+                ""
+              ) : (
             <TableFooter>
               <TableRow>
                 <TablePagination
@@ -281,6 +328,7 @@ const Ads: React.FC = () => {
 
               </TableRow>
             </TableFooter>
+              )}
           </Table>
         </TableContainer >
       </Container >
@@ -295,6 +343,9 @@ const Ads: React.FC = () => {
         <div >
 
           <div style={{ textAlign: 'center' }}>
+          <div className="customModalImgCont">
+                  <img src={bookDetails} alt="view" className="bookDetail" />
+                </div>
             <p>
               <span className="text-warning">Room Number :&nbsp;</span>
               {adDetails?.room?.roomNumber}
