@@ -21,11 +21,6 @@ const FavouritesPage: React.FC = () => {
 
   // **********************************
   const [favRoomsList, setFavRoomsList] = useState([]);
-  // *******pagination*******
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [totalCount, setTotalCount] = useState(0);
-  // const totalPages = Math.ceil(totalCount / 6);
-
   // ***********getAllFavRooms*****************
   const getAllFavRooms = () => {
     setIsLoading(true);
