@@ -15,9 +15,10 @@ function UserMasterLayout() {
                 }}
             >
                 <NavBar />
-                <Box sx={{ flex: '1' }}>
+                <Box sx={{ flex: '1' , minHeight: '100vh' }}>
                     <Outlet />
                 </Box>
+
                 <Footer />
             </Box>
         </>

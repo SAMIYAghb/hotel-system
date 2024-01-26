@@ -198,7 +198,7 @@ const FavouritesPage: React.FC = () => {
         )}
       </Grid>
       {/* pagination */}
-      {!isLoading ? (
+      {/* {!isLoading ? (
         <CustomPagination
           totalPages={totalPages}
           currentPage={currentPage}
@@ -207,9 +207,9 @@ const FavouritesPage: React.FC = () => {
         />
       ) : (
         ""
-      )}
+      )} */}
       {/* </Container> */}
-  
+
     </Box>
   );
 };

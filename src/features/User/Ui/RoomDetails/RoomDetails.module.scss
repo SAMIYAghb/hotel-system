@@ -2,8 +2,8 @@
 
   object-fit: cover;
   cursor: pointer;
-  opacity: 0; /* Initial opacity set to 0 */
-  animation: fadeIn 1s ease-in-out forwards; /* Animation definition */
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
 }
 
 /* Keyframe animation */
@@ -25,18 +25,23 @@
     }
 
     .smallImageFadeIn {
-      width: 100%; /* Take full width on small screens */
+      width: 100%;
     }
   }
 
   @media screen and (max-width: 600px) {
-    /* Adjust paragraph styles for smaller screens */
     .paragraphClass {
-      font-size: 14px; /* Adjust the font size */
-      margin-bottom: 10px; /* Adjust the bottom margin */
+      font-size: 14px;
+      margin-bottom: 10px;
     }
   }
 
   .messageField{
     width: 500px;
    }
+
+   @media (max-width: 600px) {
+    .messageField {
+      width: 350px;
+    }
+  }
