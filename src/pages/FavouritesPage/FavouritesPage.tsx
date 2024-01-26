@@ -29,44 +29,21 @@ const FavouritesPage: React.FC = () => {
         headers: requestHeaders,
       })
       .then((response) => {
-        console.log(
-          "succ get all fav",
-          response?.data?.data?.favoriteRooms[0].rooms
-        );
+        // console.log(
+        //   "succ get all fav",
+        //   response?.data?.data?.favoriteRooms[0].rooms
+        // );
         setFavRoomsList(response?.data?.data?.favoriteRooms[0].rooms);
-        // setTotalCount(response.data.data.totalCount);
-        // setCurrentPage(page);
+     
       })
       .catch((error) => {
-        // console.log("fav rooms err", error);
+        
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
-  // ***********removeFavRooms*****************
-  // const removeFromFav = (roomId: string) => {
-  //   // console.log("room id",room?._id)
-  //   axios
-  //     .delete(`${removeFavRoomUrl}/${roomId}`, {
-  //       headers: requestHeaders,
-  //     })
-
-  //     .then((response) => {
-  //       console.log("succ remove", response);
-  //       toast.success("Removed from Favorite Successfully");
-  //       // setIsLoading(true);
-  //       // setFavRoomsList(response.data.data.rooms);
-  //       // setTotalCount(response.data.data.totalCount);
-  //       // setCurrentPage(page);
-  //     })
-  //     .catch((error) => {
-  //       console.log("fav remov err", error);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // };
+ 
   const removeFromFav = (roomId: string) => {
     setIsLoading(true);
     axios
@@ -93,14 +70,11 @@ const FavouritesPage: React.FC = () => {
   return (
     <Box>
       <NavBar />
-      {/* <Container> */}
-      <Typography
-        component="h6"
-        variant="h5"
-        sx={{ textAlign: "center", my: 4 }}
-      >
-        Your Favorites
-      </Typography>
+      <div className={`${Style.container}`}>
+      <div className={`${Style.wrapper}`}>
+          <h1>Your Favorites</h1>
+        </div>
+        </div>
       <div
         style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '5px' }}>
         <Typography variant="body1" style={{ marginRight: '5px' }}>
