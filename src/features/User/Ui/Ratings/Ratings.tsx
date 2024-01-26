@@ -79,7 +79,7 @@ function Ratings({ roomId }) {
     return (
         <>
 
-            <Box sx={{ pl: "2rem", mt: "1rem" }}>
+            <Box sx={{  mt: "1rem" }}>
                 <Typography variant="h5" sx={{ pt: "1.5rem", pb: "1.5rem" }}>Rate</Typography>
                 <RateComponent onChange={handleRatingChange} />
                 <form onSubmit={handleSubmit(createReview)}>
