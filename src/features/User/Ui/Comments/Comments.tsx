@@ -16,7 +16,7 @@ import { Container } from '@mui/system';
 // }
 
 function Comments({ roomId }) {
-  const { requestHeaders } = useContext(AuthContext);
+  const { requestHeaders, userId } = useContext(AuthContext);
   const { register, handleSubmit, setValue, reset } = useForm();
 
 
@@ -211,6 +211,7 @@ function Comments({ roomId }) {
           {showComments && (
             <div>
               {state.commentsList
+                
                 .map((comment) => (
                   <div key={comment._id} className={style.commentContainer}>
                     {state.editingCommentId === comment._id ? (
@@ -227,13 +228,27 @@ function Comments({ roomId }) {
                         <div className={style.commentContent}>
                           <p>{comment?.user?.userName}:{comment.comment}</p>
                         </div>
-                        <div className={style.commentActions}>
+                        {/* <div className={style.commentActions}>
+
                           <Button onClick={() => editComment(comment._id, comment.comment)}>
                             <EditIcon />
                           </Button>
                           <Button onClick={() => deleteComment(comment._id)}>
                             <DeleteIcon />
                           </Button>
+
+                        </div> */}
+                        <div className={style.commentActions}>
+                          {comment.user?._id === userId && (
+                            <>
+                              <Button onClick={() => editComment(comment._id, comment.comment)}>
+                                <EditIcon />
+                              </Button>
+                              <Button onClick={() => deleteComment(comment._id)}>
+                                <DeleteIcon />
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </>
                     )}
