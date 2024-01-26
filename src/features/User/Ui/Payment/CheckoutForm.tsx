@@ -8,24 +8,36 @@ import {
   TextField,
   Typography,
   Box,
-  Stack
+  Stack,
+  Grid
   
 } from "@mui/material";
 import styles from './Payment.module.scss'
 import {useStripe, useElements, CardElement, AddressElement} from '@stripe/react-stripe-js';
 import { AuthContext } from "../../../../context/AuthContext";
 import axios from "axios";
+// import CustomModal from '../../../Shared/CustomModal/CustomModal';
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 
 const CheckoutForm = ({bookingId}) => {
   console.log("from checkout",bookingId);
+  // const [modalState, setModalState] = React.useState("close");
   const { requestHeaders } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
   // console.log(stripe,
     // elements );
-
+    // const handleClose = () => {
+    //   setModalState("close")
+    // };
+    // view-Modal
+  // const showViewModal = () => {
+  //   setModalState("view-modal");
+  // };
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
@@ -64,9 +76,12 @@ const CheckoutForm = ({bookingId}) => {
           {token},
           {headers: requestHeaders,}
         )
-        console.log(response.data.message);
+        // console.log(response.data.message);
+        // toast.success(response.data.message);
+        // navigate('/user/home');
       }catch (error) {
         console.error(error);
+        toast.error(error.response.data.message);
       }
 
   }
@@ -93,8 +108,8 @@ const CheckoutForm = ({bookingId}) => {
            disabled={!stripe}
             type="submit"
             // variant="contained"
-
             className={styles["payment-button"]}
+            // onClick={showViewModal}
           >
             Pay
           </Button>
@@ -106,6 +121,29 @@ const CheckoutForm = ({bookingId}) => {
               </Button> */}
         </Box>
       </Container>
+       {/* View Modal */}
+       {/* <CustomModal
+        open={modalState === "view-modal"}
+        onClose={handleClose}
+        title="Ads Details"
+
+      >
+        <div >
+
+          <div style={{ textAlign: 'center' }}>
+          nfg
+
+          </div>
+
+          <Grid item xs={6}>
+            <Button variant="contained" type="submit"
+              onClick={handleClose}
+              style={{ position: 'absolute', bottom: '30px', right: '20px' }} >
+              Ok
+            </Button>
+          </Grid>
+        </div>
+      </CustomModal> */}
     </>
   );
 };

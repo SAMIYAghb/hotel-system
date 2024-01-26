@@ -122,7 +122,7 @@ const AdsDisplay = () => {
   useEffect(() => {
     displayAds();
     return () => {
-      setIsInPage(false);
+     
     };
   }, [])
   return (

@@ -202,7 +202,7 @@
 
 
 import { useContext } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import Login from './authentication/Login/Login';
 import { AuthContext } from './context/AuthContext';
@@ -233,7 +233,7 @@ import BookingDetails from './features/User/Ui/BookingDetails/BookingDetails';
 
 function App() {
   const { userData , userRole}: IAuth = useContext(AuthContext);
-console.log(userRole,userData);
+console.log(userRole);
   return (
     <BrowserRouter>
       <Routes>
@@ -242,14 +242,27 @@ console.log(userRole,userData);
           element={
             userData ? (
               userRole === "admin" ? (
-                <Navigate to="/admin/home" />
+                <Link to="/admin/home" />
               ) : (
-                <Navigate to="/user/home" />
+                <Link to="/user/home" />
               )
             ) : (
               <AuthLayout />
             )
           }
+          // element={
+          //   userData ? (
+          //     userRole === "admin" ? (
+          //       <Navigate to="/admin/home" />
+          //     ) : userRole === "user" ? (
+          //       <Navigate to="/user/home" />
+          //     ) : (
+          //       <AuthLayout />
+          //     )
+          //   ) : (
+          //     <AuthLayout />
+          //   )
+          // }
         >
           {/* Route par défaut pour UserHome */}
           <Route path="/" element={<UserHome />} />
