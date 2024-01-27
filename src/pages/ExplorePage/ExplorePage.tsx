@@ -99,12 +99,12 @@ const ExplorePage: React.FC = () => {
         setFavStatus(JSON.parse(storedFavStatus));
       }
     }, []);
-  
+
     // Save favStatus to localStorage whenever it changes
     useEffect(() => {
       localStorage.setItem("favStatus", JSON.stringify(favStatus));
     }, [favStatus]);
-  
+
   useEffect(() => {
     getAllFilterdRooms(
       currentPage,
@@ -113,14 +113,16 @@ const ExplorePage: React.FC = () => {
     );
   }, [selectedDateRange]);
 
-  return( 
+  return(
     <Box>
+
       <NavBar />
       <div className={`${Style.container}`}>
       <div className={`${Style.wrapper}`}>
           <h2>Explore ALL Rooms</h2>
         </div>
         </div>
+
       <div
         style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '5px' }}>
         <Typography variant="body1" style={{ marginRight: '5px' }}>
@@ -136,18 +138,19 @@ const ExplorePage: React.FC = () => {
       <Grid container spacing={2}>
       {isLoading ? (
       <div className="centered"> <Loader /></div>
-    ) :( 
+    ) :(
       <>
       {roomsList?.length > 0 &&
         roomsList.map((room, index) => (
           <Grid item key={index} xs={12} sm={6} md={4} lg={4}>
             <CardContent>
               {room?.images && room?.images.length > 0 ? (
-                <div className={Style.imageWrapper}>
+                <div className={Style.imageWrapperr}>
                   <span className={Style.badge}>
                     ${room?.price} per night
                   </span>
                   <img
+                  className="imgExplore"
                     src={
                       room?.images.length > 1
                         ? room?.images[0]
@@ -184,8 +187,8 @@ const ExplorePage: React.FC = () => {
                     ${room?.price} per night
                   </span>
                   <img
-                    className="imgAnimate"
-                    src={noHotelImg}
+                  className="imgExplore"
+                  src={noHotelImg}
                     alt={`Image ${index + 1}`}
                   />
                   <div>
@@ -215,10 +218,10 @@ const ExplorePage: React.FC = () => {
             </CardContent>
           </Grid>
         ))}
-       
+
        </>
       )}
-      
+
       </Grid>
       {/* pagination */}
       {!isLoading ? (
@@ -230,10 +233,10 @@ const ExplorePage: React.FC = () => {
       />
       ):""}
       {/* </Container> */}
-      <Footer />
+
     </Box>
     )
     };
-    
+
 ;
 export default ExplorePage;

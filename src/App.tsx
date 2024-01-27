@@ -29,6 +29,7 @@ import FavouritesPage from './pages/FavouritesPage/FavouritesPage';
 
 
 import Profile from './features/User/Ui/Profile/Profile';
+import UserMasterLayout from './shared/UserMasterLayout/UserMasterLayout';
 
 
 
@@ -79,11 +80,11 @@ function App() {
     {
       path: "/user/home",
 
-      // element: (
-      //   <ProtectedRoute userData={userData}>
-      //     <MasterLayout userData={userData} />
-      //   </ProtectedRoute>
-      // ),
+      element: (
+
+          <UserMasterLayout/>
+
+      ),
       errorElement: <NotFound />,
       children: [
         { index: true, element: <UserHome /> },
@@ -94,16 +95,7 @@ function App() {
         // { path: "users", element: <Users /> },
 
         { path: "profile", element: <Profile /> },
-
-        // { path: "rooms", element: <Rooms /> },
-        // { path: "rooms/add-room", element: <AddNewRoom /> },
-        // { path: "ads", element: <Ads /> },
-
-        // { path: "ads/add-ad", element: <AddNewAd /> },
-
-        // { path: "facilities", element: <Facilities /> },
-
-        { path: "room-details/:roomId", element: <RoomDetails /> },
+        // { path: "room-details/:roomId", element: <RoomDetails /> },
       ],
     },
   ]);

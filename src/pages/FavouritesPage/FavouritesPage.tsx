@@ -47,10 +47,12 @@ const FavouritesPage: React.FC = () => {
   const removeFromFav = (roomId: string) => {
     setIsLoading(true);
     axios
+
       .delete(`${removeFavRoomUrl}/${roomId}`, {
         headers: requestHeaders,
         data: { roomId }, // Pass the roomId in the request body as obj
       })
+
       .then((response) => {
         // console.log("succ remove", response);
         toast.success("Removed from Favorite Successfully");
@@ -69,12 +71,14 @@ const FavouritesPage: React.FC = () => {
 
   return (
     <Box>
+
       <NavBar />
       <div className={`${Style.container}`}>
       <div className={`${Style.wrapper}`}>
           <h1>Your Favorites</h1>
         </div>
         </div>
+
       <div
         style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '5px' }}>
         <Typography variant="body1" style={{ marginRight: '5px' }}>
@@ -154,9 +158,11 @@ const FavouritesPage: React.FC = () => {
                               onClick={() => removeFromFav(room?._id)}
                             >
                               <FavoriteIcon
+
                                 style={{
                                   color: "#f50057",
                                 }}
+
                               />
                             </IconButton>
 
@@ -183,7 +189,7 @@ const FavouritesPage: React.FC = () => {
         ""
       )} */}
       {/* </Container> */}
-      <Footer />
+
     </Box>
   );
 };

@@ -1,81 +1,47 @@
-/* RoomDetails.module.scss */
-.imagesContainer {
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    justify-content: center; /* Center items horizontally */
-  }
-  .rightColumnContainer {
-  display: flex;
-  flex-wrap: wrap; /* Allow items to wrap to the next line */
-  justify-content: center; /* Center items horizontally */
-}
+.fadeInImage {
 
-  .largeImageFadeIn {
-    opacity: 0;
-    animation: fadeInLarge 0.5s ease-in-out forwards;
-    width: 100%; /* Take full width of the container */
-  }
-
-  .smallImageFadeIn {
-    opacity: 0;
-    animation: fadeInSmall 0.5s ease-in-out forwards;
-    width: 100%; /* Adjust the width as needed */
-    margin: 0 5px; /* Add margin between small images */
-  }
-img .largeImage {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
 }
-  @keyframes fadeInLarge {
-    from {
-      opacity: 0;
-      // width: 0;
-    }
-    to {
-      opacity: 1;
-      // width: 100%;
-    }
-  }
 
-  @keyframes fadeInSmall {
-    from {
-      opacity: 0;
-      width: 0;
-    }
-    to {
-      opacity: 1;
-      width: 45%;
-    }
+/* Keyframe animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
 
+// .fadeInImage.show {
+//   opacity: 1;
+// }
   @media screen and (max-width: 600px) {
     .imagesContainer {
       flex-direction: column; /* Stack items vertically on small screens */
     }
 
     .smallImageFadeIn {
-      width: 100%; /* Take full width on small screens */
+      width: 100%;
     }
   }
 
   @media screen and (max-width: 600px) {
-    /* Adjust paragraph styles for smaller screens */
     .paragraphClass {
-      font-size: 14px; /* Adjust the font size */
-      margin-bottom: 10px; /* Adjust the bottom margin */
+      font-size: 14px;
+      margin-bottom: 10px;
     }
   }
 
-  // .imageFadeIn {
-  //   transition: opacity 0.5s;
-  // }
+  .messageField{
+    width: 500px;
+   }
 
-  // .imageScale {
-  //   transition: transform 0.5s ease-out;
-  // }
-
-  // .imageScale:hover {
-  //   transform: scale(1.1);
-  // }
+   @media (max-width: 600px) {
+    .messageField {
+      width: 350px;
+    }
+  }

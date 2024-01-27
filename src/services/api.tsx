@@ -94,5 +94,9 @@ export const removeFavRoomUrl =`${baseUrl}/portal/favorite-rooms`;
 
 // ***********get all reviewss*************
 export const allReviewsUrl =`${baseUrl}/portal/room-reviews/`;//With id
+// ********** create reviewss*************
 
+export const createReviewsUrl =`${baseUrl}/portal/room-reviews/`;
 
+// ***********Comment Curd URl************
+export const commentUrl =`${baseUrl}/portal/room-comments`
