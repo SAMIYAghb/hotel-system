@@ -116,14 +116,13 @@ const ExplorePage: React.FC = () => {
   return(
     <Box>
 
-      {/* <Container> */}
-      <Typography
-        component="h6"
-        variant="h5"
-        sx={{ textAlign: "center", my: 4 }}
-      >
-        Explore ALL Rooms
-      </Typography>
+      <NavBar />
+      <div className={`${Style.container}`}>
+      <div className={`${Style.wrapper}`}>
+          <h2>Explore ALL Rooms</h2>
+        </div>
+        </div>
+
       <div
         style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '5px' }}>
         <Typography variant="body1" style={{ marginRight: '5px' }}>

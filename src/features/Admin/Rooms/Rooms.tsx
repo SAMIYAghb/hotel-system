@@ -49,12 +49,13 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Container } from "@mui/system";
 import CustomButton from "../../Shared/CustomButton/CustomButton";
+import Loader from "../../../shared/Loader/Loader";
 const Rooms = () => {
   const { requestHeaders } = useContext(AuthContext);
   const [roomsList, setRoomsList] = useState([]);
   const [roomId, setRoomId] = useState(0);
   const [roomDetails, setRoomDetails] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [modalState, setModalState] = React.useState("close");
   const [currentPage, setCurrentPage] = useState(1);
   const [pagesArray, setPagesArray] = useState([]);
@@ -126,7 +127,7 @@ const Rooms = () => {
 
   // Get All Rooms
   const getAllRooms = (page: number) => {
-
+    setIsLoading(true);
     axios
       .get(`${roomsUrl}`, {
         headers: requestHeaders,
@@ -145,13 +146,15 @@ const Rooms = () => {
       })
       .catch((error) => {
 
+      }) .finally(() => {
+        setIsLoading(false);
       });
   };
   //************* Update Rooms**************
 
   const updateRoom = (data) => {
     const upfdateFormData = appendToFormData(data);
-
+    setIsLoading(true);
     axios
       .put(`${updateRoomsUrl}${roomId}`, upfdateFormData, {
         headers: requestHeaders,
@@ -165,10 +168,13 @@ const Rooms = () => {
       })
       .catch((error) => {
         toast.error(error.response.data.message)
+      }).finally(() => {
+        setIsLoading(false);
       });
   };
   //********** Deleted Rooms****************
   const deleteRoom = () => {
+    setIsLoading(true);
     axios
       .delete(`${deleteRoomsUrl}${roomId}`, {
         headers: requestHeaders,
@@ -183,6 +189,8 @@ const Rooms = () => {
       })
       .catch((error) => {
         toast.error(error.response.data.message)
+      })  .finally(() => {
+        setIsLoading(false);
       });
   };
   // ************Room Details****************
@@ -300,7 +308,14 @@ const Rooms = () => {
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
+            {isLoading ? (
+                  <div className={`${styleroom.load} centered `}>
+                    <Loader />
+                  </div>
+                ) : (
+                  <>
               {roomsList?.length > 0 &&
                 roomsList.map((room, index) => (
                   <TableRow key={room?._id}
@@ -375,8 +390,16 @@ const Rooms = () => {
                       </Menu>
                     </TableCell>
                   </TableRow>
-                ))}
+                  
+                )
+                )}
+                </>
+                )}
             </TableBody>
+
+            {isLoading ? (
+                ""
+              ) : (
             <TableFooter>
               <TableRow>
 
@@ -391,6 +414,7 @@ const Rooms = () => {
                 />
               </TableRow>
             </TableFooter>
+              )}
           </Table>
         </TableContainer>
       </Container>
