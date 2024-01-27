@@ -47,9 +47,11 @@ import CustomModal from "../../Shared/CustomModal/CustomModal";
 import { toast } from 'react-toastify';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Container } from "@mui/system";
+import { Box, Container } from "@mui/system";
 import CustomButton from "../../Shared/CustomButton/CustomButton";
 import Loader from "../../../shared/Loader/Loader";
+import bookDetails from "../../../assets/images/bookDetails.png";
+import noData1 from "../../../assets/images/no--data.webp";
 const Rooms = () => {
   const { requestHeaders } = useContext(AuthContext);
   const [roomsList, setRoomsList] = useState([]);
@@ -146,7 +148,7 @@ const Rooms = () => {
       })
       .catch((error) => {
 
-      }) .finally(() => {
+      }).finally(() => {
         setIsLoading(false);
       });
   };
@@ -189,7 +191,7 @@ const Rooms = () => {
       })
       .catch((error) => {
         toast.error(error.response.data.message)
-      })  .finally(() => {
+      }).finally(() => {
         setIsLoading(false);
       });
   };
@@ -310,144 +312,171 @@ const Rooms = () => {
             </TableHead>
 
             <TableBody>
-            {isLoading ? (
-                  <div className={`${styleroom.load} centered `}>
-                    <Loader />
-                  </div>
-                ) : (
-                  <>
-              {roomsList?.length > 0 &&
-                roomsList.map((room, index) => (
-                  <TableRow key={room?._id}
-                    style={
-                      index % 2
-                        ? { background: "#f6f6f6" }
-                        : { background: "white" }
-                    }>
-                    <TableCell align="center" valign="middle">{room?.roomNumber}</TableCell>
-                    <TableCell>
-                      {room?.images && room.images.length > 0 ? (
-                        room.images.map((image, index) => (
-                          <img
-                            key={index}
-                            src={image}
-                            alt={`Room ${room?.roomNumber}`}
-                            style={{ width: "50px", height: "50px", marginRight: '5px' }}
-                          />
-                        ))
-                      ) : (
-                        <img
-                          src={noImage}
-                          alt="Placeholder"
-                          style={{ width: "50px", height: "50px" }}
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell align="center" valign="middle">{room?.price}</TableCell>
-                    <TableCell align="center" valign="middle">{room?.discount}</TableCell>
-                    <TableCell align="center" valign="middle">{room?.capacity}</TableCell>
+              {isLoading ? (
+                <div className={`${styleroom.load} centered `}>
+                  <Loader />
+                </div>
+              ) : (
+                <>
+                  {roomsList?.length > 0 ? (
+                    roomsList.map((room, index) => (
+                      <TableRow key={room?._id}
+                        style={
+                          index % 2
+                            ? { background: "#f6f6f6" }
+                            : { background: "white" }
+                        }>
+                        <TableCell valign="middle">{room?.roomNumber}</TableCell>
+                        <TableCell>
+                          {room?.images && room.images.length > 0 ? (
+                            room.images.map((image, index) => (
+                              <img
+                                key={index}
+                                src={image}
+                                alt={`Room ${room?.roomNumber}`}
+                                style={{ width: "50px", height: "50px", marginRight: '5px' }}
+                              />
+                            ))
+                          ) : (
+                            <img
+                              src={noImage}
+                              alt="Placeholder"
+                              style={{ width: "50px", height: "50px" }}
+                            />
+                          )}
+                        </TableCell>
+                        <TableCell align="center" valign="middle">{room?.price}</TableCell>
+                        <TableCell align="center" valign="middle">{room?.discount}</TableCell>
+                        <TableCell align="center" valign="middle">{room?.capacity}</TableCell>
 
-                    <TableCell>
-                      <IconButton onClick={(e) => handleMenuClick(e, room)}>
-                        <MoreVertIcon />
-                      </IconButton>
-                      <Menu
-                        anchorEl={anchorEl}
+                        <TableCell>
+                          <IconButton onClick={(e) => handleMenuClick(e, room)}>
+                            <MoreVertIcon />
+                          </IconButton>
+                          <Menu
+                            anchorEl={anchorEl}
 
-                        open={Boolean(anchorEl && selectedRoom?._id === room?._id)}
-                        onClose={handleClose}
-                      >
-                        <MenuItem
-                          onClick={() => showViewModal(room?._id)}
-                        >
-                          <Tooltip title="View" arrow>
-                            <IconButton color="primary" >
-                              <VisibilityIcon fontSize='small' />
-
-                            </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => showUpdateModal(room)}>
-                          <Tooltip title="Update" arrow>
-                            <IconButton color="warning">
-                              <EditIcon fontSize='small' />
-
-                            </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                        <MenuItem onClick={() => showDeleteModal(room._id)}>
-                          <Tooltip title="Delete" arrow>
-                            <IconButton
-
-                              color="error"
+                            open={Boolean(anchorEl && selectedRoom?._id === room?._id)}
+                            onClose={handleClose}
+                          >
+                            <MenuItem
+                              onClick={() => showViewModal(room?._id)}
                             >
-                              <DeleteIcon fontSize='small' />
+                              <Tooltip title="View" arrow>
+                                <IconButton color="primary" >
+                                  <VisibilityIcon fontSize='small' />
 
-                            </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                      </Menu>
-                    </TableCell>
-                  </TableRow>
-                  
-                )
-                )}
+                                </IconButton>
+                              </Tooltip>
+                            </MenuItem>
+                            <MenuItem
+                              onClick={() => showUpdateModal(room)}>
+                              <Tooltip title="Update" arrow>
+                                <IconButton color="warning">
+                                  <EditIcon fontSize='small' />
+
+                                </IconButton>
+                              </Tooltip>
+                            </MenuItem>
+                            <MenuItem onClick={() => showDeleteModal(room._id)}>
+                              <Tooltip title="Delete" arrow>
+                                <IconButton
+
+                                  color="error"
+                                >
+                                  <DeleteIcon fontSize='small' />
+
+                                </IconButton>
+                              </Tooltip>
+                            </MenuItem>
+                          </Menu>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow key="no-data">
+                      <TableCell
+                        colSpan={5}
+                        // rowSpan={1}
+                        className="noDataBox"
+                      >
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                        // style={{ height: '500px' }}
+                        >
+                          <img
+                            src={noData}
+                            alt="No Data"
+                            className="noData"
+                          />
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  )
+                  }
                 </>
-                )}
+              )}
             </TableBody>
 
             {isLoading ? (
-                ""
-              ) : (
-            <TableFooter>
-              <TableRow>
+              ""
+            ) : (
+              <TableFooter>
+                <TableRow>
 
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                  colSpan={6}
-                  count={pagesArray.length}  // Update this line
-                  rowsPerPage={rowsPerPage}
-                  page={currentPage - 1}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </TableRow>
-            </TableFooter>
-              )}
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                    colSpan={6}
+                    count={pagesArray.length}  // Update this line
+                    rowsPerPage={rowsPerPage}
+                    page={currentPage - 1}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </TableRow>
+              </TableFooter>
+            )}
           </Table>
         </TableContainer>
       </Container>
       {/* -------------------------------------------------- */}
       {/* View Modal */}
+
       <CustomModal
         open={modalState === "view-modal"}
         onClose={handleClose}
-        title="Rooms Details"
-
+        title="View Your Room Details"
       >
-        {/* View modal content goes here */}
-        <div >
-          <div style={{ textAlign: 'center' }}>
+        <div className="customModal">
+          <div className="customModalCont">
+            <div className="customModalImgCont">
+              <img src={bookDetails} alt="view" className="bookDetail" />
+            </div>
             <p>
-              <span className="text-warning">Room Number :&nbsp;</span>
+              <span className="modalInfo">Room Number :&nbsp;</span>
               {roomDetails?.roomNumber}
             </p>
             <p>
-              <span className="text-warning">Price :&nbsp;</span>
+              <span className="modalInfo">Price :&nbsp;</span>
               {roomDetails?.price}
             </p>
           </div>
 
           <Grid item xs={6}>
-            <Button variant="contained" type="submit"
+            <Button
+              variant="contained"
+              type="submit"
               onClick={handleClose}
-              style={{ position: 'absolute', bottom: '30px', right: '20px' }} >
-              Ok
+              className="btnClose"
+            >
+              close
             </Button>
           </Grid>
         </div>
       </CustomModal>
+
       {/* Update Modal */}
 
       <CustomModal
@@ -601,10 +630,10 @@ const Rooms = () => {
         <div >
 
           <Grid item xs={6}>
-            <Button variant="contained" type="submit"
+            <Button variant="contained" type="submit" color="error"
               onClick={deleteRoom}
               style={{ position: 'absolute', bottom: '30px', right: '20px' }} >
-              Delete
+              Delete Room
             </Button>
           </Grid>
         </div>

@@ -12,7 +12,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ApiIcon from '@mui/icons-material/Api';
 import KeyIcon from '@mui/icons-material/Key';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import style from './SideBar.module.scss'
 const SideBar: React.FC = () => {
   let [isCollapsed, setIsCollapsed] = useState(false);
   let handleToggle = () => {
