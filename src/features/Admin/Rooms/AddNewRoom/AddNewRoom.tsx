@@ -1,4 +1,14 @@
-import { Button, Checkbox, Divider, FormControl, Grid, ListItemText, Paper, Select, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  Divider,
+  FormControl,
+  Grid,
+  ListItemText,
+  Paper,
+  Select,
+  TextField,
+} from "@mui/material";
 import { Box, Container } from "@mui/system";
 import { useContext, useState, useEffect, useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -11,14 +21,13 @@ import { addroomsUrl } from "../../../../services/api";
 import { IAddRoom } from "../../../../interface/RoomInterface";
 import DragDropFileUpload from "../../../../shared/DragDropFileUpload/DragDropFileUpload";
 import useFacilities from "../../../Hook/useFacilities";
-import { toast } from 'react-toastify';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { toast } from "react-toastify";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CloudUpload from "@mui/icons-material/CloudUpload";
 const AddNewRoom: React.FC = () => {
   const { requestHeaders } = useContext(AuthContext);
 
   const navigate = useNavigate();
-
 
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -34,7 +43,6 @@ const AddNewRoom: React.FC = () => {
     setValue,
     watch,
     formState: { errors },
-
   } = useForm<IAddRoom>();
 
   // Format Data
@@ -63,12 +71,12 @@ const AddNewRoom: React.FC = () => {
   };
   // *******Create New Room**********
   const onSubmit: SubmitHandler<IAddRoom> = async (data: IAddRoom) => {
-    // setIsLoading(true)
+    setIsLoading(true)
     // Check if discount is greater than price
     if (data.discount && data.price && data.discount > data.price) {
-      setValue('discount', '', { shouldValidate: true });
-      setValue('discount', data.discount, { shouldValidate: true });
-      toast.error('Discount cannot be greater than the price.');
+      setValue("discount", "", { shouldValidate: true });
+      setValue("discount", data.discount, { shouldValidate: true });
+      toast.error("Discount cannot be greater than the price.");
       return;
     }
     // Check if discount is outside the range 0 to 100
@@ -76,22 +84,23 @@ const AddNewRoom: React.FC = () => {
       data.discount !== undefined &&
       (data.discount < 0 || data.discount > 100)
     ) {
-      toast.error('Discount must be between 0 and 100.');
+      toast.error("Discount must be between 0 and 100.");
       return;
     }
+    // ************add form data****************
     const addFormData = appendToFormData(data);
+    setIsLoading(true)
     axios
       .post(`${addroomsUrl}`, addFormData, { headers: requestHeaders })
       .then((response) => {
-        // setIsLoading(false)
+        
 
         navigate("/admin/home/rooms");
         toast.success("Room Add Successfully");
       })
       .catch((error) => {
-        // setIsLoading(false)
-        toast.error(error.response.data.message)
-
+       
+        toast.error(error.response.data.message);
       })
       .finally(() => setIsLoading(false));
   };
@@ -160,7 +169,6 @@ const AddNewRoom: React.FC = () => {
                   paddingRight: 0,
                 }}
               >
-
                 <TextField
                   {...register("roomNumber", { required: true })}
                   required
@@ -217,7 +225,6 @@ const AddNewRoom: React.FC = () => {
                   </Grid>
                 </Grid>
 
-
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <TextField
@@ -225,7 +232,6 @@ const AddNewRoom: React.FC = () => {
                         valueAsNumber: true,
                         required: true,
                         // pattern: /^(?!0$|100$)\d+$/,
-
                       })}
                       required
                       id="discount"
@@ -237,7 +243,7 @@ const AddNewRoom: React.FC = () => {
                         display: "flex",
                         flexDirection: "column",
                         height: "100%",
-                        paddingTop: '5px'
+                        paddingTop: "5px",
                       }}
                     />
                     {errors.discount && errors.discount.type === "required" && (
@@ -246,45 +252,56 @@ const AddNewRoom: React.FC = () => {
                     {/* {errors.discount && errors.discount.type === "pattern" && (
                       <span className="errorMsg">Invalid discount value</span>
                     )} */}
-
                   </Grid>
 
                   <Grid item xs={6}>
-                    <FormControl sx={{ padding: "5px", minWidth: 120, width: '98%' }}>
+                    <FormControl
+                      sx={{ padding: "5px", minWidth: 120, width: "98%" }}
+                    >
                       <InputLabel id="facilities-label">Facilities</InputLabel>
-
 
                       <Select
                         labelId="facilities-label"
                         id="facilities"
                         label="facilities"
                         multiple
-                        value={watch('facilities') || []}
-                        onChange={(e) => setValue('facilities', e.target.value, { shouldValidate: true })}
-                        sx={{ width: '100%' }}
+                        value={watch("facilities") || []}
+                        onChange={(e) =>
+                          setValue("facilities", e.target.value, {
+                            shouldValidate: true,
+                          })
+                        }
+                        sx={{ width: "100%" }}
                         renderValue={(selected) => (
                           <div>
                             {selected.map((value) => (
-                              <span key={value} style={{ marginRight: '8px' }}>
-                                {facilitiesList.find((facility) => facility._id === value)?.name || ''}
+                              <span key={value} style={{ marginRight: "8px" }}>
+                                {facilitiesList.find(
+                                  (facility) => facility._id === value
+                                )?.name || ""}
                               </span>
                             ))}
                           </div>
                         )}
-
                       >
                         {facilitiesList.map((facility) => (
                           <MenuItem key={facility._id} value={facility._id}>
-                            <Checkbox checked={watch('facilities')?.includes(facility._id)} />
+                            <Checkbox
+                              checked={watch("facilities")?.includes(
+                                facility._id
+                              )}
+                            />
                             <ListItemText primary={facility.name} />
                           </MenuItem>
                         ))}
                       </Select>
-
                     </FormControl>
-                    {errors.facilities && errors.facilities.type === "required" && (
-                      <span className="errorMsg">Facilities are required</span>
-                    )}
+                    {errors.facilities &&
+                      errors.facilities.type === "required" && (
+                        <span className="errorMsg">
+                          Facilities are required
+                        </span>
+                      )}
                   </Grid>
                 </Grid>
                 <div style={{ padding: 50 }}>
@@ -296,7 +313,6 @@ const AddNewRoom: React.FC = () => {
                       ))}
                     </div>
                   )} */}
-
                 </div>
                 <Box>
                   <label htmlFor="upload-input">
@@ -314,16 +330,20 @@ const AddNewRoom: React.FC = () => {
                     type="file"
                     accept="image/*"
                     multiple
-                    style={{ display: 'none' }}
+                    style={{ display: "none" }}
                   />
                   {images.length > 0 && (
-                    <div style={{ marginTop: '20px' }}>
+                    <div style={{ marginTop: "20px" }}>
                       {images.map((file, index) => (
                         <img
                           key={index}
                           src={URL.createObjectURL(file)}
                           alt={`Selected ${index + 1}`}
-                          style={{ maxWidth: '80%', maxHeight: '100px', margin: '5px' }}
+                          style={{
+                            maxWidth: "80%",
+                            maxHeight: "100px",
+                            margin: "5px",
+                          }}
                         />
                       ))}
                     </div>
