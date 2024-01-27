@@ -199,7 +199,7 @@ const ExplorePage: React.FC = () => {
                             >
                               <IconButton onClick={() => addToFav(room._id)}>
                                 <FavoriteIcon
-                                  style={{ color: favStatus[room._id] ? '#f50057' : 'white' }}
+                                  style={{ color: userData && favStatus[room._id] ? '#f50057' : 'white' }}
                                 />
                               </IconButton>
 
