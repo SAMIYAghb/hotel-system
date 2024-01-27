@@ -11,6 +11,7 @@ export const AuthContext = createContext<IAuth>({
   //   baseUrl: '',
   userRole: "",
   updateUserData: () => {},
+  
 });
 
 // // Define the props for AuthContextProvider component
@@ -23,6 +24,7 @@ interface DecodedToken {
   email: string;
   password: string;
   role: string;
+  
 }
 
 // AuthContextProvider component that provides the AuthContext to its children
@@ -79,6 +81,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
     // baseUrl: "http://upskilling-egypt.com:3003/api/v1",
     userRole,
     updateUserData,
+    setUserRole,
   };
 
   return (

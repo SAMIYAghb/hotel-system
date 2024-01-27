@@ -237,35 +237,9 @@ console.log(userRole);
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            userData ? (
-              userRole === "admin" ? (
-                <Link to="/admin/home" />
-              ) : (
-                <Link to="/user/home" />
-              )
-            ) : (
-              <AuthLayout />
-            )
-          }
-          // element={
-          //   userData ? (
-          //     userRole === "admin" ? (
-          //       <Navigate to="/admin/home" />
-          //     ) : userRole === "user" ? (
-          //       <Navigate to="/user/home" />
-          //     ) : (
-          //       <AuthLayout />
-          //     )
-          //   ) : (
-          //     <AuthLayout />
-          //   )
-          // }
-        >
+        <Route path="/">
           {/* Route par défaut pour UserHome */}
-          <Route path="/" element={<UserHome />} />
+          <Route path="/" element={<UserHome/> }/>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forget-password" element={<ForgetPass />} />

@@ -22,10 +22,10 @@ import { useContext } from "react";
 
 // import Tooltip from "@mui/material/Tooltip";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "./../../../../context/AuthContext";
+import { AuthContext} from "./../../../../context/AuthContext";
 
 const NavBar = () => {
-  const { userRole } = useContext(AuthContext);
+  const { userRole ,setUserRole} = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -37,14 +37,10 @@ const NavBar = () => {
   const navigate = useNavigate();
   function logOut(){
     localStorage.removeItem("userToken");
+    setUserRole(null);
   }
   console.log(userRole);
- useEffect(() => {
-    // Use the effect to navigate after the state is updated
-    if (!localStorage.getItem("userToken")) {
-      navigate("/user/home");
-    }
-  }, [userRole]); 
+ 
   return (
     <>
       <AppBar

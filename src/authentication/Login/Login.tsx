@@ -1,4 +1,3 @@
-
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
@@ -13,11 +12,11 @@ import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
-import { loginUrl , userLoginUrl} from "../../services/api.tsx";
+import { loginUrl, userLoginUrl } from "../../services/api.tsx";
 import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
-  const { saveUserData , userRole} = useContext(AuthContext);
+  const { saveUserData, userRole } = useContext(AuthContext);
   // let {getToastValue} = useContext(ToastContext);
   const navigate = useNavigate();
   type FormValues = {
@@ -36,23 +35,20 @@ const Login: React.FC = () => {
     await axios
       .post(url, data)
       .then((response) => {
-
-        localStorage.setItem("userToken", response.data.data.token);
-
+        localStorage.setItem("userToken", response?.data?.data?.token);
+        const userRole = response?.data?.data?.user?.role;
         saveUserData();
 
-        if(userRole == "admin"){
+        if (userRole == "admin") {
           navigate("/admin/home");
-        }else{
+        } else {
           navigate("/user/home");
         }
-       
 
-        toast.success("Login Successfully")
+        toast.success("Login Successfully");
       })
       .catch((error) => {
-        toast.error(error.response.data.message)
-
+        toast.error(error.response.data.message);
       });
   };
 
