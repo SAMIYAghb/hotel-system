@@ -11,14 +11,15 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
-import { loginUrl , userLoginUrl} from "../../services/api.tsx";
+import { loginUrl, userLoginUrl } from "../../services/api.tsx";
 import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
-  const { saveUserData , userRole} = useContext(AuthContext);
+  const { saveUserData, userRole } = useContext(AuthContext);
   // let {getToastValue} = useContext(ToastContext);
+  const location = useLocation();
   const navigate = useNavigate();
   type FormValues = {
     email: string;
@@ -41,14 +42,18 @@ const Login: React.FC = () => {
 
         saveUserData();
 
-        if(userRole == "admin"){
+        if (userRole == "admin") {
           navigate("/admin/home");
-        }else{
-          navigate("/user/home");
+        } else {
+          // navigate("/user/home");
+          const from = location.state?.from || "/user/home";
+          //New Line save location when your in another page and login
+          navigate(from);
         }
-       
+
 
         toast.success("Login Successfully")
+
       })
       .catch((error) => {
         toast.error(error.response.data.message)

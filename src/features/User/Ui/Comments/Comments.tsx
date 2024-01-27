@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../../../context/AuthContext';
-import { Typography, Button, Box } from '@mui/material';
+import { Typography, Button, Box, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { commentUrl } from '../../../../services/api';
@@ -9,6 +9,9 @@ import style from './Comments.module.scss'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Container } from '@mui/system';
+import CustomModal from '../../../Shared/CustomModal/CustomModal';
+import loginImge1 from '../../../../assets/images/login Popup1.jpg'
+import { useNavigate } from 'react-router-dom';
 
 // interface IComments {
 //   comment: string;
@@ -16,9 +19,9 @@ import { Container } from '@mui/system';
 // }
 
 function Comments({ roomId }) {
-  const { requestHeaders, userId } = useContext(AuthContext);
+  const { requestHeaders, userId, userData } = useContext(AuthContext);
   const { register, handleSubmit, setValue, reset } = useForm();
-
+  const navigate = useNavigate();
 
   const [state, setState] = useState({
     commentInput: "",
@@ -28,7 +31,14 @@ function Comments({ roomId }) {
 
   });
   const [showComments, setShowComments] = useState(false);
-
+  // ***********view-Modal*************
+  const [modalState, setModalState] = React.useState("close");
+  const showLoginModal = () => {
+    setModalState("login-modal");
+  };
+  const handleClose = () => {
+    setModalState("close");
+  };
   useEffect(() => {
     getAllComments();
   }, []);
@@ -39,36 +49,45 @@ function Comments({ roomId }) {
       ...prevState,
       loading: true,
     }));
+    if (!userData) {
+      // toast.info('login now')
+      showLoginModal()
+    } else {
+      axios.post(
+        `${commentUrl}`,
+        {
+          roomId: roomId,
+          comment: data.comment,
+        },
+        {
+          headers: requestHeaders,
+        }
+      )
+        .then((response) => {
+          // Update the state with the new comments list and reset the input field
+          setState((prevState) => ({
+            ...prevState,
+            commentInput: "",
+            commentsList: response?.data?.data?.roomComments || [],
+            loading: false, // Set loading to false after a successful response
+          }));
+          toast.success("Comment created successfully");
+          getAllComments();
+        })
+        .catch((error) => {
+          toast.error(error.response?.data?.message || "Error creating comment");
+          // Reset the loading state in case of an error
+          setState((prevState) => ({
+            ...prevState,
+            loading: false,
+          }));
+        });
+    }
 
-    axios.post(
-      `${commentUrl}`,
-      {
-        roomId: roomId,
-        comment: data.comment,
-      },
-      {
-        headers: requestHeaders,
-      }
-    )
-      .then((response) => {
-        // Update the state with the new comments list and reset the input field
-        setState((prevState) => ({
-          ...prevState,
-          commentInput: "",
-          commentsList: response?.data?.data?.roomComments || [],
-          loading: false, // Set loading to false after a successful response
-        }));
-        toast.success("Comment created successfully");
-        getAllComments();
-      })
-      .catch((error) => {
-        toast.error(error.response?.data?.message || "Error creating comment");
-        // Reset the loading state in case of an error
-        setState((prevState) => ({
-          ...prevState,
-          loading: false,
-        }));
-      });
+  };
+  const goLogin = () => {
+    // navigate('/login');
+    navigate('/login', { state: { from: location.pathname } });
   };
 
 
@@ -211,7 +230,7 @@ function Comments({ roomId }) {
           {showComments && (
             <div>
               {state.commentsList
-                
+
                 .map((comment) => (
                   <div key={comment._id} className={style.commentContainer}>
                     {state.editingCommentId === comment._id ? (
@@ -259,7 +278,47 @@ function Comments({ roomId }) {
 
         </Box>
       </Container>
+      <CustomModal
+        open={modalState === "login-modal"}
+        onClose={handleClose}
+        title="Hey you need to login first !"
+      >
+
+        <div className="customModal">
+          <img src={loginImge1} style={{ width: '300px', height: '300px' }} alt="" />
+
+          <Grid
+            item xs={6}>
+            <Button
+              sx={{ mb: '9px' }}
+              variant="contained"
+              type="submit"
+              onClick={handleClose}
+              className="btnClose"
+              color="error"
+            >
+              close
+            </Button>
+          </Grid>
+        </div>
+
+        <Grid item xs={6}>
+          <Button
+            sx={{ mt: '45px', ml: '-70px' }}
+            variant="contained"
+            type="submit"
+            onClick={goLogin}
+            className="btnClose"
+          >
+
+            Login
+          </Button>
+        </Grid>
+      </CustomModal>
+
     </Box>
+
+
   );
 }
 
