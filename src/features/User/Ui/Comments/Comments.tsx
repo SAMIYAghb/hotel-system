@@ -92,6 +92,7 @@ function Comments({ roomId }) {
 
 
   const getAllComments = () => {
+
     axios.get(`${commentUrl}/${roomId}`, {
       headers: requestHeaders,
     })
@@ -105,7 +106,14 @@ function Comments({ roomId }) {
         console.error("Error fetching comments:", error);
       });
   };
+  // const toggleComments = () => {
+  //   setShowComments((prevShowComments) => !prevShowComments);
+  // };
   const toggleComments = () => {
+    // Fetch comments when the button is clicked, regardless of user login status
+    getAllComments();
+
+    // Toggle the visibility of comments
     setShowComments((prevShowComments) => !prevShowComments);
   };
 
