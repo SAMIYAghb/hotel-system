@@ -1,8 +1,9 @@
+
 import { Avatar } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
+import React ,{useEffect} from "react";
 import avatarImg from "../../../../assets/images/avatar.png";
 // import { AuthContext } from "../../../../context/AuthContext";
 // import { useContext } from 'react';
@@ -21,10 +22,10 @@ import { useContext } from "react";
 
 // import Tooltip from "@mui/material/Tooltip";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "./../../../../context/AuthContext";
+import { AuthContext} from "./../../../../context/AuthContext";
 
 const NavBar = () => {
-  const { userRole } = useContext(AuthContext);
+  const { userRole ,setUserRole} = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -34,11 +35,12 @@ const NavBar = () => {
     setAnchorEl(null);
   };
   const navigate = useNavigate();
-  function logOut(): void {
+  function logOut(){
     localStorage.removeItem("userToken");
-    navigate("/login");
+    setUserRole(null);
   }
-
+  // console.log(userRole);
+ 
   return (
     <>
       <AppBar
@@ -82,7 +84,7 @@ const NavBar = () => {
                 cation.
               </Box>
             </Typography>
-            {userRole == "user" ? (
+            {userRole === "user" ? (
               <>
                 <Box sx={{ display: "flex" }}>
                   <Box
@@ -102,17 +104,17 @@ const NavBar = () => {
                       </Link>
                     </MenuItem>
                     <MenuItem>
-                      <Link className={styles.linkStyle} to="/explore">
+                      <Link className={styles.linkStyle} to="/user/home/explore">
                         Explore
                       </Link>
                     </MenuItem>
-                    <MenuItem>
-                      <Link className={styles.linkStyle} to="/review">
+                    {/* <MenuItem>
+                      <Link className={styles.linkStyle} to="/user/home/review">
                         Reviews
                       </Link>
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem>
-                      <Link className={styles.linkStyle} to="/favorite">
+                      <Link className={styles.linkStyle} to="/user/home/fav">
                         Favorites
                       </Link>
                     </MenuItem>
@@ -156,12 +158,12 @@ const NavBar = () => {
                       TransitionComponent={Fade}
                     >
                       <MenuItem>
-                        <Link className={styles.linkStyle} to="/profile">
+                        <Link className={styles.linkStyle} to="/user/home/profile">
                           Profile
                         </Link>
                       </MenuItem>
                       <MenuItem>
-                        <Link className={styles.linkStyle} to="/favorite">
+                        <Link className={styles.linkStyle} to="/user/home/fav">
                           Favorites
                         </Link>
                       </MenuItem>
@@ -191,15 +193,15 @@ const NavBar = () => {
                       </Link>
                     </MenuItem>
                     <MenuItem>
-                      <Link className={styles.linkStyle} to="/explore">
+                      <Link className={styles.linkStyle} to="/user/home/explore">
                         Explore
                       </Link>
                     </MenuItem>
-                    <MenuItem>
-                      <Link className={styles.linkStyle} to="/review">
+                    {/* <MenuItem>
+                      <Link className={styles.linkStyle} to="/user/home/review">
                         Reviews
                       </Link>
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem>
                       <Link className={styles.linkStyle} to="/login">
                         <Button variant="contained">Login Now</Button>

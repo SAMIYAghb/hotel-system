@@ -32,7 +32,7 @@ const AdsDisplay = () => {
     // prevArrow: <PrevArrow />,
 
   };
-  console.log(settings);
+  // console.log(settings);
 
   const responsiveSettings = {
     // Define responsive settings based on screen width
@@ -78,12 +78,12 @@ const AdsDisplay = () => {
     })
       .then((response) => {
         setAdsList(response?.data?.data?.ads)
-        console.log(response.data.data.ads)
+        // console.log(response.data.data.ads)
 
 
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
 
 
       })
@@ -122,7 +122,7 @@ const AdsDisplay = () => {
   useEffect(() => {
     displayAds();
     return () => {
-      setIsInPage(false);
+     
     };
   }, [])
   return (

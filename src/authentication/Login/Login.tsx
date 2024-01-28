@@ -1,4 +1,3 @@
-
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
@@ -37,14 +36,14 @@ const Login: React.FC = () => {
     await axios
       .post(url, data)
       .then((response) => {
-
-        localStorage.setItem("userToken", response.data.data.token);
-
+        localStorage.setItem("userToken", response?.data?.data?.token);
+        const userRole = response?.data?.data?.user?.role;
         saveUserData();
 
         if (userRole == "admin") {
           navigate("/admin/home");
         } else {
+
           // navigate("/user/home");
           const from = location.state?.from || "/user/home";
           //New Line save location when your in another page and login
@@ -54,10 +53,14 @@ const Login: React.FC = () => {
 
         toast.success("Login Successfully")
 
+<!--           navigate("/user/home"); -->
+        }
+
+<!--         toast.success("Login Successfully"); -->
+
       })
       .catch((error) => {
-        toast.error(error.response.data.message)
-
+        toast.error(error.response.data.message);
       });
   };
 
