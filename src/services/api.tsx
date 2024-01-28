@@ -1,5 +1,7 @@
 // ******** Base Url **********
 export const baseUrl = "http://upskilling-egypt.com:3000/api/v0";
+// ***********home chart**********
+export const homeChart = `${baseUrl}/admin/dashboard`
 
 // ******** Login ********
 export const loginUrl = `${baseUrl}/admin/users/login`;
