@@ -34,16 +34,16 @@ const FavouritesPage: React.FC = () => {
         //   response?.data?.data?.favoriteRooms[0].rooms
         // );
         setFavRoomsList(response?.data?.data?.favoriteRooms[0].rooms);
-     
+
       })
       .catch((error) => {
-        
+
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
- 
+
   const removeFromFav = (roomId: string) => {
     setIsLoading(true);
     axios
@@ -72,7 +72,7 @@ const FavouritesPage: React.FC = () => {
   return (
     <Box>
 
-      <NavBar />
+   
       <div className={`${Style.container}`}>
       <div className={`${Style.wrapper}`}>
           <h1>Your Favorites</h1>

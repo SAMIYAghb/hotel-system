@@ -91,38 +91,12 @@ const AdsDisplay = () => {
   }
 
 
-  // Add to Fav
-  const addToFav = (roomId: string) => {
-    axios.post(`${favRooms}`,
-      {
-        roomId: roomId
-      },
-      {
-        headers: requestHeaders
-      })
-      .then((response) => {
-        toast.success("Room Add to Favorite Successfully")
-        setFavStatus((prevFavStatus) => ({
-          ...prevFavStatus,
-          // ...prevFavStatus: This is the spread operator (...).
-          //  It's used to create a shallow copy of the previous state prevFavStatus
-          [roomId]: true,
-          // creates a new key-value pair in the state object where the key is the roomId of the current room,
-          //  and the value is set to true. This indicates that the room is now marked as a favorite.
-        }));
 
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message)
-      })
-
-
-  }
 
   useEffect(() => {
     displayAds();
     return () => {
-     
+
     };
   }, [])
   return (
@@ -133,7 +107,7 @@ const AdsDisplay = () => {
         </div>
       </div> */}
       <div className={`${style.slider}`}>
-        <h3 className={`${style.headerText}`}>Ads</h3>
+        {/* <h3 className={`${style.headerText}`}>Ads</h3> */}
         {adsList && adsList.length > 0 && (
           <Slider  {...settings} {...responsiveSettings}>
             {adsList.map((ad) => (
@@ -152,7 +126,7 @@ const AdsDisplay = () => {
                       <div className={`${style.discountBadge}`}
                       // style={{ position: 'absolute', top: '10px', right: '10px' }}
                       >
-                        {ad.room.discount}%
+                        {ad.room.discount}% discount
                       </div>
                     )}
                     <div>
