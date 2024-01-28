@@ -77,8 +77,8 @@ const CheckoutForm = ({bookingId}) => {
           {headers: requestHeaders,}
         )
         // console.log(response.data.message);
-        // toast.success(response.data.message);
-        // navigate('/user/home');
+        toast.success(response.data.message);
+        navigate('/user/home');
       }catch (error) {
         console.error(error);
         toast.error(error.response.data.message);

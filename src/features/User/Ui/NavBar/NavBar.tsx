@@ -39,7 +39,7 @@ const NavBar = () => {
     localStorage.removeItem("userToken");
     setUserRole(null);
   }
-  console.log(userRole);
+  // console.log(userRole);
  
   return (
     <>
