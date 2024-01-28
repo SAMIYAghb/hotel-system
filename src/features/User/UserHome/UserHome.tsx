@@ -16,13 +16,13 @@ const UserHome = () => {
       <HeroSection />
       <div className={`${style.container}`}>
         <div className={`${style.wrapper}`}>
-          <h1>Hurry up and book now </h1>
+          <h1 className='animationText'>Hurry up and book now </h1>
         </div>
       </div>
       <AdsDisplay />
       <StaticSection />
       <Review />
-    
+
     </Box>
   )
 }

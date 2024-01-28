@@ -1,5 +1,5 @@
-import {Typography,  Button } from '@mui/material'
-import { Container, Box} from '@mui/system'
+import { Typography, Button, Grid } from '@mui/material'
+import { Container, Box } from '@mui/system'
 import React, { useContext, useEffect, useState } from 'react'
 import RateComponent from '../../../Shared/RateComponent/RateComponent'
 import { allReviewsUrl, createReviewsUrl } from '../../../../services/api';
@@ -9,16 +9,20 @@ import { toast } from 'react-toastify';
 import style from './Ratings.module.scss'
 import { useForm } from 'react-hook-form';
 import EditIcon from '@mui/icons-material/Edit';
+import loginImge1 from '../../../../assets/images/login Popup1.jpg'
+import CustomModal from '../../../Shared/CustomModal/CustomModal';
+import { useNavigate } from 'react-router-dom';
 
 
 function Ratings({ roomId }) {
-    const { requestHeaders } = useContext(AuthContext);
+    const { requestHeaders, userData } = useContext(AuthContext);
     // const { userId } = useContext(AuthContext);
     const [userRating, setUserRating] = useState(0); // State to store the user's rating
     const [reviewText, setReviewText] = useState('');
     const { register, handleSubmit, setValue, reset } = useForm();
     const [reviewsList, setReviewsList] = useState([]);
     const [showReviews, setShowReviews] = useState(false);
+    const navigate = useNavigate();
     const handleRatingChange = (rating) => {
         setUserRating(rating);
     };
@@ -30,9 +34,46 @@ function Ratings({ roomId }) {
         setShowReviews((prev) => !prev);
     }
 
-    const createReview = async (data) => {
-        try {
-            await axios.post(
+    // ***********view-Modal*************
+    const [modalState, setModalState] = React.useState("close");
+    const showLoginModal = () => {
+        setModalState("login-modal");
+    };
+    const handleClose = () => {
+        setModalState("close");
+    };
+
+    // const createReview = async (data) => {
+    //     try {
+
+    //         await axios.post(
+    //             createReviewsUrl,
+    //             {
+    //                 roomId: roomId,
+    //                 rating: userRating,
+    //                 review: data.review,
+    //             },
+    //             {
+    //                 headers: requestHeaders,
+    //             }
+    //         );
+
+    //         toast.success("Review created successfully");
+    //         reset();
+    //         getAllReviews();
+    //     } catch (error) {
+    //         console.error("Error creating review:", error);
+    //         toast.error(error.response.data.message);
+    //     }
+    // };
+
+    const createReview = (data) => {
+        if (!userData) {
+            // toast.info('login now')
+            showLoginModal();
+        }
+        else {
+            axios.post(
                 createReviewsUrl,
                 {
                     roomId: roomId,
@@ -42,15 +83,22 @@ function Ratings({ roomId }) {
                 {
                     headers: requestHeaders,
                 }
-            );
+            ).then((response) => {
+                toast.success("Review created successfully");
+                reset();
+                getAllReviews();
+            }).catch((error) => {
+                toast.error(error.response.data.message);
 
-            toast.success("Review created successfully");
-            reset();
-            getAllReviews();
-        } catch (error) {
-            console.error("Error creating review:", error);
-            toast.error(error.response.data.message);
+            });
         }
+
+
+    };
+
+    const goLogin = () => {
+        // navigate('/login');
+        navigate('/login', { state: { from: location.pathname } });
     };
 
     const getAllReviews = () => {
@@ -79,7 +127,7 @@ function Ratings({ roomId }) {
     return (
         <>
 
-            <Box sx={{  mt: "1rem" }}>
+            <Box sx={{ mt: "1rem" }}>
                 <Typography variant="h5" sx={{ pt: "1.5rem", pb: "1.5rem" }}>Rate</Typography>
                 <RateComponent onChange={handleRatingChange} />
                 <form onSubmit={handleSubmit(createReview)}>
@@ -131,7 +179,43 @@ function Ratings({ roomId }) {
                     </Box>
                 </Container>
             )}
+            <CustomModal
+                open={modalState === "login-modal"}
+                onClose={handleClose}
+                title="Hey you need to login first !"
+            >
 
+                <div className="customModal">
+                    <img src={loginImge1} style={{ width: '300px', height: '300px' }} alt="" />
+
+                    <Grid
+                        item xs={6}>
+                        <Button
+                            sx={{ mb: '9px' }}
+                            variant="contained"
+                            type="submit"
+                            onClick={handleClose}
+                            className="btnClose"
+                            color="error"
+                        >
+                            close
+                        </Button>
+                    </Grid>
+                </div>
+
+                <Grid item xs={6}>
+                    <Button
+                        sx={{ mt: '45px', ml: '-70px' }}
+                        variant="contained"
+                        type="submit"
+                        onClick={goLogin}
+                        className="btnClose"
+                    >
+
+                        Login
+                    </Button>
+                </Grid>
+            </CustomModal>
         </>
     )
 }
