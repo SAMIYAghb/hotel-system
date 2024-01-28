@@ -225,67 +225,67 @@ const Ads: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-            {isLoading ? (
-                  <div className={`${style.load} centered `}>
-                    <Loader />
-                  </div>
-                ) : (
-                  <>
-              {adsList?.length > 0 ?
-                adsList.map((ad,index) => (
-                  <TableRow key={ad?._id}
-                    style={
-                      index % 2
-                        ? { background: "#f6f6f6" }
-                        : { background: "white" }
-                    }>
-                    <TableCell align="center" valign="middle">{ad?.room?.roomNumber}</TableCell>
-                    <TableCell align="center" valign="middle">{ad?.room?.price}</TableCell>
-                    <TableCell align="center" valign="middle">{ad?.room?.discount}</TableCell>
-                    <TableCell align="center" valign="middle">{ad?.room?.capacity}</TableCell>
-                    <TableCell align="center" valign="middle">{ad?.isActive ? 'Yes' : 'No'}</TableCell>
-                    <TableCell>
-                      <IconButton onClick={(e) => handleMenuClick(e, ad)}>
-                        <MoreVertIcon />
-                      </IconButton>
-                      <Menu
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl && selectedAd?._id === ad?._id)}
-                        onClose={handleClose}
-                      >
-                        <MenuItem
-                          onClick={() => showViewModal(ad?._id)}
-                        >
-                          <Tooltip title="View" arrow>
-                            <IconButton color="primary" >
-                              <VisibilityIcon fontSize='small' />
-
-                            </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => showUpdateModal(ad)}>
-                          <Tooltip title="Update" arrow>
-                            <IconButton color="warning">
-                              <EditIcon fontSize='small' />
-
-                            </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                        <MenuItem onClick={() => showDeleteModal(ad._id)}>
-                          <Tooltip title="Delete" arrow>
-                            <IconButton
-                              color="error"
+              {isLoading ? (
+                <div className={`${style.load} centered `}>
+                  <Loader />
+                </div>
+              ) : (
+                <>
+                  {adsList?.length > 0 ?
+                    adsList.map((ad, index) => (
+                      <TableRow key={ad?._id}
+                        style={
+                          index % 2
+                            ? { background: "#f6f6f6" }
+                            : { background: "white" }
+                        }>
+                        <TableCell valign="middle">{ad?.room?.roomNumber}</TableCell>
+                        <TableCell valign="middle">{ad?.room?.price}</TableCell>
+                        <TableCell valign="middle">{ad?.room?.discount}</TableCell>
+                        <TableCell valign="middle">{ad?.room?.capacity}</TableCell>
+                        <TableCell valign="middle">{ad?.isActive ? 'Yes' : 'No'}</TableCell>
+                        <TableCell>
+                          <IconButton onClick={(e) => handleMenuClick(e, ad)}>
+                            <MoreVertIcon />
+                          </IconButton>
+                          <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl && selectedAd?._id === ad?._id)}
+                            onClose={handleClose}
+                          >
+                            <MenuItem
+                              onClick={() => showViewModal(ad?._id)}
                             >
-                              <DeleteIcon fontSize='small' />
+                              <Tooltip title="View" arrow>
+                                <IconButton color="primary" >
+                                  <VisibilityIcon fontSize='small' />
 
-                            </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                      </Menu>
-                    </TableCell>
-                  </TableRow>
-                ) ): (
+                                </IconButton>
+                              </Tooltip>
+                            </MenuItem>
+                            <MenuItem
+                              onClick={() => showUpdateModal(ad)}>
+                              <Tooltip title="Update" arrow>
+                                <IconButton color="warning">
+                                  <EditIcon fontSize='small' />
+
+                                </IconButton>
+                              </Tooltip>
+                            </MenuItem>
+                            <MenuItem onClick={() => showDeleteModal(ad._id)}>
+                              <Tooltip title="Delete" arrow>
+                                <IconButton
+                                  color="error"
+                                >
+                                  <DeleteIcon fontSize='small' />
+
+                                </IconButton>
+                              </Tooltip>
+                            </MenuItem>
+                          </Menu>
+                        </TableCell>
+                      </TableRow>
+                    )) : (
                       <TableRow key="no-data">
                         <TableCell
                           colSpan={5}
@@ -296,7 +296,7 @@ const Ads: React.FC = () => {
                             display="flex"
                             alignItems="center"
                             justifyContent="center"
-                            // style={{ height: '500px' }}
+                          // style={{ height: '500px' }}
                           >
                             <img
                               src={noDataa}
@@ -307,28 +307,28 @@ const Ads: React.FC = () => {
                         </TableCell>
                       </TableRow>
                     )}
-                
-                  </>
-                )}
+
+                </>
+              )}
             </TableBody>
             {isLoading ? (
-                ""
-              ) : (
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                  colSpan={6}
-                  count={pagesArray.length}  // Update this line
-                  rowsPerPage={rowsPerPage}
-                  page={currentPage - 1}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+              ""
+            ) : (
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                    colSpan={6}
+                    count={pagesArray.length}  // Update this line
+                    rowsPerPage={rowsPerPage}
+                    page={currentPage - 1}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
 
-              </TableRow>
-            </TableFooter>
-              )}
+                </TableRow>
+              </TableFooter>
+            )}
           </Table>
         </TableContainer >
       </Container >
@@ -337,39 +337,41 @@ const Ads: React.FC = () => {
       <CustomModal
         open={modalState === "view-modal"}
         onClose={handleClose}
-        title="Ads Details"
-
+        title="View Your Ads Details"
       >
-        <div >
-
-          <div style={{ textAlign: 'center' }}>
-          <div className="customModalImgCont">
-                  <img src={bookDetails} alt="view" className="bookDetail" />
-                </div>
+        <div className="customModal">
+          <div className="customModalCont">
+            <div className="customModalImgCont">
+              <img src={bookDetails} alt="view" className="bookDetail" />
+            </div>
             <p>
-              <span className="text-warning">Room Number :&nbsp;</span>
+              <span className="modalInfo">Room Number :&nbsp;</span>
               {adDetails?.room?.roomNumber}
             </p>
             <p>
-              <span className="text-warning">Price :&nbsp;</span>
+              <span className="modalInfo">Price :&nbsp;</span>
               {adDetails?.room?.price}
             </p>
             <p>
-              <span className="text-warning">Active :&nbsp;</span>
+              <span className="modalInfo">Active :&nbsp;</span>
               {adDetails?.isActive ? 'Yes' : 'No'}
             </p>
 
           </div>
 
           <Grid item xs={6}>
-            <Button variant="contained" type="submit"
+            <Button
+              variant="contained"
+              type="submit"
               onClick={handleClose}
-              style={{ position: 'absolute', bottom: '30px', right: '20px' }} >
-              Ok
+              className="btnClose"
+            >
+              close
             </Button>
           </Grid>
         </div>
       </CustomModal>
+
 
       {/* Update Modal */}
 
@@ -455,10 +457,10 @@ const Ads: React.FC = () => {
         <div >
 
           <Grid item xs={6}>
-            <Button variant="contained" type="submit"
+            <Button variant="contained" type="submit" color='error'
               onClick={deleteAds}
               style={{ position: 'absolute', bottom: '30px', right: '20px' }} >
-              Delete
+              Delete Ad
             </Button>
           </Grid>
         </div>

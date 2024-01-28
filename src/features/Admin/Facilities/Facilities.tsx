@@ -3,7 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { facilitiesRoomsUrl } from "../../../services/api";
 import styleFacilities from "./Facilities.module.scss";
-
+import noData from "../../../assets/images/no--data.webp";
+import bookDetails from "../../../assets/images/bookDetails.png";
 import {
   AppBar,
   Button,
@@ -25,7 +26,7 @@ import {
   Typography
 } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
-import noData from '../../../assets/images/noData.png';
+import noData1 from '../../../assets/images/noData.png';
 import CustomButton from "./../../Shared/CustomButton/CustomButton";
 import CustomModal from "./../../Shared/CustomModal/CustomModal";
 import { toast } from 'react-toastify';
@@ -33,7 +34,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Container } from "@mui/system";
+import { Box, Container } from "@mui/system";
+import Loader from "../../../shared/Loader/Loader";
+import style from './Facilities.module.scss'
 const Facilities = () => {
   const { requestHeaders } = useContext(AuthContext);
   const [facilitiesList, setFacilitiesList] = useState([]);
@@ -44,6 +47,7 @@ const Facilities = () => {
   //   { label: "Created At", key: "createdAt" },
   //   { label: "Updated At", key: "updatedAt" },
   // ];
+  const [isLoading, setIsLoading] = useState(false);
   const [facilityId, setFacilityId] = useState(0);
   const [facilityDetails, setFacilityDetails] = useState([]);
   // Modal
@@ -105,7 +109,7 @@ const Facilities = () => {
   // ************Add Facility
   const onSubmit: SubmitHandler<IFacility> = async (data: IFacility) => {
 
-
+    setIsLoading(true);
     await axios
       .post(`${facilitiesRoomsUrl}`, data, {
         headers: requestHeaders,
@@ -120,6 +124,8 @@ const Facilities = () => {
 
         toast.error(error.response.data.message)
 
+      }).finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -141,7 +147,7 @@ const Facilities = () => {
   //**************** */ update  Facility
   const updateFacility = async (data) => {
     // const upfdateFormData = appendToFormData(data);
-
+    setIsLoading(true);
     await axios
       .put(`${facilitiesRoomsUrl}/${facilityId}`, data, {
         headers: requestHeaders,
@@ -157,11 +163,14 @@ const Facilities = () => {
       })
       .catch((error) => {
         toast.error(error.response.data.message)
+      }).finally(() => {
+        setIsLoading(false);
       });
   };
 
   //********** Deleted Facilities****************
   const deleteFacility = async () => {
+    setIsLoading(true);
     await axios
       .delete(`${facilitiesRoomsUrl}/${facilityId}`, {
         headers: requestHeaders,
@@ -176,11 +185,14 @@ const Facilities = () => {
       })
       .catch((error) => {
         toast.error(error.response.data.message)
+      }).finally(() => {
+        setIsLoading(false);
       });
   };
 
   //************* */ Get All Facilities
   const getAllFacilities = async (page: number) => {
+    setIsLoading(true);
     await axios
       .get(`${facilitiesRoomsUrl}`, {
         headers: requestHeaders,
@@ -199,6 +211,8 @@ const Facilities = () => {
       })
       .catch((error) => {
 
+      }).finally(() => {
+        setIsLoading(false);
       });
   };
   //******** pagination*************
@@ -286,29 +300,32 @@ const Facilities = () => {
           </div>
         </CustomModal>
         {/*end Add Modal */}
+
         {/* View Modal */}
         <CustomModal
           open={modalState === "view-modal"}
           onClose={handleClose}
-          title="Facility details"
+          title="View Your Facility Details"
         >
-          {/* View modal content goes here */}
-          <div>
-            <div style={{ textAlign: "center" }}>
+          <div className="customModal">
+            <div className="customModalCont">
+              <div className="customModalImgCont">
+                <img src={bookDetails} alt="view" className="bookDetail" />
+              </div>
               <p>
-                <span className="text-warning">Facility name :&nbsp;</span>
+                <span className="modalInfo">Facility name :&nbsp;</span>
                 {facilityDetails?.name}
               </p>
               <p>
-                <span className="text-warning">Created by :&nbsp;</span>
-                {facilityDetails?.createdBy || "admin"}
+                <span className="modalInfo">Created by :&nbsp;</span>
+                {facilityDetails?.createdBy?.userName || "admin"}
               </p>
               <p>
-                <span className="text-warning">Created at :&nbsp;</span>
+                <span className="modalInfo">Created at :&nbsp;</span>
                 {new Date(facilityDetails?.createdAt).toLocaleDateString()}
               </p>
               <p>
-                <span className="text-warning">Updated at :&nbsp;</span>
+                <span className="modalInfo">Updated at :&nbsp;</span>
                 {new Date(facilityDetails?.updatedAt).toLocaleDateString()}
               </p>
             </div>
@@ -318,13 +335,14 @@ const Facilities = () => {
                 variant="contained"
                 type="submit"
                 onClick={handleClose}
-                style={{ position: "absolute", bottom: "30px", right: "20px" }}
+                className="btnClose"
               >
-                Ok
+                close
               </Button>
             </Grid>
           </div>
         </CustomModal>
+
         {/*end View Modal */}
         {/* Update Modal */}
         <CustomModal
@@ -384,15 +402,15 @@ const Facilities = () => {
             justifyContent: 'center',
             textAlign: 'center',
           }}>
-            <img src={noData} alt="Delete" style={{ maxWidth: '100%', maxHeight: '100%', margin: 'auto' }} />
+            <img src={noData1} alt="Delete" style={{ maxWidth: '100%', maxHeight: '100%', margin: 'auto' }} />
           </div>
           <p>Are you sure you want to delete this facility ? </p>
           <div >
             <Grid item xs={6}>
-              <Button variant="contained" type="submit"
+              <Button variant="contained" type="submit" color="error"
                 onClick={deleteFacility}
                 style={{ position: 'absolute', bottom: '30px', right: '20px' }} >
-                Delete
+                Delete Facility
               </Button>
             </Grid>
           </div>
@@ -400,104 +418,130 @@ const Facilities = () => {
         </CustomModal>
         {/*end delete Modal */}
 
+        <Container>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead className="tableHeadCustom" >
+                <TableRow>
+                  <TableCell className="centered-cell">Facility</TableCell>
+                  <TableCell className="centered-cell">Created By</TableCell>
+                  <TableCell className="centered-cell">Created At</TableCell>
+                  <TableCell className="centered-cell">Update At</TableCell>
+                  <TableCell className="centered-cell">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {isLoading ? (
+                  <div className={`${style.load} centered `}>
+                    <Loader />
+                  </div>
+                ) : (
+                  <>
+                    {facilitiesList?.length > 0 ? (
+                      facilitiesList.map((facility, index) => (
+                        <TableRow key={facility?._id}
+                          style={
+                            index % 2
+                              ? { background: "#f6f6f6" }
+                              : { background: "white" }
+                          }>
+                          <TableCell >{facility?.name}</TableCell>
+                          <TableCell >{facility?.createdBy?.userName}</TableCell>
+                          <TableCell>{new Date(facility?.createdAt).toLocaleDateString()}</TableCell>
+                          <TableCell>{new Date(facility?.updatedAt).toLocaleDateString()}</TableCell>
 
-        {/* CustomTable */}
-        {/* <CustomTable
-          data={facilitiesList}
-          onView={showViewModal}
-          onUpdate={showUpdateModal}
-          onDelete={showDeleteModal}
-          modelName="Facility"
-          columns={facilityColumns || []}
-        /> */}
-<Container>
-<TableContainer component={Paper}>
-          <Table>
-            <TableHead className="tableHeadCustom" >
-              <TableRow>
-                <TableCell className="centered-cell">Facility</TableCell>
-                <TableCell className="centered-cell">Created By</TableCell>
-                <TableCell className="centered-cell">Created At</TableCell>
-                <TableCell className="centered-cell">Update At</TableCell>
-                <TableCell className="centered-cell">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {facilitiesList?.length > 0 &&
-                facilitiesList.map((facility, index) => (
-                  <TableRow key={facility?._id}
-                    style={
-                      index % 2
-                        ? { background: "#f6f6f6" }
-                        : { background: "white" }
-                    }>
-                    <TableCell >{facility?.name}</TableCell>
-                    <TableCell >{facility?.createdBy?.userName}</TableCell>
-                    <TableCell>{new Date(facility?.createdAt).toLocaleDateString()}</TableCell>
-                    <TableCell>{new Date(facility?.updatedAt).toLocaleDateString()}</TableCell>
-
-                    <TableCell>
-                      <IconButton onClick={(e) => handleMenuClick(e, facility)}>
-                        <MoreVertIcon />
-                      </IconButton>
-                      <Menu
-                        anchorEl={anchorEl}
-
-                        open={Boolean(anchorEl && selectedFacility?._id === facility?._id)}
-                        onClose={handleClose}
-                      >
-                        <MenuItem
-                          onClick={() => showViewModal(facility?._id)}
-                        >
-                          <Tooltip title="View" arrow>
-                            <IconButton color="primary" >
-                              <VisibilityIcon fontSize='small' />
-
+                          <TableCell>
+                            <IconButton onClick={(e) => handleMenuClick(e, facility)}>
+                              <MoreVertIcon />
                             </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => showUpdateModal(facility)}>
-                          <Tooltip title="Update" arrow>
-                            <IconButton color="warning">
-                              <EditIcon fontSize='small' />
+                            <Menu
+                              anchorEl={anchorEl}
 
-                            </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                        <MenuItem onClick={() => showDeleteModal(facility._id)}>
-                          <Tooltip title="Delete" arrow>
-                            <IconButton
-
-                              color="error"
+                              open={Boolean(anchorEl && selectedFacility?._id === facility?._id)}
+                              onClose={handleClose}
                             >
-                              <DeleteIcon fontSize='small' />
+                              <MenuItem
+                                onClick={() => showViewModal(facility?._id)}
+                              >
+                                <Tooltip title="View" arrow>
+                                  <IconButton color="primary" >
+                                    <VisibilityIcon fontSize='small' />
 
-                            </IconButton>
-                          </Tooltip>
-                        </MenuItem>
-                      </Menu>
-                    </TableCell>
+                                  </IconButton>
+                                </Tooltip>
+                              </MenuItem>
+                              <MenuItem
+                                onClick={() => showUpdateModal(facility)}>
+                                <Tooltip title="Update" arrow>
+                                  <IconButton color="warning">
+                                    <EditIcon fontSize='small' />
+
+                                  </IconButton>
+                                </Tooltip>
+                              </MenuItem>
+                              <MenuItem onClick={() => showDeleteModal(facility._id)}>
+                                <Tooltip title="Delete" arrow>
+                                  <IconButton
+
+                                    color="error"
+                                  >
+                                    <DeleteIcon fontSize='small' />
+
+                                  </IconButton>
+                                </Tooltip>
+                              </MenuItem>
+                            </Menu>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow key="no-data">
+                        <TableCell
+                          colSpan={5}
+                          // rowSpan={1}
+                          className="noDataBox"
+                        >
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                          // style={{ height: '500px' }}
+                          >
+                            <img
+                              src={noData}
+                              alt="No Data"
+                              className="noData"
+                            />
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    )}
+
+                  </>
+                )}
+              </TableBody>
+
+              {isLoading ? (
+                ""
+              ) : (
+                <TableFooter>
+                  <TableRow>
+
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                      colSpan={6}
+                      count={pagesArray.length}  // Update this line
+                      rowsPerPage={rowsPerPage}
+                      page={currentPage - 1}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                   </TableRow>
-                ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                  colSpan={6}
-                  count={pagesArray.length}  // Update this line
-                  rowsPerPage={rowsPerPage}
-                  page={currentPage - 1}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
-</Container>
+                </TableFooter>
+              )}
+            </Table>
+          </TableContainer>
+        </Container>
 
       </div>
     </>
@@ -505,3 +549,4 @@ const Facilities = () => {
 };
 
 export default Facilities;
+

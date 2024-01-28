@@ -78,9 +78,6 @@ body,
   padding: 16px;
 }
 
-.master-layout {
-  display: flex;
-}
 
 .sidbar {}
 
@@ -89,8 +86,8 @@ body,
   width: calc(100%-250px);
 }
 
-/* .css-1wvake5  */
-/* .css-hip9hq-MuiPaper-root-MuiAppBar-root{
+/* .css-1wvake5
+ .css-hip9hq-MuiPaper-root-MuiAppBar-root{
  background: #fff;
 } */
 .nav-bg {
@@ -164,8 +161,6 @@ body,
 }
 
 
-
-
 .btnWidth {
   width: 50%;
 }
@@ -185,7 +180,7 @@ body,
 
 
 /********** pagination ***********/
-nav {
+.paginat-nav {
   padding-left: 22rem;
   /* padding-right: 10rem; */
 }
@@ -229,7 +224,7 @@ nav {
   }
   .pagination {
     width: 90%;
-  
+
   }
   .textCenter {
     padding-left: 9.5rem;
@@ -271,7 +266,7 @@ nav {
 .centered {
   position: fixed;
   top: 50%;
-  left: 50%;
+  left: 54%;
   transform: translate(-50%, -50%);
   transform: -webkit-translate(-50%, -50%);
   transform: -moz-translate(-50%, -50%);

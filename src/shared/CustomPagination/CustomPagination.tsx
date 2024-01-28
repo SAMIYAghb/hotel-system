@@ -27,7 +27,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
   );
 
   const [pageNumberInput, setPageNumberInput] = useState("");
-  
+
 
 const handlePageNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPageNumberInput(e.target.value);
@@ -40,7 +40,7 @@ const handlePageNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => 
       onFetchRooms(pageNumber);
     }
   };
-  
+
   const handlePageNumberInputKeyPress = (
     e: KeyboardEvent<HTMLInputElement>
   ) => {
@@ -52,7 +52,7 @@ const handlePageNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => 
 
   return (
 
-    <nav aria-label="..." className="">
+    <nav aria-label="..." className="paginat-nav">
       <List className="pagination  pagination-sm">
 
         <ListItemButton
@@ -72,7 +72,7 @@ const handlePageNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => 
             className={`page-item ${
               page === currentPage ? "active" : ""
             } pageLink btn-hover-custom `}
-           
+
             onClick={() => {
                 onPageChange(page);
                 onFetchRooms(page);;
@@ -80,19 +80,19 @@ const handlePageNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => 
           >
             {page}
           </ListItemButton>
- 
+
         ))}
 
         <ListItemButton
           className="pageLink btn-hover-custom"
-          
+
           onClick={() => {
             onPageChange(currentPage + 1);
             onFetchRooms(currentPage + 1);
           }}
           disabled={currentPage === totalPages} // Disable if on the last page
         >
-   
+
           Next
         </ListItemButton>
       </List>

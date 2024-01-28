@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import styles from "./MasterLayout.module.scss";
 import AdminNavbar from "../../features/Admin/AdminNavbar/AdminNavbar";
 import Toolbar from "@mui/material/Toolbar";
+import style from './MasterLayout.module.scss'
 
 export default function MasterLayout() {
   return (
@@ -27,7 +28,7 @@ export default function MasterLayout() {
       {/* </Grid> */}
       {/* // </Container> */}
 
-      <div className="master-layout">
+      <div className={`${style.masterLayout}`}>
         <div className="side-bar1">
           <SideBar />
         </div>
