@@ -50,8 +50,9 @@ const Footer = () => {
 // };
 
   return (
-    <ScopedCssBaseline sx={{ backgroundColor: "#f5f5f5" }}>
-      <Container component="footer">
+    <ScopedCssBaseline sx={{ py: 2, backgroundColor: "#f5f5f5", marginTop: 'auto' }} >
+
+      <Container component="footer" >
         <Grid
           container
           spacing={4}
@@ -116,7 +117,7 @@ const Footer = () => {
                       sx={{ fontWeight: "bold", color: "text.secondary" }}
                     >
                       {link.text}
-                      
+
                     </ListItem>
                   ))}
                 </List>
