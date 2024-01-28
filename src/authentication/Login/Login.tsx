@@ -38,6 +38,10 @@ const Login: React.FC = () => {
       .then((response) => {
         localStorage.setItem("userToken", response?.data?.data?.token);
         const userRole = response?.data?.data?.user?.role;
+        const userName=response?.data?.data?.user?.userName;
+        console.log(userName);
+
+        // saveUserData();
         saveUserData();
 
         if (userRole == "admin") {
@@ -54,7 +58,7 @@ const Login: React.FC = () => {
         toast.success("Login Successfully")
 
       // navigate("/user/home");
-      
+
       // toast.success("Login Successfully");
 
       })

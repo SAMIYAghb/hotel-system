@@ -76,10 +76,10 @@ function App() {
         </Route>
 
         {/* Routes pour les utilisateurs */}
-        
+
         <Route
           path="/user/home/*"
-          element={<UserMasterLayout />}
+          element={<UserMasterLayout userData={userData} />}
         >
 
             <Route index element={<UserHome />} />
