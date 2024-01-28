@@ -53,10 +53,9 @@ const Login: React.FC = () => {
 
         toast.success("Login Successfully")
 
-<!--           navigate("/user/home"); -->
-        }
-
-<!--         toast.success("Login Successfully"); -->
+      // navigate("/user/home");
+      
+      // toast.success("Login Successfully");
 
       })
       .catch((error) => {

@@ -32,15 +32,15 @@ import Payment from './features/User/Ui/Payment/Payment';
 import BookingDetails from './features/User/Ui/BookingDetails/BookingDetails';
 
 function App() {
-  const { userData , userRole, saveUserData}: IAuth = useContext(AuthContext);
-console.log(userRole);
+  const { userData, userRole, saveUserData }: IAuth = useContext(AuthContext);
+  console.log(userRole);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/">
           {/* Route par défaut pour UserHome */}
-          <Route path="/" element={<UserHome/> }/>
+          <Route path="/" element={<UserHome />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forget-password" element={<ForgetPass />} />
@@ -54,8 +54,8 @@ console.log(userRole);
           path="/admin/home"
           element={
             <ProtectedRoute userData={userData}>
-           <MasterLayout userData={userData} />
-         </ProtectedRoute>
+              <MasterLayout userData={userData} />
+            </ProtectedRoute>
             // userData && userRole === "admin" ? (
             //   <ProtectedRoute userData={userData}>
             //     <MasterLayout userData={userData} />
@@ -76,24 +76,27 @@ console.log(userRole);
         </Route>
 
         {/* Routes pour les utilisateurs */}
+        
         <Route
           path="/user/home/*"
-          element={
-            <Routes>
-              <Route index element={<UserHome />} />
-              <Route path="explore" element={<ExplorePage />} />
-              <Route path="fav" element={<FavouritesPage />} />
-              <Route path="room-details/:roomId" element={<RoomDetails />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="payment/:bookingId" element={<Payment />} />
-              <Route
-                path="booking-details/:bookingId"
-                element={<BookingDetails />}
-              />
-            </Routes>
-          }
-        />
-       
+          element={<UserMasterLayout />}
+        >
+
+            <Route index element={<UserHome />} />
+            <Route path="explore" element={<ExplorePage />} />
+            <Route path="fav" element={<FavouritesPage />} />
+            <Route path="room-details/:roomId" element={<RoomDetails />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="payment/:bookingId" element={<Payment />} />
+            <Route
+              path="booking-details/:bookingId"
+              element={<BookingDetails />}
+            />
+
+
+
+        </Route>
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

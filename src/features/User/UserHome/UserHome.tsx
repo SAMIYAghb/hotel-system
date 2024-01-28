@@ -22,7 +22,7 @@ const UserHome = () => {
       <AdsDisplay />
       <StaticSection />
       <Review />
-
+ 
     </Box>
   )
 }
