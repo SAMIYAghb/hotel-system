@@ -98,5 +98,12 @@ export const allReviewsUrl =`${baseUrl}/portal/room-reviews/`;//With id
 
 export const createReviewsUrl =`${baseUrl}/portal/room-reviews/`;
 
+
+//***********create booking***********
+export const createBookingUrl =`${baseUrl}/portal/booking`;
+  // ************ get Booking Details****************
+export const getBookingdetailsUrl =`${baseUrl}/portal/booking/`;//With id
+
 // ***********Comment Curd URl************
 export const commentUrl =`${baseUrl}/portal/room-comments`
+

@@ -1,12 +1,13 @@
+
 import { useContext } from 'react';
-import './App.css'
-import Login from './authentication/Login/Login'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import './App.css';
+import Login from './authentication/Login/Login';
 import { AuthContext } from './context/AuthContext';
 import NotFound from './shared/NotFound/NotFound';
 import Register from './authentication/Register/Register';
 import ResetPass from './authentication/ResetPass/ResetPass';
 import ChangePass from './authentication/ChangePass/ChangePass';
-import { RouterProvider, createBrowserRouter} from 'react-router-dom';
 import AuthLayout from './shared/AuthLayout/AuthLayout';
 import MasterLayout from './shared/MasterLayout/MasterLayout';
 import ProtectedRoute from './shared/ProtectedRoute/ProtectedRoute';
@@ -21,91 +22,83 @@ import AddNewRoom from './features/Admin/Rooms/AddNewRoom/AddNewRoom';
 import AddNewAd from './features/Admin/Ads/AddNewAd/AddNewAd';
 import Facilities from './features/Admin/Facilities/Facilities';
 import UserHome from './features/User/UserHome/UserHome';
-
-
 import ExplorePage from './pages/ExplorePage/ExplorePage';
 import RoomDetails from './features/User/Ui/RoomDetails/RoomDetails';
 import FavouritesPage from './pages/FavouritesPage/FavouritesPage';
-
-
 import Profile from './features/User/Ui/Profile/Profile';
 import UserMasterLayout from './shared/UserMasterLayout/UserMasterLayout';
 
-
-
-
+import Payment from './features/User/Ui/Payment/Payment';
+import BookingDetails from './features/User/Ui/BookingDetails/BookingDetails';
 
 function App() {
-  const { userData, saveUserData }: IAuth = useContext(AuthContext);
-
-  const routes = createBrowserRouter([
-    {
-      path: "/",
-      element: <AuthLayout />,
-      errorElement: <NotFound />,
-      children: [
-        { index: true, element: <Login saveUserData={saveUserData} /> },
-        { path: "login", element: <Login saveUserData={saveUserData} /> },
-        { path: "register", element: <Register /> },
-        { path: "forget-password", element: <ForgetPass /> },
-        { path: "reset-password", element: <ResetPass /> },
-        // { path: "verify-user", element: <VerifyUser /> },
-        { path: "notfound", element: <NotFound /> },
-        { path: "change-password", element: <ChangePass /> },
-      ],
-    },
-    {
-      path: "/admin/home",
-
-      element: (
-        <ProtectedRoute userData={userData}>
-          <MasterLayout userData={userData} />
-        </ProtectedRoute>
-      ),
-      errorElement: <NotFound />,
-      children: [
-        { index: true, element: <Home /> },
-        { path: "users", element: <Users /> },
-        { path: "rooms", element: <Rooms /> },
-        { path: "rooms/add-room", element: <AddNewRoom /> },
-        { path: "ads", element: <Ads /> },
-
-        { path: "ads/add-ad", element: <AddNewAd /> },
-
-        { path: "facilities", element: <Facilities /> },
-
-        { path: "bookings", element: <Bookings /> },
-      ],
-    },
-    {
-      path: "/user/home",
-
-      element: (
-
-          <UserMasterLayout/>
-
-      ),
-      errorElement: <NotFound />,
-      children: [
-        { index: true, element: <UserHome /> },
-
-        { path: "explore", element: <ExplorePage /> },
-        { path: "fav", element: <FavouritesPage /> },
-        { path: "room-details/:roomId", element: <RoomDetails /> },
-        // { path: "users", element: <Users /> },
-
-        { path: "profile", element: <Profile /> },
-        // { path: "room-details/:roomId", element: <RoomDetails /> },
-      ],
-    },
-  ]);
+  const { userData , userRole, saveUserData}: IAuth = useContext(AuthContext);
+console.log(userRole);
 
   return (
-    <>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          {/* Route par défaut pour UserHome */}
+          <Route path="/" element={<UserHome/> }/>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="forget-password" element={<ForgetPass />} />
+          <Route path="reset-password" element={<ResetPass />} />
+          <Route path="change-password" element={<ChangePass />} />
+          <Route path="notfound" element={<NotFound />} />
+        </Route>
 
-      <RouterProvider router={routes} />
-    </>
+        {/* Routes pour l'administration */}
+        <Route
+          path="/admin/home"
+          element={
+            <ProtectedRoute userData={userData}>
+           <MasterLayout userData={userData} />
+         </ProtectedRoute>
+            // userData && userRole === "admin" ? (
+            //   <ProtectedRoute userData={userData}>
+            //     <MasterLayout userData={userData} />
+            //   </ProtectedRoute>
+            // ) : (
+            //   <Navigate to="/user/home" />
+            // )
+          }
+        >
+          <Route index element={<Home />} />
+          <Route path="users" element={<Users />} />
+          <Route path="rooms" element={<Rooms />} />
+          <Route path="rooms/add-room" element={<AddNewRoom />} />
+          <Route path="ads" element={<Ads />} />
+          <Route path="ads/add-ad" element={<AddNewAd />} />
+          <Route path="facilities" element={<Facilities />} />
+          <Route path="bookings" element={<Bookings />} />
+        </Route>
+
+        {/* Routes pour les utilisateurs */}
+        <Route
+          path="/user/home/*"
+          element={
+            <Routes>
+              <Route index element={<UserHome />} />
+              <Route path="explore" element={<ExplorePage />} />
+              <Route path="fav" element={<FavouritesPage />} />
+              <Route path="room-details/:roomId" element={<RoomDetails />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="payment/:bookingId" element={<Payment />} />
+              <Route
+                path="booking-details/:bookingId"
+                element={<BookingDetails />}
+              />
+            </Routes>
+          }
+        />
+       
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
+

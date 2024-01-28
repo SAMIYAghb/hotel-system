@@ -8,6 +8,7 @@ export interface IAuth {
     // baseUrl: string;
     userRole: string | null;
     updateUserData: () => void;
+    setUserRole: () => void;
   }
 
   // Define the props for AuthContextProvider component

@@ -46,7 +46,7 @@ const SideBar: React.FC = () => {
           >
             Home
           </MenuItem>
-          <MenuItem
+          <MenuItem 
             icon={<PeopleAltIcon />}
             component={<Link to="users" />}
           >

@@ -10,7 +10,9 @@ export const AuthContext = createContext<IAuth>({
   requestHeaders: "",
   //   baseUrl: '',
   userRole: "",
-  updateUserData: () => { },
+
+  updateUserData: () => {},
+
 });
 
 // // Define the props for AuthContextProvider component
@@ -23,6 +25,7 @@ interface DecodedToken {
   email: string;
   password: string;
   role: string;
+  
 }
 
 // AuthContextProvider component that provides the AuthContext to its children
@@ -53,8 +56,12 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
       setUserData(decodedToken);
       // console.log(decodedToken);
       setUserRole(decodedToken.role);
+
+      console.log(decodedToken.role);
+
       // console.log(decodedToken.role);
       setAuthData({ user, token: encodedToken }); // Save the entire response data & this is new line
+
 
     } catch (error) {
       // Handle the error appropriately, e.g., show a message to the user or log it
@@ -70,6 +77,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
     if (localStorage.getItem("userToken")) {
       saveUserData();
     }
+    console.log(userData);
+    
   }, []);
 
   // Value to be provided by the context
@@ -80,8 +89,11 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
     // baseUrl: "http://upskilling-egypt.com:3003/api/v1",
     userRole,
     updateUserData,
+    setUserRole,
+
     authData,
     userId: userData?._id || '', //New line in authContext
+
   };
 
   return (
