@@ -12,11 +12,13 @@ import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
-import { loginUrl, userLoginUrl } from "../../services/api.tsx";
+import { facebookAuthUrl, loginUrl, userLoginUrl } from "../../services/api.tsx";
 import { toast } from "react-toastify";
+import FacebookLogin from '@greatsumini/react-facebook-login';
+
 
 const Login: React.FC = () => {
-  const { saveUserData, userRole } = useContext(AuthContext);
+  const { saveUserData, userRole, } = useContext(AuthContext);
   // let {getToastValue} = useContext(ToastContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -65,7 +67,42 @@ const Login: React.FC = () => {
       .catch((error) => {
         toast.error(error.response.data.message);
       });
+
+      
   };
+
+
+
+  /*****facebook */
+  const responseFacebook = async (response: any) => {
+    // Gérez la réponse Facebook ici
+    // Vous pouvez effectuer une requête API vers votre serveur avec le jeton Facebook
+    try {
+      const { accessToken, userID } = response;
+      console.log(accessToken);
+      console.log(userID);
+
+      // Exemple de requête API
+      const facebookAuthResponse = await axios.post(facebookAuthUrl , {
+        accessToken,
+      });
+
+      // Gérez la réponse de votre serveur
+      const { user, token } = facebookAuthResponse.data;
+
+      // Enregistrez les données de l'utilisateur et le jeton
+      localStorage.setItem("userToken", token);
+      saveUserData();
+
+      // Redirigez ou naviguez vers la page appropriée
+      const from = location.state?.from || "/user/home";
+      navigate(from);
+
+      toast.success("Connexion réussie");
+    } catch (error) {
+      toast.error("Échec de l'authentification avec Facebook");
+    }
+};
 
   return (
     <Grid container component="main" className={Styles.main}>
@@ -162,6 +199,25 @@ const Login: React.FC = () => {
               </Button>
             </Box>
           </Box>
+          <Box> 
+          <FacebookLogin
+        appId="1503450150434613"
+        autoLoad={false}
+        fields="name,email,picture"
+        callback={responseFacebook}
+        render={(renderProps: any) => (
+          <Button
+            onClick={renderProps.onClick}
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2, py: 1 }}
+          >
+            Connexion with Facebook
+          </Button>
+        )}
+      />
+      </Box>
         </Paper>
       </Grid>
       <Grid item xs={false} sm={false} md={6} className={Styles.imageContainer}>
@@ -174,4 +230,5 @@ const Login: React.FC = () => {
     </Grid>
   );
 };
+
 export default Login;
