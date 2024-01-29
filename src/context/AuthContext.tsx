@@ -1,8 +1,15 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { IAuth } from "../interface/AuthInterface";
 import { AuthContextProviderProps } from "../interface/AuthInterface";
-
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import {auth} from "../Config/Firebase";
 // Create the AuthContext and set the initial value
 export const AuthContext = createContext<IAuth>({
   userData: "",
@@ -35,10 +42,34 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
   const [userData, setUserData] = useState<DecodedToken | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [authData, setAuthData] = useState(null); //new line 
+  
+    // *******google-auth*********
+    const [user, setUser] = useState({});
+
+    const googleSignIn = () => {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider);
+      signInWithRedirect(auth, provider);
+    };
+  
+    const logOut = () => {
+      signOut(auth);
+      console.log(auth);
+    };
 
   const updateUserData = (newUserData: string) => {
     setUserData(newUserData);
   };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      console.log("User", currentUser);
+    });
+    return () => {
+      unsubscribe();
+    };
+
+  }, []);
 
   // Save user data function
   // const saveUserData = () => {
@@ -72,6 +103,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
     Authorization: ` ${localStorage.getItem("userToken")}`,
   };
 
+
   // check for userToken and save data
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
@@ -93,6 +125,9 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
 
     authData,
     userId: userData?._id || '', //New line in authContext
+    googleSignIn,
+    logOut,
+    user,
 
   };
 
@@ -101,4 +136,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = (
       {props.children}
     </AuthContext.Provider>
   );
+};
+export const UserAuth = () => {
+  return useContext(AuthContext);
 };

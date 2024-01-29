@@ -8,14 +8,16 @@ import img from "../../assets/images/Rectangle 7.png";
 import Styles from "./Login.module.scss";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "./../../context/AuthContext.tsx";
+import { AuthContext, UserAuth } from "./../../context/AuthContext.tsx";
 import { loginUrl, userLoginUrl } from "../../services/api.tsx";
+import GoogleButton from "react-google-button";
 import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
+  const { googleSignIn, user } = UserAuth();
   const { saveUserData, userRole } = useContext(AuthContext);
   // let {getToastValue} = useContext(ToastContext);
   const location = useLocation();
@@ -66,6 +68,19 @@ const Login: React.FC = () => {
         toast.error(error.response.data.message);
       });
   };
+  // ********google auth**********
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignIn();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (user != null) {
+      navigate("/user/home/fav");
+    }
+  }, [user]);
 
   return (
     <Grid container component="main" className={Styles.main}>
@@ -149,6 +164,8 @@ const Login: React.FC = () => {
                   <Link to="/forget-password">Forgot password?</Link>
                 </Grid>
               </Grid>
+
+              <GoogleButton onClick={handleGoogleSignIn} />
 
               <Button
                 className={`${Styles.loginBtn}`}
