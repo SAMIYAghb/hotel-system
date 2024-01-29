@@ -78,6 +78,7 @@ const Login: React.FC = () => {
   };
   useEffect(() => {
     if (user != null) {
+      // it should  navigate to login not fav
       navigate("/user/home/fav");
     }
   }, [user]);
