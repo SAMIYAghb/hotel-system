@@ -8,12 +8,14 @@ import img from "../../assets/images/Rectangle 7.png";
 import Styles from "./Login.module.scss";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext.tsx";
-import { loginUrl, userLoginUrl } from "../../services/api.tsx";
+import { googleLogin, loginUrl, userLoginUrl } from "../../services/api.tsx";
 import { toast } from "react-toastify";
+import { GoogleLogin } from "react-google-login";
+
 
 const Login: React.FC = () => {
   const { saveUserData, userRole } = useContext(AuthContext);
@@ -38,7 +40,7 @@ const Login: React.FC = () => {
       .then((response) => {
         localStorage.setItem("userToken", response?.data?.data?.token);
         const userRole = response?.data?.data?.user?.role;
-        const userName=response?.data?.data?.user?.userName;
+        const userName = response?.data?.data?.user?.userName;
         console.log(userName);
 
         // saveUserData();
@@ -57,14 +59,48 @@ const Login: React.FC = () => {
 
         toast.success("Login Successfully")
 
-      // navigate("/user/home");
+        // navigate("/user/home");
 
-      // toast.success("Login Successfully");
+        // toast.success("Login Successfully");
 
       })
       .catch((error) => {
         toast.error(error.response.data.message);
       });
+  };
+
+  /*****facebook */
+  const responseGoogle = async (response: any) => {
+    // const navigate = useNavigate();
+
+    // Gérez la réponse Facebook ici
+    // Vous pouvez effectuer une requête API vers votre serveur avec le jeton Facebook
+    try {
+      const { accessToken, userID } = response;
+      console.log(accessToken);
+      console.log(userID);
+
+      // Exemple de requête API
+      const googleAuthResponse = await axios.post(googleLogin, {
+        accessToken,
+      });
+
+      // Gérez la réponse de votre serveur
+      const { user, token } = googleAuthResponse.data;
+
+      // Enregistrez les données de l'utilisateur et le jeton
+      localStorage.setItem("userToken", token);
+      saveUserData();
+
+      // Redirigez ou naviguez vers la page appropriée
+      // const from = location.state?.from || "/user/home";
+      // navigate(from);
+      navigate("/user/home");
+      toast.success("Login with Google Successful");
+
+    } catch (error) {
+      toast.error("Échec de l'authentification avec Facebook");
+    }
   };
 
   return (
@@ -160,6 +196,25 @@ const Login: React.FC = () => {
               >
                 Login
               </Button>
+              <GoogleLogin
+                // clientId="761128849378ee7o8qlsfc5j6a1hik63auo1oq037hs5.apps.googleusercontent.com"
+                clientId="318646167349-e17ub6engjcve5nl45pipl8qf94ai4qe.apps.googleusercontent.com"
+                buttonText="Sign in with Google"
+                autoLoad={false}
+                scope="profile email"
+                onSuccess={responseGoogle}
+                render={(renderProps: any) => (
+                  <Button
+                    onClick={renderProps.onClick}
+                    fullWidth
+                    variant="contained"
+                    color="error"
+                    sx={{ mt: 2, py: 1 }}
+                  >
+                    Contunie with Google
+                  </Button>
+                )}
+              />
             </Box>
           </Box>
         </Paper>

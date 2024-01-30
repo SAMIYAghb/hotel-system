@@ -109,3 +109,5 @@ export const getBookingdetailsUrl =`${baseUrl}/portal/booking/`;//With id
 // ***********Comment Curd URl************
 export const commentUrl =`${baseUrl}/portal/room-comments`
 
+// **************** google Login *********
+export const googleLogin = `${baseUrl}/portal/users/auth/google`
